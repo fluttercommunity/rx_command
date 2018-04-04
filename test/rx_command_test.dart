@@ -1,10 +1,13 @@
+import 'dart:async';
+
+import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 
 import 'package:rx_command/rx_command.dart';
 
 void main() {
 
-
+/*
   test('Execute simple sync action', () {
     final command  = RxCommandFactory.createSync( () => print("action"));
                                                               
@@ -84,10 +87,75 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));    
   });
+*/
+
+  Future<String> SlowAsyncFunction(String s) async
+  {
+      print("___Start____Action__________");
+
+      await new Future.delayed(new Duration(seconds: 2));
+      print("___End____Action__________");
+      return s;
+  }
 
 
 
+ test('Execute simple async function with parameter', () {
+
+    final command  = RxCommandFactory.createAsync3<String,String>(SlowAsyncFunction);
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((s){print("Results:" + s);});
 
 
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
 
+    expect(command.results, emits("Done"));
+
+
+    command.execute("Done");
+    command.execute("Done");
+
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));    
+  });
+
+
+Future<String> SlowAsyncFunctionFail(String s) async
+  {
+      print("___Start____Action___Will throw_______");
+
+      throw new Exception("Intentionally");
+  }
+
+
+/*
+ test('async function with exception', () {
+
+    final command  = RxCommandFactory.createAsync3<String,String>(SlowAsyncFunctionFail);
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((s){print("Results:" + s);});
+
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    expect(command.results, emits("Done"));
+
+
+    command.execute("Done");
+
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));    
+  });
+
+*/
 }

@@ -54,11 +54,18 @@ abstract class RxCommandFactory
       return new RxCommandSync<Unit,TResult>((_) => func());
   }
 
-  static RxCommand<TParam, TResult> createSync4<TParam, TResult>(Func1<TParam,TResult> func)
+  static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam,TResult> func)
   {
       return new RxCommandSync<TParam,TResult>((x) => func(x));
   }    
       
+  static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func)
+  {
+      return new RxCommandAsync<TParam,TResult>((x) => func(x));
+  }    
+
+
+
 }
 
 
@@ -76,9 +83,17 @@ abstract class RxCommand<TParam, TRESULT>
   Observable<bool>  canExecute;
   Observable<Exception> get thrownExceptions => _thrownExceptionsSubject.observable;
 
-  ReplaySubject<bool> _isExecutingSubject = new ReplaySubject<bool>(maxSize: 1);  
-  ReplaySubject<bool> _canExcuteubject = new ReplaySubject<bool>(maxSize: 1);  
-  ReplaySubject<Exception> _thrownExceptionsSubject = new ReplaySubject<Exception>(maxSize: 1);  
+  PublishSubject<bool> _isExecutingSubject = new PublishSubject<bool>();  
+  PublishSubject<bool> _canExecuteSubject = new PublishSubject<bool>();  
+  PublishSubject<Exception> _thrownExceptionsSubject = new PublishSubject<Exception>();  
+
+  void dispose()
+  {
+      _isExecutingSubject.close();
+      _canExecuteSubject.close();
+      _thrownExceptionsSubject.close();
+      _resultsSubject.close(); 
+  }
 
 }
 
@@ -114,20 +129,25 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
 
   @override
   void execute([TParam param]) 
-  {
+  {    
       canExecute
         .where( (can) => can == true)
           .doOnEach((_){ 
-
+              
               _isExecutingSubject.add(true);
+
               var result = _func(param);
+              
               _isExecutingSubject.add(false);
 
             if (TResult is Unit )
             {
               _resultsSubject.add(Unit.Default as TResult);                
             }
+            else
+            {
               _resultsSubject.add(result);
+            }
 
           })
           .handleError((error)
@@ -136,7 +156,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
               {
                 _thrownExceptionsSubject.add(error);
               }
-              print(error.toString());
+              print("+++++++++++++++++++++++++++++ Error: " + error.toString());
 
           })
           .first;   
@@ -144,14 +164,14 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
   }
 }
 
-/*
+
 class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 {
  
- 
+  bool _isRunning = false;
   AsyncFunc1<TParam, TResult> _func;
 
-  RxCommandSync(AsyncFunc1<TParam, TResult> func, [Observable<bool> canExecute] )
+  RxCommandAsync(AsyncFunc1<TParam, TResult> func, [Observable<bool> canExecute] )
   {
 
     _func = func;
@@ -177,20 +197,14 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
   @override
   void execute([TParam param]) 
   {
-      canExecute
-        .where( (can) => can == true)
-          .doOnEach((_){ 
+        _isExecutingSubject.add(true);      
+  
+        isExecuting
+        .where( (can) => can == false)
+          .flatMap((_)  {
+              print("____________Can:" + _.toString());
 
-              _isExecutingSubject.add(true);
-              var result = _func(param);
-              _isExecutingSubject.add(false);
-
-            if (TResult is Unit )
-            {
-              _resultsSubject.add(Unit.Default as TResult);                
-            }
-              _resultsSubject.add(result);
-
+              return _func(param).asStream();
           })
           .handleError((error)
           {
@@ -201,12 +215,24 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
               print(error.toString());
 
           })
-          .first;   
-
+          .take(1)
+          .listen( (result) {
+                  print("--------------------------------- Listen");
+                  if (TResult is Unit )
+                  {
+                    _resultsSubject.add(Unit.Default as TResult);                
+                  }
+                  else
+                  {
+                    _resultsSubject.add(result);
+                  }
+              _isRunning = false;
+              _isExecutingSubject.add(false);
+          });
   }
 }
 
-*/
+
 
 /// If you don't want to pass one of the generic parameters e.g. if you passed function has no parameter, just use Unit as Type
 class Unit
