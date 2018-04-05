@@ -32,7 +32,7 @@ import 'package:rx_command/rx_command.dart';
           .debounce( new Duration(milliseconds: 500))  // make sure we start processing if the user make a short pause 
             .listen( (filterText)
             {
-              update( filterText);
+              updateWeatherCommand.execute( filterText);
             });  
     }
 

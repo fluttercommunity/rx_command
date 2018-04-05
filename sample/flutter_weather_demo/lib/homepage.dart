@@ -46,13 +46,34 @@ import 'main.dart';
                 
                 
                 new Padding(padding: const EdgeInsets.all(8.0),child: 
-                      new MaterialButton(                               
-                              child: 
-                                new Text("Update"), // Watch the Button is again a composition
-                              color: new Color.fromARGB(255, 33, 150, 243),
-                              textColor: new Color.fromARGB(255, 255, 255, 255),
-                              onPressed: TheViewModel.of(context).updateWeatherCommand.execute
-                              ),
+                      new StreamBuilder<bool>(   // Streambuilder rebuilds its subtree on every item the stream issues
+                          stream: TheViewModel.of(context).updateWeatherCommand.canExecute,   //We access our ViewModel through the inherited Widget
+                          builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  // in Dart Lambdas with body don't use =>
+                              {
+                                 // only if we get data
+                                if (snapshot.hasData && snapshot.data == true)
+                                {
+                                    return new RaisedButton(                               
+                                            child: 
+                                              new Text("Update"), // Watch the Button is again a composition
+                                            color: new Color.fromARGB(255, 33, 150, 243),
+                                            textColor: new Color.fromARGB(255, 255, 255, 255),
+                                            onPressed: TheViewModel.of(context).updateWeatherCommand.execute,
+                                            );
+                                }
+                                else
+                                {
+                                    return new RaisedButton(                               
+                                            child: 
+                                              new Text("Update"), // Watch the Button is again a composition
+                                            color: new Color.fromARGB(255, 33, 150, 243),
+                                            
+                                            textColor: new Color.fromARGB(255, 255, 255, 255),
+                                            onPressed: null,
+                                            );
+                                }
+                            })                                              
+                
                 ),
                 
               ],
