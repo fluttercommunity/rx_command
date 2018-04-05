@@ -5,3 +5,6 @@
 .packages
 .pub/
 packages
+ios/Runner/GeneratedPluginRegistrant.h
+ios/Runner/GeneratedPluginRegistrant.m
+pubspec.lock
