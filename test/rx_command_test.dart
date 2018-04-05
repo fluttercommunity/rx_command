@@ -7,7 +7,7 @@ import 'package:rx_command/rx_command.dart';
 
 void main() {
 
-/*
+
   test('Execute simple sync action', () {
     final command  = RxCommandFactory.createSync( () => print("action"));
                                                               
@@ -18,12 +18,51 @@ void main() {
     
     expect(command.results, emits(Unit.Default));
 
-    command.execute(null);
+    command.execute();
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));    
   });
 
+
+  test('Execute simple sync action with exception no listeners', () {
+    final command  = RxCommandFactory.createSync( () => throw new Exception("Intentional"));
+                                                              
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    
+    expect(command.results, emitsError(isException));
+
+    command.execute();
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+  });
+
+
+  test('Execute simple sync action with exception with listeners', () {
+    final command  = RxCommandFactory.createSync( () => throw new Exception("Intentional"));
+
+     command.thrownExceptions.listen((e) => print(e.toString()));                                                                 
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    command.execute();
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+
+  });
+
+
+
+
+      
 
 
   test('Execute simple sync action with parameter', () {
@@ -87,7 +126,7 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));    
   });
-*/
+
 
   Future<String> SlowAsyncFunction(String s) async
   {
@@ -110,8 +149,8 @@ void main() {
     command.results.listen((s){print("Results:" + s);});
 
 
-    expect(command.canExecute, emits(true));
-    expect(command.isExecuting, emits(false));
+    expect(command.canExecute, emits(true),reason: "Canexecute before false");
+    expect(command.isExecuting, emits(false),reason: "Canexecute before true");
 
     expect(command.results, emits("Done"));
 
@@ -120,7 +159,7 @@ void main() {
     command.execute("Done");
 
 
-    expect(command.canExecute, emits(true));
+    expect(command.canExecute, emits(true),reason: "Canexecute after false");
     expect(command.isExecuting, emits(false));    
   });
 
@@ -133,29 +172,42 @@ Future<String> SlowAsyncFunctionFail(String s) async
   }
 
 
-/*
- test('async function with exception', () {
+
+ test('async function with exception and no listeners', () {
 
     final command  = RxCommandFactory.createAsync3<String,String>(SlowAsyncFunctionFail);
 
-    command.canExecute.listen((b){print("Can execute:" + b.toString());});
-    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
 
-    command.results.listen((s){print("Results:" + s);});
+    expect(command.results, emitsError(isException));    
+
+
+
+    command.execute("Done");
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+ 
+  });
+
+ 
+ test('async function with exception with listeners', () {
+
+    final command  = RxCommandFactory.createAsync3<String,String>(SlowAsyncFunctionFail);
+
+    command.thrownExceptions.listen((e) => print(e.toString()));      
 
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command.results, emits("Done"));
-
-
     command.execute("Done");
-
-
+ 
     expect(command.canExecute, emits(true));
-    expect(command.isExecuting, emits(false));    
+    expect(command.isExecuting, emits(false));
   });
 
-*/
+
+
 }

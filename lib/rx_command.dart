@@ -80,11 +80,11 @@ abstract class RxCommand<TParam, TRESULT>
  
 
   Observable<bool> get isExecuting => _isExecutingSubject.observable.startWith(false).distinct();
-  Observable<bool>  canExecute;
+  Observable<bool>  get canExecute  => _canExecuteSubject.observable.startWith(true).distinct();
   Observable<Exception> get thrownExceptions => _thrownExceptionsSubject.observable;
 
-  BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>(sync: true);  
-  BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>(sync: true);  
+  BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>();  
+  BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>();  
   BehaviorSubject<Exception> _thrownExceptionsSubject = new BehaviorSubject<Exception>();  
 
   void dispose()
@@ -101,13 +101,13 @@ abstract class RxCommand<TParam, TRESULT>
 class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
 {
  
+  bool _isRunning = false;
+  bool _canExecute = true;
  
   Func1<TParam, TResult> _func;
 
   RxCommandSync(Func1<TParam, TResult> func, [Observable<bool> canExecute] )
   {
-
-    _func = func;
 
     var canExecuteParam = canExecute == null ? new Observable.just(true) 
                                               : canExecute.handleError((error)
@@ -118,50 +118,68 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
                                                     }
                                                     return false;
                                                 })
-                                                .startWith(false);                                              
+                                                .distinct();
+                                                                                              
 
 
-    this.canExecute =   new Observable(Observable
-                        .combineLatest2(isExecuting, canExecuteParam, (isEx, canEx) => canEx && !isEx)
-                              .distinct().asBroadcastStream());
+  canExecuteParam.listen((canExecute){
+    _canExecute = canExecute && (!_isRunning);
+    _canExecuteSubject.add(_canExecute);
+  });    
 
+
+
+    _func = func;
+
+ 
+ 
   }
 
   @override
   void execute([TParam param]) 
   {    
-      _isExecutingSubject.add(true);
+        if (!_canExecute)
+        {
+          return;
+        }
 
-      canExecute
-        .where( (can) => can == true)
-          .doOnEach((_){ 
-              
+        if (_isRunning)
+        {
+           return;
+        }
+        else
+        {
+          _isRunning = true;
+          _canExecuteSubject.add(false);
+        }
 
-              var result = _func(param);
-              
-              _isExecutingSubject.add(false);
+        _isExecutingSubject.add(true);      
 
-            if (TResult is Unit )
+        try {
+          var result = _func(param);
+          _resultsSubject.add(result);          
+        } 
+        catch (error) 
+        {
+            if (!_thrownExceptionsSubject.hasListener)
             {
-              _resultsSubject.add(Unit.Default as TResult);                
+                _resultsSubject.addError(error);
+            }
+            if (error is Exception)
+            {
+              _thrownExceptionsSubject.add(error);
             }
             else
             {
-              _resultsSubject.add(result);
+              _thrownExceptionsSubject.add(new Exception(error.toString()));                
             }
-
-          })
-          .handleError((error)
-          {
-              if (error is Exception)
-              {
-                _thrownExceptionsSubject.add(error);
-              }
-              print("+++++++++++++++++++++++++++++ Error: " + error.toString());
-
-          })
-          .first;   
-
+        }
+        finally
+        {
+          _isRunning = false;
+          _isExecutingSubject.add(false);
+          _canExecuteSubject.add(true);
+        }
   }
 }
 
@@ -170,12 +188,13 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 {
  
   bool _isRunning = false;
+  bool _canExecute = true;
+
   AsyncFunc1<TParam, TResult> _func;
 
   RxCommandAsync(AsyncFunc1<TParam, TResult> func, [Observable<bool> canExecute] )
   {
 
-    _func = func;
 
     var canExecuteParam = canExecute == null ? new Observable.just(true) 
                                               : canExecute.handleError((error)
@@ -186,53 +205,69 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
                                                     }
                                                     return false;
                                                 })
-                                                .startWith(false);                                              
+                                                .distinct();
+                                                                                              
 
 
-    this.canExecute =   new Observable(Observable
-                        .combineLatest2(isExecuting, canExecuteParam, (isEx, canEx) {
-                          print(".....CanEx: " + canEx.toString());
-                          print(".....isEx: " + isEx.toString());
-                          return canEx && !isEx;
-                        })
-                              .distinct().asBroadcastStream());
+  canExecuteParam.listen((canExecute){
+    _canExecute = canExecute && (!_isRunning);
+    _canExecuteSubject.add(_canExecute);
+  });    
+
+    _func = func;
 
   }
 
   @override
   void execute([TParam param]) 
   {
+
+        if (!_canExecute)
+        {
+          return;
+        }
+
+        if (_isRunning)
+        {
+           return;
+        }
+        else
+        {
+          _isRunning = true;
+          _canExecuteSubject.add(false);
+        }
+
+
+
         _isExecutingSubject.add(true);      
   
-        canExecute
-        .where( (can) => can == true)
-          .flatMap((_)  {
-              print("____________Can:" + _.toString());
-
-              return _func(param).asStream();
-          })
+        _func(param).asStream()          
           .handleError((error)
           {
+              if (!_thrownExceptionsSubject.hasListener)
+              {
+                 _resultsSubject.addError(error);
+              }
               if (error is Exception)
               {
                 _thrownExceptionsSubject.add(error);
               }
-              print(error.toString());
+              else
+              {
+                _thrownExceptionsSubject.add(new Exception(error.toString()));                
+              }
+              _isRunning = false;
+              _isExecutingSubject.add(false);
+              _canExecuteSubject.add(true);
+              
 
           })
           .take(1)
           .listen( (result) {
-                  print("--------------------------------- Listen");
-                  if (TResult is Unit )
-                  {
-                    _resultsSubject.add(Unit.Default as TResult);                
-                  }
-                  else
-                  {
-                    _resultsSubject.add(result);
-                  }
+             _resultsSubject.add(result);
               _isRunning = false;
               _isExecutingSubject.add(false);
+              _canExecuteSubject.add(true);
           });
   }
 }
