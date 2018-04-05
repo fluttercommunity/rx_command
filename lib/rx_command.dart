@@ -83,9 +83,9 @@ abstract class RxCommand<TParam, TRESULT>
   Observable<bool>  canExecute;
   Observable<Exception> get thrownExceptions => _thrownExceptionsSubject.observable;
 
-  PublishSubject<bool> _isExecutingSubject = new PublishSubject<bool>();  
-  PublishSubject<bool> _canExecuteSubject = new PublishSubject<bool>();  
-  PublishSubject<Exception> _thrownExceptionsSubject = new PublishSubject<Exception>();  
+  BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>(sync: true);  
+  BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>(sync: true);  
+  BehaviorSubject<Exception> _thrownExceptionsSubject = new BehaviorSubject<Exception>();  
 
   void dispose()
   {
@@ -130,11 +130,12 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
   @override
   void execute([TParam param]) 
   {    
+      _isExecutingSubject.add(true);
+
       canExecute
         .where( (can) => can == true)
           .doOnEach((_){ 
               
-              _isExecutingSubject.add(true);
 
               var result = _func(param);
               
@@ -189,7 +190,11 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 
 
     this.canExecute =   new Observable(Observable
-                        .combineLatest2(isExecuting, canExecuteParam, (isEx, canEx) => canEx && !isEx)
+                        .combineLatest2(isExecuting, canExecuteParam, (isEx, canEx) {
+                          print(".....CanEx: " + canEx.toString());
+                          print(".....isEx: " + isEx.toString());
+                          return canEx && !isEx;
+                        })
                               .distinct().asBroadcastStream());
 
   }
@@ -199,8 +204,8 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
   {
         _isExecutingSubject.add(true);      
   
-        isExecuting
-        .where( (can) => can == false)
+        canExecute
+        .where( (can) => can == true)
           .flatMap((_)  {
               print("____________Can:" + _.toString());
 
