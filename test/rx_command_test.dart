@@ -8,7 +8,7 @@ void main() {
 
 
   test('Execute simple sync action', () {
-    final command  = RxCommandFactory.createSync( () => print("action"));
+    final command  = RxCommand.createSync( () => print("action"));
                                                               
 
     expect(command.canExecute, emits(true));
@@ -25,7 +25,7 @@ void main() {
 
 
   test('Execute simple sync action with exception no listeners', () {
-    final command  = RxCommandFactory.createSync( () => throw new Exception("Intentional"));
+    final command  = RxCommand.createSync( () => throw new Exception("Intentional"));
                                                               
 
     expect(command.canExecute, emits(true));
@@ -43,7 +43,7 @@ void main() {
 
 
   test('Execute simple sync action with exception with listeners', () {
-    final command  = RxCommandFactory.createSync( () => throw new Exception("Intentional"));
+    final command  = RxCommand.createSync( () => throw new Exception("Intentional"));
 
      command.thrownExceptions.listen((e) => print(e.toString()));                                                                 
 
@@ -66,7 +66,7 @@ void main() {
 
   test('Execute simple sync action with parameter', () {
 
-    final command  = RxCommandFactory.createSync1<String>((x) {
+    final command  = RxCommand.createSync1<String>((x) {
       print("action: " + x.toString()  );
       return Unit.Default;
     });
@@ -88,7 +88,7 @@ void main() {
 
   test('Execute simple sync function without parameter', () {
 
-    final command  = RxCommandFactory.createSync2<String>(() {
+    final command  = RxCommand.createSync2<String>(() {
       print("action: ");
       return "4711";
     });
@@ -109,7 +109,7 @@ void main() {
 
   test('Execute simple sync function with parameter', () {
 
-    final command  = RxCommandFactory.createSync3<String,String>((s) {
+    final command  = RxCommand.createSync3<String,String>((s) {
       print("action: " + s);
       return s + s;
     });
@@ -140,7 +140,7 @@ void main() {
 
  test('Execute simple async function with parameter', () {
 
-    final command  = RxCommandFactory.createAsync3<String,String>(SlowAsyncFunction);
+    final command  = RxCommand.createAsync3<String,String>(SlowAsyncFunction);
 
     command.canExecute.listen((b){print("Can execute:" + b.toString());});
     command.isExecuting.listen((b){print("Is executing:" + b.toString());});
@@ -174,7 +174,7 @@ Future<String> SlowAsyncFunctionFail(String s) async
 
  test('async function with exception and no listeners', () {
 
-    final command  = RxCommandFactory.createAsync3<String,String>(SlowAsyncFunctionFail);
+    final command  = RxCommand.createAsync3<String,String>(SlowAsyncFunctionFail);
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -193,7 +193,7 @@ Future<String> SlowAsyncFunctionFail(String s) async
  
  test('async function with exception with listeners', () {
 
-    final command  = RxCommandFactory.createAsync3<String,String>(SlowAsyncFunctionFail);
+    final command  = RxCommand.createAsync3<String,String>(SlowAsyncFunctionFail);
 
     command.thrownExceptions.listen((e) => print(e.toString()));      
 
