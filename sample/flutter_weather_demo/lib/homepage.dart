@@ -28,7 +28,22 @@ import 'main.dart';
                 ),
 
                 new Expanded( child: 
-                      new WeatherListView()),  // Have to wrap the ListView into an Expanded otherwise the Column throws an exception
+                      new StreamBuilder<bool>(   // Streambuilder rebuilds its subtree on every item the stream issues
+                          stream: TheViewModel.of(context).updateWeatherCommand.isExecuting,   //We access our ViewModel through the inherited Widget
+                          builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  // in Dart Lambdas with body don't use =>
+                              {
+                                 // only if we get data
+                                if (snapshot.hasData && snapshot.data == true)
+                                {
+                                    return new Center(child: new Container(width: 50.0, height:50.0, child: new CircularProgressIndicator())); 
+                                }
+                                else
+                                {
+                                   return new WeatherListView();  // Have to wrap the ListView into an Expanded otherwise the Column throws an exception
+                                }
+                            })                                              
+                          ),
+                
                 
                 new Padding(padding: const EdgeInsets.all(8.0),child: 
                       new MaterialButton(                               
@@ -36,7 +51,7 @@ import 'main.dart';
                                 new Text("Update"), // Watch the Button is again a composition
                               color: new Color.fromARGB(255, 33, 150, 243),
                               textColor: new Color.fromARGB(255, 255, 255, 255),
-                              onPressed: () => TheViewModel.of(context).updateWeatherCommand.execute("")
+                              onPressed: TheViewModel.of(context).updateWeatherCommand.execute
                               ),
                 ),
                 

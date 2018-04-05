@@ -142,7 +142,6 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
                                                     {
                                                       _thrownExceptionsSubject.add(error);
                                                     }
-                                                    return false;
                                                 })
                                                 .distinct();
                                                                                               
@@ -236,7 +235,8 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 
 
   canExecuteParam.listen((canExecute){
-    _canExecute = canExecute && (!_isRunning);
+    _canExecute = canExecute;
+    print("------------------_Canexecute changed: $_canExecute -----------------");
     _canExecuteSubject.add(_canExecute);
   });    
 
@@ -247,6 +247,9 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
   @override
   execute([TParam param]) 
   {
+
+
+        print("************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning");
 
         if (!_canExecute)
         {
@@ -262,8 +265,6 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
           _isRunning = true;
           _canExecuteSubject.add(false);
         }
-
-
 
         _isExecutingSubject.add(true);      
   
