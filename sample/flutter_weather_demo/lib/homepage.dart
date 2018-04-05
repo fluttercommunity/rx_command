@@ -36,7 +36,7 @@ import 'main.dart';
                                 new Text("Update"), // Watch the Button is again a composition
                               color: new Color.fromARGB(255, 33, 150, 243),
                               textColor: new Color.fromARGB(255, 255, 255, 255),
-                              onPressed: TheViewModel.of(context).updateWeatherCommand.execute
+                              onPressed: () => TheViewModel.of(context).updateWeatherCommand.execute("")
                               ),
                 ),
                 

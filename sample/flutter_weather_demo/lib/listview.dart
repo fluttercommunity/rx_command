@@ -10,7 +10,7 @@ class WeatherListView extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
       return new StreamBuilder<List<WeatherEntry>>(   // Streambuilder rebuilds its subtree on every item the stream issues
-              stream: TheViewModel.of(context).newWeatherEvents,   //We access our ViewModel through the inherited Widget
+              stream: TheViewModel.of(context).updateWeatherCommand.results,   //We access our ViewModel through the inherited Widget
               builder: (BuildContext context, AsyncSnapshot<List<WeatherEntry>> snapshot)  // in Dart Lambdas with body don't use =>
                   {
                     // only if we get data

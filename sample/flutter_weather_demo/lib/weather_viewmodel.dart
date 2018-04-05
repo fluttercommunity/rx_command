@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:rxdart/rxdart.dart';
 
@@ -10,24 +11,19 @@ import 'package:rx_command/rx_command.dart';
   class WeatherViewModel {
   
 
-    final _newWeatherSubject = new BehaviorSubject<List<WeatherEntry>>() ;
     final _inputSubject = new BehaviorSubject<String>() ;
-
-
-    Observable<List<WeatherEntry>> get newWeatherEvents  => _newWeatherSubject.observable;
-
 
     // Callback function that will be registered to the TextFields OnChanged Event
     onFilterEntryChanged(String s) => _inputSubject.add(s); 
 
 
-    RxCommand<String,Unit>  updateWeatherCommand;
+    RxCommand<String,List<WeatherEntry>>  updateWeatherCommand;
 
 
     WeatherViewModel()
     {
 
-        updateWeatherCommand = RxCommand.createSync1<String>(update);
+        updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update);
 
         updateWeatherCommand.execute();
 
@@ -42,24 +38,24 @@ import 'package:rx_command/rx_command.dart';
 
 
 
-    void update(String filtertext )
+    Future<List<WeatherEntry>> update(String filtertext)
     {
-        
+
+
       const String url = "http://api.openweathermap.org/data/2.5/box/city?bbox=5,47,14,54,20&appid=27ac337102cc4931c24ba0b50aca6bbd";  
       
 
       var httpStream = new Observable(http.get(url).asStream()); 
 
-        _newWeatherSubject.addStream(
-            httpStream
+      return httpStream
               .where((data) => data.statusCode == 200)  // only continue if valid response
                 .map( (data) // convert JSON result in ModelObject
                 {
                       return new WeatherInCities.fromJson(JSON.decode(data.body)).Cities
-                        .where( (weatherInCity) =>  filtertext.isEmpty || weatherInCity.Name.toUpperCase().startsWith(filtertext.toUpperCase()))
-                          .map((weatherInCity) => new WeatherEntry(weatherInCity) )
-                            .toList();
-                }));
+                        .where( (weatherInCity) =>  filtertext ==null || filtertext.isEmpty || weatherInCity.Name.toUpperCase().startsWith(filtertext.toUpperCase()))
+                          .map((weatherInCity) => new WeatherEntry(weatherInCity) ).toList();
+                            
+                }).first;
           
     }
  
