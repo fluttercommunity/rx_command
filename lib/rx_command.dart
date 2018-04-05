@@ -4,23 +4,6 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 
-/*
-typedef TResult Func<TParam, TResult>(TParam param);
-
-
-
-abstract class RxCommandFactory 
-{
-
-  static RxCommand<TParam, TResult> createSync<TParam, TResult>(Func<TParam, TResult> func)
-  {
-      return new RxCommandSync<TParam,TResult>(func);
-  }
-      
-      
-}
-*/ 
-
 typedef void Action();
 typedef void Action1<TParam>(TParam param);
 
@@ -35,8 +18,40 @@ typedef Future AsyncAction1<TParam>(TParam param);
 typedef Future<TResult> AsyncFunc<TResult>();
 typedef Future<TResult> AsyncFunc1<TParam, TResult>(TParam param);
 
-
+/*
 abstract class RxCommandFactory 
+{
+
+  //Fatrory functions for dynchronous commands
+
+  static RxCommand<Unit, Unit> createSync(Action action)
+  {
+      return new RxCommandSync<Unit,Unit>((_) {action(); return Unit.Default;});
+  }
+
+  static RxCommand<TParam, Unit> createSync1<TParam>(Action1<TParam> action)
+  {
+      return new RxCommandSync<TParam,Unit>((x) {action(x); return Unit.Default;});
+  }
+
+  static RxCommand<Unit, TResult> createSync2<TResult>(Func<TResult> func)
+  {
+      return new RxCommandSync<Unit,TResult>((_) => func());
+  }
+
+  static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam,TResult> func)
+  {
+      return new RxCommandSync<TParam,TResult>((x) => func(x));
+  }    
+
+
+
+
+
+}
+
+*/
+abstract class RxCommand<TParam, TRESULT>
 {
 
   static RxCommand<Unit, Unit> createSync(Action action)
@@ -58,22 +73,33 @@ abstract class RxCommandFactory
   {
       return new RxCommandSync<TParam,TResult>((x) => func(x));
   }    
-      
+
+
+
+  static RxCommand<Unit, Unit> createAsync(AsyncAction action)
+  {
+      return new RxCommandAsync<Unit,Unit>((_) async {action(); return  Unit.Default;});
+  }
+
+
+  static RxCommand<TParam, Unit> createAsync1<TParam>(AsyncAction1<TParam> action)
+  {
+      return new RxCommandAsync<TParam,Unit>((x) async {action(x); return Unit.Default;});
+  }
+
+  static RxCommand<Unit, TResult> createAsync2<TResult>(AsyncFunc<TResult> func)
+  {
+      return new RxCommandAsync<Unit,TResult>((_) => func());
+  }
+
+
   static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func)
   {
       return new RxCommandAsync<TParam,TResult>((x) => func(x));
   }    
 
 
-
-}
-
-
-
-abstract class RxCommand<TParam, TRESULT>
-{
-
-  void execute([TParam param]);
+  execute([TParam param]);
 
   Observable<TRESULT> get results => _resultsSubject.observable;
   BehaviorSubject<TRESULT> _resultsSubject = new BehaviorSubject<TRESULT>();  
@@ -136,7 +162,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
   }
 
   @override
-  void execute([TParam param]) 
+  execute([TParam param]) 
   {    
         if (!_canExecute)
         {
@@ -219,7 +245,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
   }
 
   @override
-  void execute([TParam param]) 
+  execute([TParam param]) 
   {
 
         if (!_canExecute)
