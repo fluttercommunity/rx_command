@@ -89,13 +89,13 @@ abstract class RxCommand<TParam, TRESULT>
 
   static RxCommand<Unit, TResult> createAsync2<TResult>(AsyncFunc<TResult> func)
   {
-      return new RxCommandAsync<Unit,TResult>((_) => func());
+      return new RxCommandAsync<Unit,TResult>((_) async => func());
   }
 
 
   static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func)
   {
-      return new RxCommandAsync<TParam,TResult>((x) => func(x));
+      return new RxCommandAsync<TParam,TResult>((x) async => func(x));
   }    
 
 
