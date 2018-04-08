@@ -33,7 +33,8 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new TheViewModel( 
-                  theModel:  viewModelData,child: 
+                  theModel:  viewModelData,
+                  child: 
                   new MaterialApp(
                     title: 'Flutter Demo',
                     home: new HomePage()

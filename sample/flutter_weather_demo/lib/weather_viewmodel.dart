@@ -18,12 +18,18 @@ import 'package:rx_command/rx_command.dart';
 
 
     RxCommand<String,List<WeatherEntry>>  updateWeatherCommand;
+    RxCommand<bool,bool>  switchChangedCommand;
 
 
     WeatherViewModel()
     {
 
-        updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update);
+        switchChangedCommand = RxCommand.createSync3<bool,bool>((b)=>b);
+
+
+        updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update,switchChangedCommand.results);
+
+
 
         updateWeatherCommand.execute();
 

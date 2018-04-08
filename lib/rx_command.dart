@@ -54,48 +54,48 @@ abstract class RxCommandFactory
 abstract class RxCommand<TParam, TRESULT>
 {
 
-  static RxCommand<Unit, Unit> createSync(Action action)
+  static RxCommand<Unit, Unit> createSync(Action action,[Observable<bool> canExecute])
   {
-      return new RxCommandSync<Unit,Unit>((_) {action(); return Unit.Default;});
+      return new RxCommandSync<Unit,Unit>((_) {action(); return Unit.Default;},canExecute);
   }
 
-  static RxCommand<TParam, Unit> createSync1<TParam>(Action1<TParam> action)
+  static RxCommand<TParam, Unit> createSync1<TParam>(Action1<TParam> action, [Observable<bool> canExecute])
   {
-      return new RxCommandSync<TParam,Unit>((x) {action(x); return Unit.Default;});
+      return new RxCommandSync<TParam,Unit>((x) {action(x); return Unit.Default;},canExecute);
   }
 
-  static RxCommand<Unit, TResult> createSync2<TResult>(Func<TResult> func)
+  static RxCommand<Unit, TResult> createSync2<TResult>(Func<TResult> func,[Observable<bool> canExecute])
   {
-      return new RxCommandSync<Unit,TResult>((_) => func());
+      return new RxCommandSync<Unit,TResult>((_) => func(),canExecute);
   }
 
-  static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam,TResult> func)
+  static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam,TResult> func,[Observable<bool> canExecute])
   {
-      return new RxCommandSync<TParam,TResult>((x) => func(x));
+      return new RxCommandSync<TParam,TResult>((x) => func(x),canExecute);
   }    
 
 
 
-  static RxCommand<Unit, Unit> createAsync(AsyncAction action)
+  static RxCommand<Unit, Unit> createAsync(AsyncAction action,[Observable<bool> canExecute])
   {
-      return new RxCommandAsync<Unit,Unit>((_) async {action(); return  Unit.Default;});
+      return new RxCommandAsync<Unit,Unit>((_) async {action(); return  Unit.Default;},canExecute);
   }
 
 
-  static RxCommand<TParam, Unit> createAsync1<TParam>(AsyncAction1<TParam> action)
+  static RxCommand<TParam, Unit> createAsync1<TParam>(AsyncAction1<TParam> action,[Observable<bool> canExecute])
   {
-      return new RxCommandAsync<TParam,Unit>((x) async {action(x); return Unit.Default;});
+      return new RxCommandAsync<TParam,Unit>((x) async {action(x); return Unit.Default;} ,canExecute);
   }
 
-  static RxCommand<Unit, TResult> createAsync2<TResult>(AsyncFunc<TResult> func)
+  static RxCommand<Unit, TResult> createAsync2<TResult>(AsyncFunc<TResult> func,[Observable<bool> canExecute])
   {
-      return new RxCommandAsync<Unit,TResult>((_) async => func());
+      return new RxCommandAsync<Unit,TResult>((_) async => func(),canExecute);
   }
 
 
-  static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func)
+  static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func, [Observable<bool> canExecute])
   {
-      return new RxCommandAsync<TParam,TResult>((x) async => func(x));
+      return new RxCommandAsync<TParam,TResult>((x) async => func(x),canExecute);
   }    
 
 

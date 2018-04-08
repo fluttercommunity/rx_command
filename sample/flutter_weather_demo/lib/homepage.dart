@@ -28,51 +28,53 @@ import 'main.dart';
                 ),
 
                 new Expanded( child: 
-                      new StreamBuilder<bool>(   // Streambuilder rebuilds its subtree on every item the stream issues
-                          stream: TheViewModel.of(context).updateWeatherCommand.isExecuting,   //We access our ViewModel through the inherited Widget
-                          builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  // in Dart Lambdas with body don't use =>
+                      // Handle events to show / hide spinner
+                      new StreamBuilder<bool>(   
+                          stream: TheViewModel.of(context).updateWeatherCommand.isExecuting, 
+                          builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  
                               {
-                                 // only if we get data
+                                 // if true we show a buys Spinner otherwise the ListView
                                 if (snapshot.hasData && snapshot.data == true)
                                 {
                                     return new Center(child: new Container(width: 50.0, height:50.0, child: new CircularProgressIndicator())); 
                                 }
                                 else
                                 {
-                                   return new WeatherListView();  // Have to wrap the ListView into an Expanded otherwise the Column throws an exception
-                                }
+                                   return new WeatherListView();                                  }
                             })                                              
                           ),
                 
                 
-                new Padding(padding: const EdgeInsets.all(8.0),child: 
-                      new StreamBuilder<bool>(   // Streambuilder rebuilds its subtree on every item the stream issues
-                          stream: TheViewModel.of(context).updateWeatherCommand.canExecute,   //We access our ViewModel through the inherited Widget
-                          builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  // in Dart Lambdas with body don't use =>
-                              {
-                                 // only if we get data
-                                if (snapshot.hasData && snapshot.data == true)
-                                {
-                                    return new RaisedButton(                               
-                                            child: 
-                                              new Text("Update"), // Watch the Button is again a composition
-                                            color: new Color.fromARGB(255, 33, 150, 243),
-                                            textColor: new Color.fromARGB(255, 255, 255, 255),
-                                            onPressed: TheViewModel.of(context).updateWeatherCommand.execute,
-                                            );
-                                }
-                                else
-                                {
-                                    return new RaisedButton(                               
-                                            child: 
-                                              new Text("Update"), // Watch the Button is again a composition
-                                            color: new Color.fromARGB(255, 33, 150, 243),
-                                            
-                                            textColor: new Color.fromARGB(255, 255, 255, 255),
-                                            onPressed: null,
-                                            );
-                                }
-                            })                                              
+                new Padding(padding: const EdgeInsets.all(8.0),
+                    child: 
+                        // We use a stream builder to toggle the enabled state of the button
+                      new Row(
+                        children: <Widget>[
+                          new Expanded(
+                                                      child: new StreamBuilder<bool>(   // Streambuilder rebuilds its subtree on every item the stream issues
+                                stream: TheViewModel.of(context).updateWeatherCommand.canExecute,   //We access our ViewModel through the inherited Widget
+                                builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  // in Dart Lambdas with body don't use =>
+                                    {
+                                      var handler;
+                                      if (snapshot.hasData)
+                                      {
+                                          // Depending on teh Value we get from the stream we set or clear the Handler
+                                          handler = snapshot.data ? TheViewModel.of(context).updateWeatherCommand.execute :null; 
+                                      }
+                                      return new RaisedButton(                               
+                                              child: 
+                                                  new Text("Update"), 
+                                              color: new Color.fromARGB(255, 33, 150, 243),
+                                              textColor: new Color.fromARGB(255, 255, 255, 255),
+                                              onPressed: handler,
+                                              );
+                                      
+                                  }),
+                          ),
+                                new StateFullSwitch(state: true,
+                                    onChanged: TheViewModel.of(context).switchChangedCommand.execute)
+                        ],
+                      )                                              
                 
                 ),
                 
@@ -83,3 +85,30 @@ import 'main.dart';
    
  }
  
+class StateFullSwitch extends StatefulWidget
+{
+    bool state;
+    ValueChanged<bool> onChanged;
+
+    StateFullSwitch({this.state, this.onChanged});
+
+    @override
+    StateFullSwitchState createState() {
+    return new StateFullSwitchState(state, onChanged);
+    }
+
+}
+
+class StateFullSwitchState extends State<StateFullSwitch> 
+{
+    
+    bool state;
+    ValueChanged<bool> handler;
+    
+    StateFullSwitchState(this.state, this.handler);    
+
+    @override 
+    Widget build(BuildContext context) {
+        return new Switch(value: state, onChanged: (b) { setState(()=> state = b); handler(b);});
+        }
+}
