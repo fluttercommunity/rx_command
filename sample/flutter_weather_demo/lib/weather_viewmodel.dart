@@ -11,10 +11,10 @@ import 'package:rx_command/rx_command.dart';
   class WeatherViewModel {
   
 
-    final _inputSubject = new BehaviorSubject<String>() ;
+    final _textChangedSubject = new BehaviorSubject<String>() ;
 
     // Callback function that will be registered to the TextFields OnChanged Event
-    onFilterEntryChanged(String s) => _inputSubject.add(s); 
+    onFilterEntryChanged(String s) => _textChangedSubject.add(s); 
 
 
     RxCommand<String,List<WeatherEntry>>  updateWeatherCommand;
@@ -26,15 +26,14 @@ import 'package:rx_command/rx_command.dart';
 
         switchChangedCommand = RxCommand.createSync3<bool,bool>((b)=>b);
 
-
+        // We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
         updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update,switchChangedCommand.results);
-
 
 
         updateWeatherCommand.execute();
 
         // initialize input listener for the Searchfield
-        _inputSubject.observable
+        _textChangedSubject.observable
           .debounce( new Duration(milliseconds: 500))  // make sure we start processing if the user make a short pause 
             .listen( (filterText)
             {
