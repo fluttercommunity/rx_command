@@ -56,7 +56,34 @@ By subscribing (listening) to the `isExecuting` property of a RxCommand you can 
 By subscribing to the `canExecute` property of a RxCommand you can react on any state change of the executability of the command.
 
 
-### Exploring the sample App 
+## Exploring the sample App 
+
+The best way to understand how `RxCommand` is used is to look at the supplied sample app which is a simple app that queries a REST API for weather data.
+
+### The ViewModel
+
+It follow the MVVM design pattern so all business logic is bundled in the `WeatherViewModel` class in weather_viewmodel.dart.
+
+It is made accessible to the Widgets by using an [InheritedWidget](https://docs.flutter.io/flutter/widgets/InheritedWidget-class.html) which is defined in main.dart and returns and instance of `WeatherViewModel`when used like `TheViewModel.of(context)`
+
+The view model publishes two commands 
+
+* `updateWeatherCommand` which makes a call to the weather API and filters the result based on a string that is passed to execute. Its result will be bound to a `StreamBuilder`in your View.
+* `switchChangedCommand` which will be bound to a `Switch` widget to enable/disable the `updateWeatherCommand.
+
+
+### The View
+
+`main.dart` creates the ViewModel and places it at the very base of the app`s widget tree.
+
+`homepage.dart` creates a `Column` with a 
+
+* `TextField` where you can enter a filter text which binds to the view models `onFilterEntryChanged` handler.
+
+* a middle block which can either be a `ListView` (`WeatherListView`) or a busy spinner. It is created by a `StreamBuilder` which listens to <br/> `TheViewModel.of(context).updateWeatherCommand.isExecuting`<br/>
+* A row with the Update `Button` and a `Switch` that toggles if an update should be possible or not by calling `TheViewModel.of(context).switchChangedCommand.execute)`. To change the enabled state of the button the button is build by a `StreamBuilder` that listens to the  `TheViewModel.of(context).updateWeatherCommand.canExecute` 
+
+`listview.dart` implements `WeatherListView` which consists again of a StreamBuilder which updates automatically by listening on `TheViewModel.of(context).updateWeatherCommand.results`
 
 
 

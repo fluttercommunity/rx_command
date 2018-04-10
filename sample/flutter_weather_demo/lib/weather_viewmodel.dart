@@ -14,6 +14,7 @@ import 'package:rx_command/rx_command.dart';
     final _textChangedSubject = new BehaviorSubject<String>() ;
 
     // Callback function that will be registered to the TextFields OnChanged Event
+    // a Rx Subject behaves like a Dart StreamSink
     onFilterEntryChanged(String s) => _textChangedSubject.add(s); 
 
 
@@ -24,17 +25,19 @@ import 'package:rx_command/rx_command.dart';
     WeatherViewModel()
     {
 
+        // Command expects a bool value when executed and issues the value on it's result Observable (stream)
         switchChangedCommand = RxCommand.createSync3<bool,bool>((b)=>b);
 
         // We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
         updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update,switchChangedCommand.results);
 
 
+        // Update data on startup
         updateWeatherCommand.execute();
 
         // initialize input listener for the Searchfield
         _textChangedSubject.observable
-          .debounce( new Duration(milliseconds: 500))  // make sure we start processing if the user make a short pause 
+          .debounce( new Duration(milliseconds: 500))  // make sure we start processing only if the user make a short pause typing 
             .listen( (filterText)
             {
               updateWeatherCommand.execute( filterText);
@@ -43,6 +46,7 @@ import 'package:rx_command/rx_command.dart';
 
 
 
+    // Async function that queries the REST API and converts the result into the form our ListViewBuilder can consume
     Future<List<WeatherEntry>> update(String filtertext)
     {
 
@@ -54,13 +58,16 @@ import 'package:rx_command/rx_command.dart';
 
       return httpStream
               .where((data) => data.statusCode == 200)  // only continue if valid response
-                .map( (data) // convert JSON result in ModelObject
+                .map( (data) // convert JSON result into a List of WeatherEntries
                 {
-                      return new WeatherInCities.fromJson(json.decode(data.body)).Cities
-                        .where( (weatherInCity) =>  filtertext ==null || filtertext.isEmpty || weatherInCity.Name.toUpperCase().startsWith(filtertext.toUpperCase()))
-                          .map((weatherInCity) => new WeatherEntry(weatherInCity) ).toList();
+                      return new WeatherInCities.fromJson(json.decode(data.body)).Cities // we are only interested in the Cities part of the response
+                        .where( (weatherInCity) =>  filtertext ==null || 
+                                                    filtertext.isEmpty ||  // if filtertext is null or empty we return all returned entries
+                                                    weatherInCity.Name.toUpperCase().startsWith(filtertext.toUpperCase())) // otherwise only matching entries
+                          .map((weatherInCity) => new WeatherEntry(weatherInCity) ) // Convert City object to WeatherEntry
+                            .toList(); // aggregate entries to a List
                             
-                }).first;
+                }).first; // Return result as Future
           
     }
  
