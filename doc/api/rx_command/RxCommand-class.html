@@ -42,7 +42,6 @@
       <li><a href="rx_command/RxCommand-class.html">RxCommand</a></li>
       <li><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a></li>
       <li><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a></li>
-      <li><a href="rx_command/Unit-class.html">Unit</a></li>
     
     
     
@@ -72,7 +71,7 @@ all possibly thrown exceptions during command execution.</p>
 <p>An <code>RxCommand</code> is a generic class of type <code>RxCommand&lt;TParam, TRESULT&gt;</code> 
 where <code>TPARAM</code> is the type of data that is passed when calling <code>execute</code> and 
 <code>TResult</code> denotes the return type of the handler function. To signal that 
-a handler doesn't take a parameter or returns a value use the dummy type <code>Unit</code></p>
+a handler doesn't take a parameter or returns a value use the dummy type <code>Null</code></p>
     </section>
     
     <section>
@@ -130,7 +129,7 @@ but also if the command receives a false from the canExecute Observable that you
         </dt>
         <dd>
           Observable stream that outputs any result from the called handler function. If the handler function has void return type 
-it will still output one <code>Unit</code> item so that you can listen for the end of the execution.
+it will still output one <code>Null</code> item so that you can listen for the end of the execution.
           <div class="features">read-only</div>
 </dd>
         <dt id="thrownExceptions" class="property">
@@ -225,7 +224,7 @@ dispose it to make sure all stream subsriptions are cancelled to prevent memory 
       <dl class="callables">
         <dt id="createAsync" class="callable">
           <span class="name"><a href="rx_command/RxCommand/createAsync.html">createAsync</a></span><span class="signature">(<wbr><span class="parameter" id="createAsync-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, [</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<a href="rx_command/Unit-class.html">Unit</a>, <a href="rx_command/Unit-class.html">Unit</a>&gt;</span></span>
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;Null, Null&gt;</span></span>
           </span>
         </dt>
         <dd>
@@ -237,7 +236,7 @@ if omitted the command can be executed always except it's already executing
 </dd>
         <dt id="createAsync1" class="callable">
           <span class="name"><a href="rx_command/RxCommand/createAsync1.html">createAsync1</a></span><span class="signature">&lt;TParam&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsync1-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction1.html">AsyncAction1</a><span class="signature">&lt;TParam&gt;</span></span> <span class="parameter-name">action</span>, [</span> <span class="parameter" id="createAsync1-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;TParam, <a href="rx_command/Unit-class.html">Unit</a>&gt;</span></span>
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;TParam, Null&gt;</span></span>
           </span>
         </dt>
         <dd>
@@ -249,7 +248,7 @@ if omitted the command can be executed always except it's already executing
 </dd>
         <dt id="createAsync2" class="callable">
           <span class="name"><a href="rx_command/RxCommand/createAsync2.html">createAsync2</a></span><span class="signature">&lt;TResult&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsync2-param-func"><span class="type-annotation"><a href="rx_command/AsyncFunc.html">AsyncFunc</a><span class="signature">&lt;TResult&gt;</span></span> <span class="parameter-name">func</span>, [</span> <span class="parameter" id="createAsync2-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<a href="rx_command/Unit-class.html">Unit</a>, TResult&gt;</span></span>
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;Null, TResult&gt;</span></span>
           </span>
         </dt>
         <dd>
@@ -273,7 +272,7 @@ if omitted the command can be executed always except it's already executing
 </dd>
         <dt id="createSync" class="callable">
           <span class="name"><a href="rx_command/RxCommand/createSync.html">createSync</a></span><span class="signature">(<wbr><span class="parameter" id="createSync-param-action"><span class="type-annotation"><a href="rx_command/Action.html">Action</a></span> <span class="parameter-name">action</span>, [</span> <span class="parameter" id="createSync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<a href="rx_command/Unit-class.html">Unit</a>, <a href="rx_command/Unit-class.html">Unit</a>&gt;</span></span>
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;Null, Null&gt;</span></span>
           </span>
         </dt>
         <dd>
@@ -285,7 +284,7 @@ if omitted the command can be executed always except it's already executing
 </dd>
         <dt id="createSync1" class="callable">
           <span class="name"><a href="rx_command/RxCommand/createSync1.html">createSync1</a></span><span class="signature">&lt;TParam&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSync1-param-action"><span class="type-annotation"><a href="rx_command/Action1.html">Action1</a><span class="signature">&lt;TParam&gt;</span></span> <span class="parameter-name">action</span>, [</span> <span class="parameter" id="createSync1-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;TParam, <a href="rx_command/Unit-class.html">Unit</a>&gt;</span></span>
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;TParam, Null&gt;</span></span>
           </span>
         </dt>
         <dd>
@@ -297,7 +296,7 @@ if omitted the command can be executed always except it's already executing
 </dd>
         <dt id="createSync2" class="callable">
           <span class="name"><a href="rx_command/RxCommand/createSync2.html">createSync2</a></span><span class="signature">&lt;TResult&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSync2-param-func"><span class="type-annotation"><a href="rx_command/Func.html">Func</a><span class="signature">&lt;TResult&gt;</span></span> <span class="parameter-name">func</span>, [</span> <span class="parameter" id="createSync2-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<a href="rx_command/Unit-class.html">Unit</a>, TResult&gt;</span></span>
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;Null, TResult&gt;</span></span>
           </span>
         </dt>
         <dd>
@@ -367,7 +366,7 @@ if omitted the command can be executed always except it's already executing
 
 <footer>
   <span class="no-break">
-    rx_command 0.0.1
+    rx_command 0.0.3
   </span>
 
 </footer>

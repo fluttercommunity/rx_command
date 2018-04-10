@@ -79,7 +79,7 @@
     <h1>createAsync method</h1>
 
     <section class="multi-line-signature">
-      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<a href="rx_command/Unit-class.html">Unit</a>, <a href="rx_command/Unit-class.html">Unit</a>&gt;</span></span>
+      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;Null, Null&gt;</span></span>
       <span class="name ">createAsync</span>
 (<wbr><span class="parameter" id="createAsync-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, [</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
     </section>
@@ -92,9 +92,9 @@ if omitted the command can be executed always except it's already executing</p>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;Unit, Unit&gt; createAsync(AsyncAction action,[Observable&lt;bool&gt; canExecute])
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;Null, Null&gt; createAsync(AsyncAction action,[Observable&lt;bool&gt; canExecute])
 {
-    return new RxCommandAsync&lt;Unit,Unit&gt;((_) async {action(); return  Unit.Default;},canExecute);
+    return new RxCommandAsync&lt;Null,Null&gt;((_) async {action(); return  null;},canExecute);
 }</code></pre>
     </section>
 
@@ -107,7 +107,7 @@ if omitted the command can be executed always except it's already executing</p>
 
 <footer>
   <span class="no-break">
-    rx_command 0.0.1
+    rx_command 0.0.3
   </span>
 
 </footer>

@@ -56,7 +56,7 @@ command.execute(10); // the listener will print "10"
 </code></pre>
 <h2>Getting Started</h2>
 <p>Add to your <code>pubspec.yaml</code> dependencies to <code>rxdart</code>and <code>rx_command</code>. (As long as the package is not published to Dart Packages please see the dependency entry of the sample App) </p>
-<p>An <code>RxCommand</code> is a generic class of type <code>RxCommand&lt;TParam, TRESULT&gt;</code> where <code>TPARAM</code> is the type of data that is passed when calling <code>execute</code> and <code>TResult</code> denotes the return type of the handler function. To signal that a handler doesn't take a parameter or returns a value use the dummy type <code>Unit</code></p>
+<p>An <code>RxCommand</code> is a generic class of type <code>RxCommand&lt;TParam, TRESULT&gt;</code> where <code>TPARAM</code> is the type of data that is passed when calling <code>execute</code> and <code>TResult</code> denotes the return type of the handler function. To signal that a handler doesn't take a parameter or returns a <code>Null</code> value. </p>
 <p>An example of the declaration from the included sample App</p>
 <pre class="language-Dart"><code class="language-Dart">RxCommand&lt;String,List&lt;WeatherEntry&gt;&gt;  updateWeatherCommand;
 RxCommand&lt;bool,bool&gt;  switchChangedCommand;
@@ -68,7 +68,7 @@ RxCommand&lt;bool,bool&gt;  switchChangedCommand;
   /// `action`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand&lt;Unit, Unit&gt; createSync(Action action,[Observable&lt;bool&gt; canExecute])
+  static RxCommand&lt;Null, Null&gt; createSync(Action action,[Observable&lt;bool&gt; canExecute])
 
 </code></pre>
 <p>The sample App contains a <code>Switch</code> widget that enables/disables the update command. The switch itself is bound to the <code>switchChangedCommand</code> that's result is then used as <code>canExcecute</code> of the <code>updateWeatherCommand</code>:</p>
@@ -118,7 +118,7 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 
 <footer>
   <span class="no-break">
-    rx_command 0.0.1
+    rx_command 0.0.3
   </span>
 
 </footer>

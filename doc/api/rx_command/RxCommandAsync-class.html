@@ -42,7 +42,6 @@
       <li><a href="rx_command/RxCommand-class.html">RxCommand</a></li>
       <li><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a></li>
       <li><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a></li>
-      <li><a href="rx_command/Unit-class.html">Unit</a></li>
     
     
     
@@ -129,7 +128,7 @@ but also if the command receives a false from the canExecute Observable that you
         </dt>
         <dd class="inherited">
           Observable stream that outputs any result from the called handler function. If the handler function has void return type 
-it will still output one <code>Unit</code> item so that you can listen for the end of the execution.
+it will still output one <code>Null</code> item so that you can listen for the end of the execution.
           <div class="features">read-only, inherited</div>
 </dd>
         <dt id="runtimeType" class="property inherited">
@@ -248,7 +247,7 @@ dispose it to make sure all stream subsriptions are cancelled to prevent memory 
 
 <footer>
   <span class="no-break">
-    rx_command 0.0.1
+    rx_command 0.0.3
   </span>
 
 </footer>
