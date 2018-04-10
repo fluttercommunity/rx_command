@@ -8,9 +8,6 @@ void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
-
- 
-
  
   @override
   MyAppState createState() {
@@ -32,6 +29,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Place the Inherited Widget at the very base of the Widget tree        
     return new TheViewModel( 
                   theModel:  viewModelData,
                   child: 
@@ -46,7 +44,6 @@ class MyAppState extends State<MyApp> {
 }
 
 
-// This might seem a bit odd
 // InheritedWidgets allow you to propagate values down the widgettree. 
 // it can then be accessed by just writing  TheViewModel.of(context)
 class TheViewModel extends InheritedWidget

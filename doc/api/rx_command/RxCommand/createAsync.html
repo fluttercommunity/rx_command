@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="API docs for the createAsync method from the RxCommand class, for the Dart programming language.">
+  <title>createAsync method - RxCommand class - rx_command library - Dart API</title>
+  <!-- required because all the links are pseudo-absolute -->
+  <base href="../..">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="index.html">rx_command</a></li>
+    <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
+    <li><a href="rx_command/RxCommand-class.html">RxCommand<span class="signature">&lt;TParam, TRESULT&gt;</span></a></li>
+    <li class="self-crumb">createAsync method</li>
+  </ol>
+  <div class="self-name">createAsync</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <h5>RxCommand class</h5>
+    <ol>
+      <li class="section-title"><a href="rx_command/RxCommand-class.html#constructors">Constructors</a></li>
+      <li><a href="rx_command/RxCommand/RxCommand.html">RxCommand</a></li>
+    
+      <li class="section-title">
+        <a href="rx_command/RxCommand-class.html#instance-properties">Properties</a>
+      </li>
+      <li><a href="rx_command/RxCommand/canExecute.html">canExecute</a></li>
+      <li><a href="rx_command/RxCommand/isExecuting.html">isExecuting</a></li>
+      <li><a href="rx_command/RxCommand/results.html">results</a></li>
+      <li><a href="rx_command/RxCommand/thrownExceptions.html">thrownExceptions</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/hashCode.html">hashCode</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/runtimeType.html">runtimeType</a></li>
+    
+      <li class="section-title"><a href="rx_command/RxCommand-class.html#instance-methods">Methods</a></li>
+      <li><a href="rx_command/RxCommand/dispose.html">dispose</a></li>
+      <li><a href="rx_command/RxCommand/execute.html">execute</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/noSuchMethod.html">noSuchMethod</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/toString.html">toString</a></li>
+    
+      <li class="section-title inherited"><a href="rx_command/RxCommand-class.html#operators">Operators</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/operator_equals.html">operator ==</a></li>
+    
+    
+      <li class="section-title"><a href="rx_command/RxCommand-class.html#static-methods">Static methods</a></li>
+      <li><a href="rx_command/RxCommand/createAsync.html">createAsync</a></li>
+      <li><a href="rx_command/RxCommand/createAsync1.html">createAsync1</a></li>
+      <li><a href="rx_command/RxCommand/createAsync2.html">createAsync2</a></li>
+      <li><a href="rx_command/RxCommand/createAsync3.html">createAsync3</a></li>
+      <li><a href="rx_command/RxCommand/createSync.html">createSync</a></li>
+      <li><a href="rx_command/RxCommand/createSync1.html">createSync1</a></li>
+      <li><a href="rx_command/RxCommand/createSync2.html">createSync2</a></li>
+      <li><a href="rx_command/RxCommand/createSync3.html">createSync3</a></li>
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
+    <h1>createAsync method</h1>
+
+    <section class="multi-line-signature">
+      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<a href="rx_command/Unit-class.html">Unit</a>, <a href="rx_command/Unit-class.html">Unit</a>&gt;</span></span>
+      <span class="name ">createAsync</span>
+(<wbr><span class="parameter" id="createAsync-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, [</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;bool&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
+    </section>
+    <section class="desc markdown">
+      <p>Creates  a RxCommand for an asynchronous handler function with no parameter and no return type 
+<code>action</code>: handler function
+<code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
+if omitted the command can be executed always except it's already executing</p>
+    </section>
+    
+    <section class="summary source-code" id="source">
+      <h2><span>Implementation</span> </h2>
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;Unit, Unit&gt; createAsync(AsyncAction action,[Observable&lt;bool&gt; canExecute])
+{
+    return new RxCommandAsync&lt;Unit,Unit&gt;((_) async {action(); return  Unit.Default;},canExecute);
+}</code></pre>
+    </section>
+
+  </div> <!-- /.main-content -->
+
+  <div class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    rx_command 0.0.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>

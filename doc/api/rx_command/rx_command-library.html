@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="rx_command library API docs, for the Dart programming language.">
+  <title>rx_command library - Dart API</title>
+  <!-- required because all the links are pseudo-absolute -->
+  <base href="..">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="index.html">rx_command</a></li>
+    <li class="self-crumb">rx_command library</li>
+  </ol>
+  <div class="self-name">rx_command</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <h5><span class="package-name">rx_command</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
+    </ol>
+  </div>
+
+  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
+    <h1>rx_command library</h1>
+
+    
+    <section class="summary offset-anchor" id="classes">
+      <h2>Classes</h2>
+
+      <dl>
+        <dt id="RxCommand">
+          <span class="name "><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;TParam, TRESULT&gt;</span></span>
+        </dt>
+        <dd>
+          <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method. 
+The result of this method is then published through its <code>results</code> Observable (Observable wrap Dart Streams). 
+Additionally it offers Observables for it's current execution state, fs the command can be executed and for 
+all possibly thrown exceptions during command execution. <a href="rx_command/RxCommand-class.html">[...]</a>
+        </dd>
+        <dt id="RxCommandAsync">
+          <span class="name "><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a><span class="signature">&lt;TParam, TResult&gt;</span></span>
+        </dt>
+        <dd>
+          
+        </dd>
+        <dt id="RxCommandSync">
+          <span class="name "><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a><span class="signature">&lt;TParam, TResult&gt;</span></span>
+        </dt>
+        <dd>
+          Implementation of RxCommand to handle async handler functions. Normally you will not instanciate this directly but use one of the factory 
+methods of RxCommand.
+        </dd>
+        <dt id="Unit">
+          <span class="name "><a href="rx_command/Unit-class.html">Unit</a></span>
+        </dt>
+        <dd>
+          If you don't want to pass one of the generic parameters e.g. if you passed function that has no parameter, just use Unit as Type
+        </dd>
+      </dl>
+    </section>
+
+
+
+
+
+    <section class="summary offset-anchor" id="typedefs">
+      <h2>Typedefs</h2>
+
+      <dl class="callables">
+        <dt id="Action" class="callable">
+          <span class="name"><a href="rx_command/Action.html">Action</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+        <dt id="Action1" class="callable">
+          <span class="name"><a href="rx_command/Action1.html">Action1</a></span><span class="signature">&lt;TParam&gt;</span><span class="signature">(<wbr><span class="parameter" id="Action1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+        <dt id="AsyncAction" class="callable">
+          <span class="name"><a href="rx_command/AsyncAction.html">AsyncAction</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; Future</span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+        <dt id="AsyncAction1" class="callable">
+          <span class="name"><a href="rx_command/AsyncAction1.html">AsyncAction1</a></span><span class="signature">&lt;TParam&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncAction1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
+            <span class="returntype parameter">&#8594; Future</span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+        <dt id="AsyncFunc" class="callable">
+          <span class="name"><a href="rx_command/AsyncFunc.html">AsyncFunc</a></span><span class="signature">&lt;TResult&gt;</span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; Future<span class="signature">&lt;TResult&gt;</span></span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+        <dt id="AsyncFunc1" class="callable">
+          <span class="name"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a></span><span class="signature">&lt;TParam, TResult&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncFunc1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
+            <span class="returntype parameter">&#8594; Future<span class="signature">&lt;TResult&gt;</span></span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+        <dt id="Func" class="callable">
+          <span class="name"><a href="rx_command/Func.html">Func</a></span><span class="signature">&lt;TResult&gt;</span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; TResult</span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+        <dt id="Func1" class="callable">
+          <span class="name"><a href="rx_command/Func1.html">Func1</a></span><span class="signature">&lt;TParam, TResult&gt;</span><span class="signature">(<wbr><span class="parameter" id="Func1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
+            <span class="returntype parameter">&#8594; TResult</span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
+      </dl>
+    </section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+    <h5>rx_command library</h5>
+    <ol>
+      <li class="section-title"><a href="rx_command/rx_command-library.html#classes">Classes</a></li>
+      <li><a href="rx_command/RxCommand-class.html">RxCommand</a></li>
+      <li><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a></li>
+      <li><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a></li>
+      <li><a href="rx_command/Unit-class.html">Unit</a></li>
+    
+    
+    
+    
+    
+      <li class="section-title"><a href="rx_command/rx_command-library.html#typedefs">Typedefs</a></li>
+      <li><a href="rx_command/Action.html">Action</a></li>
+      <li><a href="rx_command/Action1.html">Action1</a></li>
+      <li><a href="rx_command/AsyncAction.html">AsyncAction</a></li>
+      <li><a href="rx_command/AsyncAction1.html">AsyncAction1</a></li>
+      <li><a href="rx_command/AsyncFunc.html">AsyncFunc</a></li>
+      <li><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a></li>
+      <li><a href="rx_command/Func.html">Func</a></li>
+      <li><a href="rx_command/Func1.html">Func1</a></li>
+    
+    </ol>
+  </div><!--/sidebar-offcanvas-right-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    rx_command 0.0.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>

@@ -31,10 +31,10 @@ import 'main.dart';
                       // Handle events to show / hide spinner
                       new StreamBuilder<bool>(   
                           stream: TheViewModel.of(context).updateWeatherCommand.isExecuting, 
-                          builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  
+                          builder: (BuildContext context, AsyncSnapshot<bool> isRunning)  
                               {
                                  // if true we show a buys Spinner otherwise the ListView
-                                if (snapshot.hasData && snapshot.data == true)
+                                if (isRunning.hasData && isRunning.data == true)
                                 {
                                     return new Center(child: new Container(width: 50.0, height:50.0, child: new CircularProgressIndicator())); 
                                 }
@@ -51,9 +51,9 @@ import 'main.dart';
                       new Row(
                         children: <Widget>[
                           new Expanded(
-                                                      child: new StreamBuilder<bool>(   // Streambuilder rebuilds its subtree on every item the stream issues
+                                child: new StreamBuilder<bool>(   // Streambuilder rebuilds its subtree on every item the stream issues
                                 stream: TheViewModel.of(context).updateWeatherCommand.canExecute,   //We access our ViewModel through the inherited Widget
-                                builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  // in Dart Lambdas with body don't use =>
+                                builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  
                                     {
                                       var handler;
                                       if (snapshot.hasData)
@@ -85,6 +85,8 @@ import 'main.dart';
    
  }
  
+ /// As the normal switch does not even remeber and display its current state 
+ ///  we us this one 
 class StateFullSwitch extends StatefulWidget
 {
     final bool state;

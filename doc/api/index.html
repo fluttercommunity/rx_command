@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="made with love by dartdoc 0.18.0">
+  <meta name="description" content="rx_command API docs, for the Dart programming language.">
+  <title>rx_command - Dart API docs</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/escamoteur/rx_command">rx_command package</a></li>
+  </ol>
+  <div class="self-name">rx_command</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <h5><span class="package-name">rx_command</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
+    </ol>
+  </div>
+
+  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1>RxCommand</h1>
+<p><code>RxCommand</code> is an <a href="http://reactivex.io/"><em>Reactive Extensions</em> (Rx)</a> based abstraction for event handlers. It is based on <code>ReactiveCommand</code> for the <a href="https://reactiveui.net/">ReactiveUI</a> framework. It makes heavy use of the <a href="https://github.com/ReactiveX/rxdart">RxDart</a> package.</p>
+<blockquote>
+<p>PRs are always welcome ;-)</p></blockquote>
+<p>If you don't know Rx think of it as Dart <code>Streams</code> on steroids. <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method. The result of this method is then published through its <code>results</code> Observable (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.</p>
+<p>A very simple example</p>
+<pre class="language-Dart"><code class="language-Dart">final command = RxCommand.createSync3&lt;int, String&gt;((myInt) =&gt; "$myInt");
+
+command.results.listen((s) =&gt; print(s)); // Setup the listener that now waits for events, not doing anything
+
+// Somwhere else
+command.execute(10); // the listener will print "10"
+</code></pre>
+<h2>Getting Started</h2>
+<p>Add to your <code>pubspec.yaml</code> dependencies to <code>rxdart</code>and <code>rx_command</code>. (As long as the package is not published to Dart Packages please see the dependency entry of the sample App) </p>
+<p>An <code>RxCommand</code> is a generic class of type <code>RxCommand&lt;TParam, TRESULT&gt;</code> where <code>TPARAM</code> is the type of data that is passed when calling <code>execute</code> and <code>TResult</code> denotes the return type of the handler function. To signal that a handler doesn't take a parameter or returns a value use the dummy type <code>Unit</code></p>
+<p>An example of the declaration from the included sample App</p>
+<pre class="language-Dart"><code class="language-Dart">RxCommand&lt;String,List&lt;WeatherEntry&gt;&gt;  updateWeatherCommand;
+RxCommand&lt;bool,bool&gt;  switchChangedCommand;
+</code></pre>
+<p><code>updateWeatherCommand</code> expects a handler that takes a <code>String</code> as parameter and returns a <code>List&lt;WeatherEntry&gt;</code>. <code>switchChangedCommand</code> expects and returns a <code>bool</code> value </p>
+<h3>Creating RxCommands</h3>
+<p> For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. Due to the limitation that Dart doesn't allow method overloading they are numbered and look like this.</p>
+<pre class="language-Dart"><code class="language-Dart">  /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
+  /// `action`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
+  static RxCommand&lt;Unit, Unit&gt; createSync(Action action,[Observable&lt;bool&gt; canExecute])
+
+</code></pre>
+<p>The sample App contains a <code>Switch</code> widget that enables/disables the update command. The switch itself is bound to the <code>switchChangedCommand</code> that's result is then used as <code>canExcecute</code> of the <code>updateWeatherCommand</code>:</p>
+<pre class="language-Dart"><code class="language-Dart">switchChangedCommand = RxCommand.createSync3&lt;bool,bool&gt;((b)=&gt;b);
+
+// We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
+updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;&gt;(update,switchChangedCommand.results);
+</code></pre>
+<p>As the <em>Update</em> <code>Button</code>'s building is based on a <code>StreamBuilder</code>that listens on the <code>canExecute</code> Observable of the <code>updateWeatherCommand</code> the buttons enabled/disabled state gets automatically updated when the <code>Switch's</code> state changes</p>
+<h3>Using RxCommands</h3>
+<p><code>RxCommand</code> is typically used in a ViewModel of a Page, which is made accessible to the Widgets via an <code>InheritedWidget</code>. Its <code>execute</code>method can then directly be assigned as event handler of the Widgets.</p>
+<p>The <code>result</code> of the command is best used with a <code>StreamBuilder</code> or inside a StatefulWidget.</p>
+<p>By subscribing (listening) to the <code>isExecuting</code> property of a RxCommand you can react on any execution state change of the command. E.g. show a spinner while the command is running.</p>
+<p>By subscribing to the <code>canExecute</code> property of a RxCommand you can react on any state change of the executability of the command.</p>
+<h3>Disposing subscriptions (listeners)</h3>
+<p>When subscribing to an Observable with <code>.listen</code> you should store the returned <code>StreamSubscription</code> and call <code>.cancel</code> on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
+<code>RxCommand</code> has a <code>dispose</code> function that will cancel all active subscriptions on its observables. Calling <code>dispose</code>before a command gets out of scope is a good practise.</p>
+<h2>Exploring the sample App</h2>
+<p>The best way to understand how <code>RxCommand</code> is used is to look at the supplied sample app which is a simple app that queries a REST API for weather data.</p>
+<h3>The ViewModel</h3>
+<p>It follow the MVVM design pattern so all business logic is bundled in the <code>WeatherViewModel</code> class in weather_viewmodel.dart.</p>
+<p>It is made accessible to the Widgets by using an <a href="https://docs.flutter.io/flutter/widgets/InheritedWidget-class.html">InheritedWidget</a> which is defined in main.dart and returns and instance of <code>WeatherViewModel</code>when used like <code>TheViewModel.of(context)</code></p>
+<p>The view model publishes two commands </p><ul><li><code>updateWeatherCommand</code> which makes a call to the weather API and filters the result based on a string that is passed to execute. Its result will be bound to a <code>StreamBuilder</code>in your View.</li><li><code>switchChangedCommand</code> which will be bound to a <code>Switch</code> widget to enable/disable the `updateWeatherCommand.</li></ul>
+<h3>The View</h3>
+<p><code>main.dart</code> creates the ViewModel and places it at the very base of the app`s widget tree.</p>
+<p><code>homepage.dart</code> creates a <code>Column</code> with a </p><ul><li>
+<p><code>TextField</code> where you can enter a filter text which binds to the view models <code>onFilterEntryChanged</code> handler.</p></li><li>
+<p>a middle block which can either be a <code>ListView</code> (<code>WeatherListView</code>) or a busy spinner. It is created by a <code>StreamBuilder</code> which listens to &lt;br/&gt; <code>TheViewModel.of(context).updateWeatherCommand.isExecuting</code>&lt;br/&gt;</p></li><li>
+<p>A row with the Update <code>Button</code> and a <code>Switch</code> that toggles if an update should be possible or not by calling <code>TheViewModel.of(context).switchChangedCommand.execute)</code>. To change the enabled state of the button the button is build by a <code>StreamBuilder</code> that listens to the  <code>TheViewModel.of(context).updateWeatherCommand.canExecute</code> </p></li></ul>
+<p><code>listview.dart</code> implements <code>WeatherListView</code> which consists again of a StreamBuilder which updates automatically by listening on <code>TheViewModel.of(context).updateWeatherCommand.results</code></p>
+      </section>
+      
+        <section class="summary">
+            <h2>Libraries</h2>
+          <dl>
+            <dt id="rx_command">
+              <span class="name"><a href="rx_command/rx_command-library.html">rx_command</a></span>
+            </dt>
+            <dd>
+              
+            </dd>          </dl>
+        </section>
+
+  </div> <!-- /.main-content -->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    rx_command 0.0.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>

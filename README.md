@@ -2,7 +2,22 @@
 
 `RxCommand` is an [_Reactive Extensions_ (Rx)](http://reactivex.io/) based abstraction for event handlers. It is based on `ReactiveCommand` for the [ReactiveUI](https://reactiveui.net/) framework. It makes heavy use of the [RxDart](https://github.com/ReactiveX/rxdart) package.
 
-If you don't know Rx think of it as Dart `Streams` on steroids. `RxCommand` capsules a given handler function that can then be executed by its `execute` method. The result of this method is then published through its `results` Observable (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, fs the command can be executed and for all possibly thrown exceptions during command execution.
+>PRs are always welcome ;-)
+
+If you don't know Rx think of it as Dart `Streams` on steroids. `RxCommand` capsules a given handler function that can then be executed by its `execute` method. The result of this method is then published through its `results` Observable (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.
+
+A very simple example
+
+```Dart
+final command = RxCommand.createSync3<int, String>((myInt) => "$myInt");
+
+command.results.listen((s) => print(s)); // Setup the listener that now waits for events, not doing anything
+
+// Somwhere else
+command.execute(10); // the listener will print "10"
+```
+
+
 
 
 ## Getting Started
@@ -55,6 +70,9 @@ By subscribing (listening) to the `isExecuting` property of a RxCommand you can 
 
 By subscribing to the `canExecute` property of a RxCommand you can react on any state change of the executability of the command.
 
+### Disposing subscriptions (listeners)
+When subscribing to an Observable with `.listen` you should store the returned `StreamSubscription` and call `.cancel` on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
+`RxCommand` has a `dispose` function that will cancel all active subscriptions on its observables. Calling `dispose`before a command gets out of scope is a good practise.
 
 ## Exploring the sample App 
 
