@@ -327,6 +327,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 /// If you don't want to pass one of the generic parameters e.g. if you passed function that has no parameter, just use Unit as Type
 class Unit
 {
+  // ignore: non_constant_identifier_names
   static Unit get Default => new Unit();
 
   bool operator == (o) => o is Unit;
