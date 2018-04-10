@@ -87,8 +87,8 @@ import 'main.dart';
  
 class StateFullSwitch extends StatefulWidget
 {
-    bool state;
-    ValueChanged<bool> onChanged;
+    final bool state;
+    final ValueChanged<bool> onChanged;
 
     StateFullSwitch({this.state, this.onChanged});
 

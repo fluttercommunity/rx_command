@@ -18,34 +18,11 @@ RxCommand<String,List<WeatherEntry>>  updateWeatherCommand;
 RxCommand<bool,bool>  switchChangedCommand;
 ```
 
-`updateWeatherCommand` expects a handler that takes a `String` as parameter and returns a `List<WeatherEntry>`. `switchChangedCommand` expects and returns a `bool` value 
+To deal with the many variations of possible handler methods RxCommand offers static factory methods for each (due to the limitation that Dart doesn't allow method overloading they are numbered).
 
 
- For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. Due to the limitation that Dart doesn't allow method overloading they are numbered and look like this.
 
 ```Dart
-  /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
-  /// `action`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
-  /// if omitted the command can be executed always except it's already executing
-  static RxCommand<Unit, Unit> createSync(Action action,[Observable<bool> canExecute])
 
 ```
-
-The sample App contains a `Switch` widget that enables/disables the update command. The switch itself is bound to the `switchChangedCommand` that's result is then used as `canExcecute` of the `updateWeatherCommand`:
-
-```C#
-switchChangedCommand = RxCommand.createSync3<bool,bool>((b)=>b);
-
-// We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
-updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update,switchChangedCommand.results);
-```
-
-
-
-
-
-
-
-
-
+synchronous 

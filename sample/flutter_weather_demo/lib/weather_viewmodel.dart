@@ -56,7 +56,7 @@ import 'package:rx_command/rx_command.dart';
               .where((data) => data.statusCode == 200)  // only continue if valid response
                 .map( (data) // convert JSON result in ModelObject
                 {
-                      return new WeatherInCities.fromJson(JSON.decode(data.body)).Cities
+                      return new WeatherInCities.fromJson(json.decode(data.body)).Cities
                         .where( (weatherInCity) =>  filtertext ==null || filtertext.isEmpty || weatherInCity.Name.toUpperCase().startsWith(filtertext.toUpperCase()))
                           .map((weatherInCity) => new WeatherEntry(weatherInCity) ).toList();
                             

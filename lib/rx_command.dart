@@ -259,7 +259,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 
   canExecuteParam.listen((canExecute){
     _canExecute = canExecute;
-    print("------------------_Canexecute changed: $_canExecute -----------------");
+    //print("------------------_Canexecute changed: $_canExecute -----------------");
     _canExecuteSubject.add(_canExecute);
   });    
 
@@ -331,6 +331,9 @@ class Unit
   static Unit get Default => new Unit();
 
   bool operator == (o) => o is Unit;
+
+  // this is just a dummy it should never be needed for this type of class
+  int get hashCode => 0;
 
 }
 

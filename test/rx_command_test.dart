@@ -127,7 +127,7 @@ void main() {
   });
 
 
-  Future<String> SlowAsyncFunction(String s) async
+  Future<String> slowAsyncFunction(String s) async
   {
       print("___Start____Action__________");
 
@@ -140,7 +140,7 @@ void main() {
 
  test('Execute simple async function with parameter', () {
 
-    final command  = RxCommand.createAsync3<String,String>(SlowAsyncFunction);
+    final command  = RxCommand.createAsync3<String,String>(slowAsyncFunction);
 
     command.canExecute.listen((b){print("Can execute:" + b.toString());});
     command.isExecuting.listen((b){print("Is executing:" + b.toString());});
@@ -163,7 +163,7 @@ void main() {
   });
 
 
-Future<String> SlowAsyncFunctionFail(String s) async
+Future<String> slowAsyncFunctionFail(String s) async
   {
       print("___Start____Action___Will throw_______");
 
@@ -174,7 +174,7 @@ Future<String> SlowAsyncFunctionFail(String s) async
 
  test('async function with exception and no listeners', () {
 
-    final command  = RxCommand.createAsync3<String,String>(SlowAsyncFunctionFail);
+    final command  = RxCommand.createAsync3<String,String>(slowAsyncFunctionFail);
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -193,7 +193,7 @@ Future<String> SlowAsyncFunctionFail(String s) async
  
  test('async function with exception with listeners', () {
 
-    final command  = RxCommand.createAsync3<String,String>(SlowAsyncFunctionFail);
+    final command  = RxCommand.createAsync3<String,String>(slowAsyncFunctionFail);
 
     command.thrownExceptions.listen((e) => print(e.toString()));      
 
