@@ -3,12 +3,13 @@ description: Reactive event handler wrapper class inspired by ReactiveUI.
 version: 0.0.1
 author: Thomas Burkhart
 homepage: https://github.com/escamoteur/rx_command
+environment:
+  sdk: '>=2.0.0-dev <3.0.0'
+
 
 dependencies:
-  flutter:
-    sdk: flutter
 
-  rxdart : any  
+  rxdart : ^0.16.6  
 
 dev_dependencies:
   flutter_test:
