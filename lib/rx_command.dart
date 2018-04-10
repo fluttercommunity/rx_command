@@ -18,6 +18,11 @@ typedef Future AsyncAction1<TParam>(TParam param);
 typedef Future<TResult> AsyncFunc<TResult>();
 typedef Future<TResult> AsyncFunc1<TParam, TResult>(TParam param);
 
+/// `RxCommand` capsules a given handler function that can then be executed by its `execute` method. 
+/// The result of this method is then published through its `results` Observable (Observable wrap Dart Streams). 
+/// Additionally it offers Observables for it's current execution state, fs the command can be executed and for 
+/// all possibly thrown exceptions during command execution.
+///
 /// An `RxCommand` is a generic class of type `RxCommand<TParam, TRESULT>` 
 /// where `TPARAM` is the type of data that is passed when calling `execute` and 
 /// `TResult` denotes the return type of the handler function. To signal that 
@@ -26,24 +31,36 @@ abstract class RxCommand<TParam, TRESULT>
 {
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
+  /// `action`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<Unit, Unit> createSync(Action action,[Observable<bool> canExecute])
   {
       return new RxCommandSync<Unit,Unit>((_) {action(); return Unit.Default;},canExecute);
   }
 
   /// Creates  a RxCommand for a synchronous handler function with one parameter and no return type 
+  /// `action`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<TParam, Unit> createSync1<TParam>(Action1<TParam> action, [Observable<bool> canExecute])
   {
       return new RxCommandSync<TParam,Unit>((x) {action(x); return Unit.Default;},canExecute);
   }
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter that returns a value 
+  /// `func`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<Unit, TResult> createSync2<TResult>(Func<TResult> func,[Observable<bool> canExecute])
   {
       return new RxCommandSync<Unit,TResult>((_) => func(),canExecute);
   }
 
   /// Creates  a RxCommand for a synchronous handler function with parameter that returns a value 
+  /// `func`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam,TResult> func,[Observable<bool> canExecute])
   {
       return new RxCommandSync<TParam,TResult>((x) => func(x),canExecute);
@@ -53,6 +70,9 @@ abstract class RxCommand<TParam, TRESULT>
   // Assynchronous
 
   /// Creates  a RxCommand for an asynchronous handler function with no parameter and no return type 
+  /// `action`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<Unit, Unit> createAsync(AsyncAction action,[Observable<bool> canExecute])
   {
       return new RxCommandAsync<Unit,Unit>((_) async {action(); return  Unit.Default;},canExecute);
@@ -60,18 +80,27 @@ abstract class RxCommand<TParam, TRESULT>
 
 
   /// Creates  a RxCommand for an asynchronous handler function with one parameter and no return type 
+  /// `action`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<TParam, Unit> createAsync1<TParam>(AsyncAction1<TParam> action,[Observable<bool> canExecute])
   {
       return new RxCommandAsync<TParam,Unit>((x) async {action(x); return Unit.Default;} ,canExecute);
   }
 
   /// Creates  a RxCommand for an asynchronous handler function with no parameter that returns a value 
+  /// `func`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<Unit, TResult> createAsync2<TResult>(AsyncFunc<TResult> func,[Observable<bool> canExecute])
   {
       return new RxCommandAsync<Unit,TResult>((_) async => func(),canExecute);
   }
 
   /// Creates  a RxCommand for an asynchronous handler function with parameter that returns a value 
+  /// `func`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
   static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func, [Observable<bool> canExecute])
   {
       return new RxCommandAsync<TParam,TResult>((x) async => func(x),canExecute);
