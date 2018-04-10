@@ -52,46 +52,60 @@ abstract class RxCommand<TParam, TRESULT>
 
   // Assynchronous
 
-  /// Creates  a RxCommand for a asynchronous handler function with no parameter and no return type 
+  /// Creates  a RxCommand for an asynchronous handler function with no parameter and no return type 
   static RxCommand<Unit, Unit> createAsync(AsyncAction action,[Observable<bool> canExecute])
   {
       return new RxCommandAsync<Unit,Unit>((_) async {action(); return  Unit.Default;},canExecute);
   }
 
 
-  /// Creates  a RxCommand for a asynchronous handler function with one parameter and no return type 
+  /// Creates  a RxCommand for an asynchronous handler function with one parameter and no return type 
   static RxCommand<TParam, Unit> createAsync1<TParam>(AsyncAction1<TParam> action,[Observable<bool> canExecute])
   {
       return new RxCommandAsync<TParam,Unit>((x) async {action(x); return Unit.Default;} ,canExecute);
   }
 
-  /// Creates  a RxCommand for a asynchronous handler function with no parameter that returns a value 
+  /// Creates  a RxCommand for an asynchronous handler function with no parameter that returns a value 
   static RxCommand<Unit, TResult> createAsync2<TResult>(AsyncFunc<TResult> func,[Observable<bool> canExecute])
   {
       return new RxCommandAsync<Unit,TResult>((_) async => func(),canExecute);
   }
 
-  /// Creates  a RxCommand for a asynchronous handler function with parameter that returns a value 
+  /// Creates  a RxCommand for an asynchronous handler function with parameter that returns a value 
   static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func, [Observable<bool> canExecute])
   {
       return new RxCommandAsync<TParam,TResult>((x) async => func(x),canExecute);
   }    
 
-
+  /// Calls the wrapped handler function with an option input parameter
   execute([TParam param]);
 
+  /// Observable stream that outputs any result from the called handler function. If the handler function has void return type 
+  /// it will still output one `Unit` item so that you can listen for the end of the execution.
   Observable<TRESULT> get results => _resultsSubject.observable;
-  BehaviorSubject<TRESULT> _resultsSubject = new BehaviorSubject<TRESULT>();  
- 
 
+  /// Observable stream that issues a bool on any execution state change of the command
   Observable<bool> get isExecuting => _isExecutingSubject.observable.startWith(false).distinct();
+  
+  /// Observable stream that issues a bool on any change of the current executable state of the command. 
+  /// Meaning if the command cann be executed or not. This will issue `false` while the command executes 
+  /// but also if the command receives a false from the canExecute Observable that you can pass when creating the Command
   Observable<bool>  get canExecute  => _canExecuteSubject.observable.startWith(true).distinct();
+
+  /// When subribing to `thrownExceptions`you will every excetpion that was thrown in your handler function as an event on this Observable.
+  /// If no subscription exists the Exception will be rethrown
   Observable<Exception> get thrownExceptions => _thrownExceptionsSubject.observable;
 
+
+
+  BehaviorSubject<TRESULT> _resultsSubject = new BehaviorSubject<TRESULT>();  
   BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>();  
   BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>();  
   BehaviorSubject<Exception> _thrownExceptionsSubject = new BehaviorSubject<Exception>();  
 
+
+  /// If you don't need a command any longer it is a good practise to 
+  /// dispose it to make sure all stream subsriptions are cancelled to prevent memory leaks
   void dispose()
   {
       _isExecutingSubject.close();
@@ -102,7 +116,8 @@ abstract class RxCommand<TParam, TRESULT>
 
 }
 
-
+/// Implementation of RxCommand to handle async handler functions. Normally you will not instanciate this directly but use one of the factory 
+/// methods of RxCommand.
 class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
 {
  
@@ -228,7 +243,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
   {
 
 
-        print("************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning");
+        // print("************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning");
 
         if (!_canExecute)
         {
@@ -280,7 +295,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 
 
 
-/// If you don't want to pass one of the generic parameters e.g. if you passed function has no parameter, just use Unit as Type
+/// If you don't want to pass one of the generic parameters e.g. if you passed function that has no parameter, just use Unit as Type
 class Unit
 {
   static Unit get Default => new Unit();
