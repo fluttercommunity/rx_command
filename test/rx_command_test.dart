@@ -15,7 +15,7 @@ void main() {
     expect(command.isExecuting, emits(false));
 
     
-    expect(command.results, emits(Unit.Default));
+    expect(command.results, emits(null));
 
     command.execute();
 
@@ -68,13 +68,13 @@ void main() {
 
     final command  = RxCommand.createSync1<String>((x) {
       print("action: " + x.toString()  );
-      return Unit.Default;
+      return null;
     });
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command.results, emits(Unit.Default));
+    expect(command.results, emits(null));
 
     command.execute( "Parameter");
 
