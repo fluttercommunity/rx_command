@@ -13,16 +13,55 @@ An `RxCommand` is a generic class of type `RxCommand<TParam, TRESULT>` where `TP
 
 An example of the declaration from the included sample App
 
-```C#
+```Dart
 RxCommand<String,List<WeatherEntry>>  updateWeatherCommand;
 RxCommand<bool,bool>  switchChangedCommand;
 ```
 
-To deal with the many variations of possible handler methods RxCommand offers static factory methods for each (due to the limitation that Dart doesn't allow method overloading they are numbered).
+`updateWeatherCommand` expects a handler that takes a `String` as parameter and returns a `List<WeatherEntry>`. `switchChangedCommand` expects and returns a `bool` value 
 
+### Creating RxCommands
 
+ For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. Due to the limitation that Dart doesn't allow method overloading they are numbered and look like this.
 
 ```Dart
+  /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
+  /// `action`: handler function
+  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// if omitted the command can be executed always except it's already executing
+  static RxCommand<Unit, Unit> createSync(Action action,[Observable<bool> canExecute])
 
 ```
-synchronous 
+
+The sample App contains a `Switch` widget that enables/disables the update command. The switch itself is bound to the `switchChangedCommand` that's result is then used as `canExcecute` of the `updateWeatherCommand`:
+
+```Dart
+switchChangedCommand = RxCommand.createSync3<bool,bool>((b)=>b);
+
+// We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
+updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update,switchChangedCommand.results);
+```
+
+As the _Update_ `Button`'s building is based on a `StreamBuilder`that listens on the `canExecute` Observable of the `updateWeatherCommand` the buttons enabled/disabled state gets automatically updated when the `Switch's` state changes
+
+
+### Using RxCommands
+
+`RxCommand` is typically used in a ViewModel of a Page, which is made accessible to the Widgets via an `InheritedWidget`. Its `execute`method can then directly be assigned as event handler of the Widgets.
+
+The `result` of the command is best used with a `StreamBuilder` or inside a StatefulWidget.
+
+By subscribing (listening) to the `isExecuting` property of a RxCommand you can react on any execution state change of the command. E.g. show a spinner while the command is running.
+
+By subscribing to the `canExecute` property of a RxCommand you can react on any state change of the executability of the command.
+
+
+### Exploring the sample App 
+
+
+
+
+
+
+
+
