@@ -36,7 +36,8 @@ import 'package:rx_command/rx_command.dart';
           .debounce( new Duration(milliseconds: 500))  // make sure we start processing only if the user make a short pause typing 
             .listen( (filterText)
             {
-              updateWeatherCommand.execute( filterText);
+              updateWeatherCommand.execute( filterText); // I could omit he execute because RxCommand is a callable class but here it 
+                                                         //  makes the intention clearer
             });  
 
         // Update data on startup
