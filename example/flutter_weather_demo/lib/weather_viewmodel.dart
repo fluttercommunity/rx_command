@@ -9,10 +9,6 @@ import 'package:rx_command/rx_command.dart';
 
 
   class WeatherViewModel {
-  
-
-    final _textChangedSubject = new BehaviorSubject<String>() ;
-
 
     RxCommand<String,List<WeatherEntry>>  updateWeatherCommand;
     RxCommand<bool,bool>  switchChangedCommand;
