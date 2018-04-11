@@ -45,7 +45,7 @@
 <p><code>RxCommand</code> is an <a href="http://reactivex.io/"><em>Reactive Extensions</em> (Rx)</a> based abstraction for event handlers. It is based on <code>ReactiveCommand</code> for the <a href="https://reactiveui.net/">ReactiveUI</a> framework. It makes heavy use of the <a href="https://github.com/ReactiveX/rxdart">RxDart</a> package.</p>
 <blockquote>
 <p>PRs are always welcome ;-)</p></blockquote>
-<p>If you don't know Rx think of it as Dart <code>Streams</code> on steroids. <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method. The result of this method is then published through its <code>results</code> Observable (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.</p>
+<p>If you don't know Rx think of it as Dart <code>Streams</code> on steroids. <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its <code>results</code> Observable (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.</p>
 <p>A very simple example</p>
 <pre class="language-Dart"><code class="language-Dart">final command = RxCommand.createSync3&lt;int, String&gt;((myInt) =&gt; "$myInt");
 
@@ -54,8 +54,23 @@ command.results.listen((s) =&gt; print(s)); // Setup the listener that now waits
 // Somwhere else
 command.execute(10); // the listener will print "10"
 </code></pre>
+<p>Getting a bit more impressive:</p>
+<pre class="language-Dart"><code class="language-Dart">// This command will be executed everytime the text in a TextField changes
+final textChangedCommand = RxCommand.createSync3((s) =&gt; s);
+
+// handler for results
+textChangedCommand.results
+  .debounce( new Duration(milliseconds: 500))  // Rx magic: make sure we start processing 
+                                               // only if the user make a short pause typing 
+    .listen( (filterText)
+    {
+      updateWeatherCommand.execute( filterText); // I could omit he execute because RxCommand is a callable class but here it 
+                                                  //  makes the intention clearer
+    });  
+
+</code></pre>
 <h2>Getting Started</h2>
-<p>Add to your <code>pubspec.yaml</code> dependencies to <code>rxdart</code>and <code>rx_command</code>. (As long as the package is not published to Dart Packages please see the dependency entry of the sample App) </p>
+<p>Add to your <code>pubspec.yaml</code> dependencies to <code>rxdart</code>and <code>rx_command</code>.  </p>
 <p>An <code>RxCommand</code> is a generic class of type <code>RxCommand&lt;TParam, TRESULT&gt;</code> where <code>TPARAM</code> is the type of data that is passed when calling <code>execute</code> and <code>TResult</code> denotes the return type of the handler function. To signal that a handler doesn't take a parameter or returns a <code>Null</code> value. </p>
 <p>An example of the declaration from the included sample App</p>
 <pre class="language-Dart"><code class="language-Dart">RxCommand&lt;String,List&lt;WeatherEntry&gt;&gt;  updateWeatherCommand;
@@ -83,6 +98,9 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 <p>The <code>result</code> of the command is best used with a <code>StreamBuilder</code> or inside a StatefulWidget.</p>
 <p>By subscribing (listening) to the <code>isExecuting</code> property of a RxCommand you can react on any execution state change of the command. E.g. show a spinner while the command is running.</p>
 <p>By subscribing to the <code>canExecute</code> property of a RxCommand you can react on any state change of the executability of the command.</p>
+<p>As RxCommand is a callable class you can assign it directly to handler functions of Flutter widgets like:</p>
+<pre class="language-Dart"><code class="language-Dart">new TextField(onChanged: TheViewModel.of(context).textChangedCommand,)
+</code></pre>
 <h3>Disposing subscriptions (listeners)</h3>
 <p>When subscribing to an Observable with <code>.listen</code> you should store the returned <code>StreamSubscription</code> and call <code>.cancel</code> on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
 <code>RxCommand</code> has a <code>dispose</code> function that will cancel all active subscriptions on its observables. Calling <code>dispose</code>before a command gets out of scope is a good practise.</p>
@@ -95,9 +113,9 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 <h3>The View</h3>
 <p><code>main.dart</code> creates the ViewModel and places it at the very base of the app`s widget tree.</p>
 <p><code>homepage.dart</code> creates a <code>Column</code> with a </p><ul><li>
-<p><code>TextField</code> where you can enter a filter text which binds to the view models <code>onFilterEntryChanged</code> handler.</p></li><li>
+<p><code>TextField</code> where you can enter a filter text which binds to the ViewModels <code>textChangedCommand</code>.</p></li><li>
 <p>a middle block which can either be a <code>ListView</code> (<code>WeatherListView</code>) or a busy spinner. It is created by a <code>StreamBuilder</code> which listens to &lt;br/&gt; <code>TheViewModel.of(context).updateWeatherCommand.isExecuting</code>&lt;br/&gt;</p></li><li>
-<p>A row with the Update <code>Button</code> and a <code>Switch</code> that toggles if an update should be possible or not by calling <code>TheViewModel.of(context).switchChangedCommand.execute)</code>. To change the enabled state of the button the button is build by a <code>StreamBuilder</code> that listens to the  <code>TheViewModel.of(context).updateWeatherCommand.canExecute</code> </p></li></ul>
+<p>A row with the Update <code>Button</code> and a <code>Switch</code> that toggles if an update should be possible or not by binding to <code>TheViewModel.of(context).switchChangedCommand)</code>. To change the enabled state of the button the button is build by a <code>StreamBuilder</code> that listens to the  <code>TheViewModel.of(context).updateWeatherCommand.canExecute</code> </p></li></ul>
 <p><code>listview.dart</code> implements <code>WeatherListView</code> which consists again of a StreamBuilder which updates automatically by listening on <code>TheViewModel.of(context).updateWeatherCommand.results</code></p>
       </section>
       

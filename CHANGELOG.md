@@ -13,3 +13,7 @@
 ## [1.0.0] - 11.04.2018
 
 * Made RxCommand a callable class so that you now can directly assign it to your widget handlers
+
+## [1.0.1] - 11.04.2018
+
+* Small update in docs
