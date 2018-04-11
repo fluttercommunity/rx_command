@@ -109,6 +109,8 @@ abstract class RxCommand<TParam, TRESULT>
   /// Calls the wrapped handler function with an option input parameter
   execute([TParam param]);
 
+  call([TParam param]) => execute(param); 
+
   /// Observable stream that outputs any result from the called handler function. If the handler function has void return type 
   /// it will still output one `Null` item so that you can listen for the end of the execution.
   Observable<TRESULT> get results => _resultsSubject.observable;
