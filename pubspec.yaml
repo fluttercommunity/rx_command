@@ -1,6 +1,6 @@
 name: rx_command
 description: Reactive event handler wrapper class inspired by ReactiveUI.
-version: 1.0.0
+version: 1.0.1
 author: Thomas Burkhart
 homepage: https://github.com/escamoteur/rx_command
 documentation:
