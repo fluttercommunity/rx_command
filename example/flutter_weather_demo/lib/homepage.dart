@@ -24,7 +24,7 @@ import 'main.dart';
                               style: new TextStyle(
                                             fontSize: 20.0,
                                             color: new Color.fromARGB(255, 0, 0, 0)),
-                              onChanged: TheViewModel.of(context).onFilterEntryChanged,),
+                              onChanged: TheViewModel.of(context).textChangedCommand.execute,),
                 ),
 
                 new Expanded( child: 
