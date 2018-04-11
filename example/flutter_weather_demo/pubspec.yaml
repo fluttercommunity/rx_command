@@ -12,8 +12,7 @@ dependencies:
   http: "^0.11.3+16"
 
   rxdart : any
-  rx_command:
-    path: ../../
+  rx_command: ^1.0.1
 
 dev_dependencies: 
   
