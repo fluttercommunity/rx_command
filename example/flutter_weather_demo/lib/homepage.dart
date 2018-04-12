@@ -55,11 +55,11 @@ import 'main.dart';
                                 stream: TheViewModel.of(context).updateWeatherCommand.canExecute,   //We access our ViewModel through the inherited Widget
                                 builder: (BuildContext context, AsyncSnapshot<bool> snapshot)  
                                     {
-                                      var handler;
+                                      VoidCallback handler;
                                       if (snapshot.hasData)
                                       {
                                           // Depending on teh Value we get from the stream we set or clear the Handler
-                                          handler = snapshot.data ? TheViewModel.of(context).updateWeatherCommand.execute() :null; 
+                                          handler = snapshot.data ? TheViewModel.of(context).updateWeatherCommand :null; 
                                       }
                                       return new RaisedButton(                               
                                               child: 
