@@ -59,7 +59,7 @@ import 'main.dart';
                                       if (snapshot.hasData)
                                       {
                                           // Depending on teh Value we get from the stream we set or clear the Handler
-                                          handler = snapshot.data ? TheViewModel.of(context).updateWeatherCommand :null; 
+                                          handler = snapshot.data ? TheViewModel.of(context).updateWeatherCommand.execute() :null; 
                                       }
                                       return new RaisedButton(                               
                                               child: 
