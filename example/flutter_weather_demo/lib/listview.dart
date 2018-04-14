@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'detail_page.dart';
+
 import 'main.dart';
 import 'weather_viewmodel.dart';
 
@@ -43,10 +43,6 @@ class WeatherListView extends StatelessWidget {
                       new Text(listData[index].cityName, style: new TextStyle(fontSize: 20.0))
                     ],
                   ),
-
-            onTap: () => Navigator.push(context, 
-                            new MaterialPageRoute( builder: (BuildContext context) => new DetailPage(listData[index])
-                    ))
         );
         
       
