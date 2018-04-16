@@ -18,17 +18,45 @@ typedef Future AsyncAction1<TParam>(TParam param);
 typedef Future<TResult> AsyncFunc<TResult>();
 typedef Future<TResult> AsyncFunc1<TParam, TResult>(TParam param);
 
+
+/// Combined execution state of an `RxCommand`
+/// Will be issued for any statechange of any of the fields
+/// During normal command execution you will get this items if directly listening at the command.
+/// 1. If the command was just newly created you will get `null, false, false` (data, error, isExecuting)
+/// 2. When calling execute: `null, false, true`
+/// 3. When exceution finishes: `the result, false, false`
+
+class CommandResult<T>
+{
+  final T         data;
+  final Exception error;
+  final bool      isExecuting;
+
+  const CommandResult(this.data, this.error, this.isExecuting);
+
+  bool get hasData => data != null;
+  bool get hasError => error != null;  
+
+}
+
+
+
 /// `RxCommand` capsules a given handler function that can then be executed by its `execute` method. 
-/// The result of this method is then published through its `results` Observable (Observable wrap Dart Streams). 
+/// The result of this method is then published through its `results` Observable (Observable wrap Dart Streams)
 /// Additionally it offers Observables for it's current execution state, fs the command can be executed and for 
 /// all possibly thrown exceptions during command execution.
+/// `RxCommand` also implments the `Observable` interface so you can listen directly to the `RxCommand` which emitts 
+/// `CommandResult<TRESULT>` which is often easier in combaination with Flutter `StreamBuilder` because you have all 
+/// state information at one place.
 ///
 /// An `RxCommand` is a generic class of type `RxCommand<TParam, TRESULT>` 
-/// where `TPARAM` is the type of data that is passed when calling `execute` and 
-/// `TResult` denotes the return type of the handler function. To signal that 
-/// a handler doesn't take a parameter or returns a value use the dummy type `Null`
-abstract class RxCommand<TParam, TRESULT>
+/// where [TPARAM] is the type of data that is passed when calling `execute` and 
+/// [TResult] denotes the return type of the handler function. To signal that 
+/// a handler doesn't take a parameter or returns no value use the dummy type `Null`
+abstract class RxCommand<TParam, TRESULT> extends Observable<CommandResult<TRESULT>>
 {
+  
+  RxCommand(this._commandResultsSubject):super(_commandResultsSubject.observable);
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
   /// `action`: handler function
@@ -129,10 +157,15 @@ abstract class RxCommand<TParam, TRESULT>
 
 
 
+  BehaviorSubject<CommandResult<TRESULT>> _commandResultsSubject;
   BehaviorSubject<TRESULT> _resultsSubject = new BehaviorSubject<TRESULT>();  
   BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>();  
   BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>();  
-  BehaviorSubject<Exception> _thrownExceptionsSubject = new BehaviorSubject<Exception>();  
+  PublishSubject<Exception> _thrownExceptionsSubject = new PublishSubject<Exception>();  
+
+  /// By default `RxCommand` will catch all exceptions during exceution of the command. And publish them on `.thrownExceptions` 
+  /// and in the `CommandResult`. If don't want this and have exceptions thrown, set this to true.
+  bool throwExceptions = false;
 
 
   /// If you don't need a command any longer it is a good practise to 
@@ -147,6 +180,9 @@ abstract class RxCommand<TParam, TRESULT>
 
 }
 
+
+
+
 /// Implementation of RxCommand to handle async handler functions. Normally you will not instanciate this directly but use one of the factory 
 /// methods of RxCommand.
 class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
@@ -157,9 +193,9 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
  
   Func1<TParam, TResult> _func;
 
-  RxCommandSync(Func1<TParam, TResult> func, [Observable<bool> canExecute] )
+  RxCommandSync._(Func1<TParam, TResult> func, BehaviorSubject<CommandResult<TResult>> subject, 
+                  Observable<bool> canExecute):super(subject)
   {
-
     var canExecuteParam = canExecute == null ? new Observable.just(true) 
                                               : canExecute.handleError((error)
                                                 {
@@ -181,8 +217,12 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
 
     _func = func;
 
- 
- 
+  }
+
+  factory RxCommandSync(Func1<TParam, TResult> func, [Observable<bool> canExecute] )
+  {
+
+    return new RxCommandSync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
   }
 
   @override
@@ -203,25 +243,32 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
           _canExecuteSubject.add(false);
         }
 
-        _isExecutingSubject.add(true);      
+        _commandResultsSubject.add(new CommandResult<TResult>(null,null,true));    
+        _isExecutingSubject.add(true);
+              
 
         try {
           var result = _func(param);
           _resultsSubject.add(result);          
+          _commandResultsSubject.add(new CommandResult<TResult>(result,null,false));    
         } 
         catch (error) 
         {
-            if (!_thrownExceptionsSubject.hasListener)
+            if (throwExceptions)
             {
                 _resultsSubject.addError(error);
+                return;
             }
+
             if (error is Exception)
             {
               _thrownExceptionsSubject.add(error);
+              _commandResultsSubject.add(new CommandResult<TResult>(null,error,false));    
             }
             else
             {
               _thrownExceptionsSubject.add(new Exception(error.toString()));                
+              _commandResultsSubject.add(new CommandResult<TResult>(null,new Exception(error.toString()),false));    
             }
         }
         finally
@@ -242,10 +289,9 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 
   AsyncFunc1<TParam, TResult> _func;
 
-  RxCommandAsync(AsyncFunc1<TParam, TResult> func, [Observable<bool> canExecute] )
+  RxCommandAsync._(AsyncFunc1<TParam, TResult> func, BehaviorSubject<CommandResult<TResult>> subject, 
+                  Observable<bool> canExecute):super(subject)
   {
-
-
     var canExecuteParam = canExecute == null ? new Observable.just(true) 
                                               : canExecute.handleError((error)
                                                 {
@@ -253,21 +299,28 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
                                                     {
                                                       _thrownExceptionsSubject.add(error);
                                                     }
-                                                    return false;
                                                 })
                                                 .distinct();
                                                                                               
 
 
   canExecuteParam.listen((canExecute){
-    _canExecute = canExecute;
-    //print("------------------_Canexecute changed: $_canExecute -----------------");
+    _canExecute = canExecute && (!_isRunning);
     _canExecuteSubject.add(_canExecute);
   });    
+
+
 
     _func = func;
 
   }
+
+  factory RxCommandAsync(AsyncFunc1<TParam, TResult> func, [Observable<bool> canExecute] )
+  {
+
+    return new RxCommandAsync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
+  }
+
 
   @override
   execute([TParam param]) 
@@ -292,21 +345,26 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
         }
 
         _isExecutingSubject.add(true);      
+        _commandResultsSubject.add(new CommandResult<TResult>(null,null,true));
   
         _func(param).asStream()          
           .handleError((error)
           {
-              if (!_thrownExceptionsSubject.hasListener)
-              {
-                 _resultsSubject.addError(error);
-              }
+            if (throwExceptions)
+            {
+                _resultsSubject.addError(error);
+                return;
+            }
+            
               if (error is Exception)
               {
                 _thrownExceptionsSubject.add(error);
+                _commandResultsSubject.add(new CommandResult<TResult>(null,error,false));    
               }
               else
               {
                 _thrownExceptionsSubject.add(new Exception(error.toString()));                
+                _commandResultsSubject.add(new CommandResult<TResult>(null,new Exception(error.toString()),false));    
               }
               _isRunning = false;
               _isExecutingSubject.add(false);
@@ -317,12 +375,13 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
           .take(1)
           .listen( (result) {
              _resultsSubject.add(result);
+              _commandResultsSubject.add(new CommandResult<TResult>(result,null,false));     
               _isRunning = false;
               _isExecutingSubject.add(false);
               _canExecuteSubject.add(true);
-          });
+         });
   }
-}
+} 
 
 
 

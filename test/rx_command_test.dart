@@ -4,7 +4,34 @@ import 'package:test/test.dart';
 
 import 'package:rx_command/rx_command.dart';
 
+
+  
+  StreamMatcher crm( data, bool hasError, bool isExceuting)
+  {
+      return new StreamMatcher((x) async {
+                                              CommandResult event =  await x.next;
+                                              if (event.data != data)
+                                                return "Wong data $data != ${event.data}";
+                                                
+                                              if (!hasError && event.error != null)
+                                                return "Had error while not expected";
+
+                                              if (hasError && !(event.error is Exception))
+                                                return "Wong error type";
+
+                                              if (event.isExecuting != isExceuting)
+                                                return "Wong isExecuting $isExceuting";
+
+                                              return null;
+                                          }, "Wrong value emmited:");
+  }
+    
+  
+
+
 void main() {
+
+
 
 
   test('Execute simple sync action', () {
@@ -16,16 +43,19 @@ void main() {
 
     
     expect(command.results, emits(null));
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,false,false)]));
 
     command.execute();
+
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));    
   });
 
 
-  test('Execute simple sync action with exception no listeners', () {
+  test('Execute simple sync action with exception  throwExceptions==true', () {
     final command  = RxCommand.createSync( () => throw new Exception("Intentional"));
+    command.throwExceptions = true;
                                                               
 
     expect(command.canExecute, emits(true));
@@ -42,13 +72,13 @@ void main() {
   });
 
 
-  test('Execute simple sync action with exception with listeners', () {
+  test('Execute simple sync action with exception and throwExceptions==false', () {
     final command  = RxCommand.createSync( () => throw new Exception("Intentional"));
-
-     command.thrownExceptions.listen((e) => print(e.toString()));                                                                 
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,true,false)]));
+
 
     command.execute();
 
@@ -56,12 +86,7 @@ void main() {
     expect(command.isExecuting, emits(false));
 
 
-  });
-
-
-
-
-      
+  });    
 
 
   test('Execute simple sync action with parameter', () {
@@ -74,7 +99,8 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command.results, emits(null));
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,false,false)]));
+
 
     command.execute( "Parameter");
 
@@ -97,6 +123,10 @@ void main() {
     expect(command.isExecuting, emits(false));
 
     expect(command.results, emits("4711"));
+   
+
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm("4711",false,false)]));
+
 
     command.execute();
 
@@ -118,6 +148,9 @@ void main() {
     expect(command.isExecuting, emits(false));
 
     expect(command.results, emits("47114711"));
+
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm("47114711",false,false)]));
+
 
     command.execute("4711");
 
@@ -151,7 +184,7 @@ void main() {
     expect(command.canExecute, emits(true),reason: "Canexecute before false");
     expect(command.isExecuting, emits(false),reason: "Canexecute before true");
 
-    expect(command.results, emits("Done"));
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm("Done",false,false)]));
 
 
     command.execute("Done");
@@ -172,15 +205,15 @@ Future<String> slowAsyncFunctionFail(String s) async
 
 
 
- test('async function with exception and no listeners', () {
+ test('async function with exception and throwExceptions==true', () {
 
     final command  = RxCommand.createAsync3<String,String>(slowAsyncFunctionFail);
+    command.throwExceptions = true;
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command.results, emitsError(isException));    
-
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true)]));
 
 
     command.execute("Done");
@@ -191,7 +224,7 @@ Future<String> slowAsyncFunctionFail(String s) async
   });
 
  
- test('async function with exception with listeners', () {
+ test('async function with exception with and throwExceptions==false', () {
 
     final command  = RxCommand.createAsync3<String,String>(slowAsyncFunctionFail);
 
@@ -200,6 +233,9 @@ Future<String> slowAsyncFunctionFail(String s) async
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
+
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,true,false)]));
+
 
     command.execute("Done");
  
