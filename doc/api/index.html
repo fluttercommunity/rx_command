@@ -86,6 +86,15 @@ RxCommand&lt;bool,bool&gt;  switchChangedCommand;
   static RxCommand&lt;Null, Null&gt; createSync(Action action,[Observable&lt;bool&gt; canExecute])
 
 </code></pre>
+<h4>createFromStream</h4>
+<p>  Creates  a RxCommand from an "one time" observable. This is handy if used together with a Stream generator function.<br>
+  <code>provider</code>: provider function that returns a new <code>Stream</code> that will be subscribed on the call of <code>execute</code>
+  <code>canExecute</code> : observable that can be used to enable/disable the command based on some other state change
+  If omitted the command can be executed always except it's already executing</p>
+<pre class="language-Dart"><code class="language-Dart">  static RxCommand&lt;TParam, TResult&gt; createFromStream&lt;TParam, TResult&gt;(StreamProvider&lt;TParam, TResult&gt; provider, [Observable&lt;bool&gt; canExecute])
+</code></pre>
+<p>  An <code>RxCommand</code> created with <code>createFromStream</code> will emit one more <code>CommandResult</code> item after the last data Item was received. <strong>Not sure if this is an ideal solution, will have play with it</strong></p>
+<h3>Example</h3>
 <p>The sample App contains a <code>Switch</code> widget that enables/disables the update command. The switch itself is bound to the <code>switchChangedCommand</code> that's result is then used as <code>canExcecute</code> of the <code>updateWeatherCommand</code>:</p>
 <pre class="language-Dart"><code class="language-Dart">switchChangedCommand = RxCommand.createSync3&lt;bool,bool&gt;((b)=&gt;b);
 
@@ -100,6 +109,20 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 <p>By subscribing to the <code>canExecute</code> property of a RxCommand you can react on any state change of the executability of the command.</p>
 <p>As RxCommand is a callable class you can assign it directly to handler functions of Flutter widgets like:</p>
 <pre class="language-Dart"><code class="language-Dart">new TextField(onChanged: TheViewModel.of(context).textChangedCommand,)
+</code></pre>
+<h4>Listening for CommandResults</h4>
+<p>The original <code>ReactiveCommand</code> from <em>ReactiveUI</em> separates the state information of the command into four Observables (<code>result, thrownExceptions, isExecuting, canExecute</code>) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a <code>StreamBuilder</code> to have all this information at one place so that you can decide what to display depending on the returned state. Therefore <code>RxCommand</code> itself is an Observable emitting <code>CommandResult</code>objects:</p>
+<pre class="language-Dart"><code class="language-Dart">class CommandResult&lt;T&gt;
+{
+  final T         data;
+  final Exception error;
+  final bool      isExecuting;
+
+  const CommandResult(this.data, this.error, this.isExecuting);
+
+  bool get hasData =&gt; data != null;
+  bool get hasError =&gt; error != null;  
+}
 </code></pre>
 <h3>Disposing subscriptions (listeners)</h3>
 <p>When subscribing to an Observable with <code>.listen</code> you should store the returned <code>StreamSubscription</code> and call <code>.cancel</code> on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
@@ -136,7 +159,7 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.0
+    rx_command 1.0.2
   </span>
 
 </footer>

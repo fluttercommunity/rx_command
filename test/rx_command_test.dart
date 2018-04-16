@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 
 import 'package:rx_command/rx_command.dart';
@@ -164,7 +165,7 @@ void main() {
   {
       print("___Start____Action__________");
 
-      await new Future.delayed(new Duration(seconds: 2));
+      await new Future.delayed(new Duration(milliseconds: 50));
       print("___End____Action__________");
       return s;
   }
@@ -244,5 +245,91 @@ Future<String> slowAsyncFunctionFail(String s) async
   });
 
 
+  Stream<int> testProvider(int i) async*
+  {
+      yield i;
+      yield i+1;
+      yield i+2;
+  }
+
+  test('RxCommand.createFromStream', () 
+  {
+
+    final command  = RxCommand.createFromStream<int,int>( testProvider);
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((i){print("Results:" + i.toString());});
+
+
+    expect(command.canExecute, emits(true),reason: "Canexecute before false");
+    expect(command.isExecuting, emits(false),reason: "Canexecute before true");
+
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(1,false,true),crm(2,false,true),crm(3,false,true),crm(null,false,false)]));
+
+
+    command.execute(1);
+
+    expect(command.canExecute, emits(true),reason: "Canexecute after false");
+    expect(command.isExecuting, emits(false));    
+  });
+
+  Stream<int> testProviderError(int i) async*
+  {
+      throw new Exception();   
+  }
+
+  test('RxCommand.createFromStreamWithException', () 
+  {
+
+    final command  = RxCommand.createFromStream<int,int>( testProviderError);
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((i){print("Results:" + i.toString());});
+
+
+    expect(command.canExecute, emits(true),reason: "Canexecute before false");
+    expect(command.isExecuting, emits(false),reason: "Canexecute before true");
+
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,true,false)]));
+
+
+    command.execute(1);
+
+    expect(command.canExecute, emits(true),reason: "Canexecute after false");
+    expect(command.isExecuting, emits(false));    
+  });
+
+// No idea why it's not posible to catch the exception with     expect(command.results, emitsError(isException));
+/*
+    test('RxCommand.createFromStreamWithException throw exeption = true', () 
+  {
+
+    final command  = RxCommand.createFromStream<int,int>( testProviderError);
+    command.throwExceptions = true;
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((i){print("Results:" + i.toString());});
+
+
+    expect(command.canExecute, emits(true),reason: "Canexecute before false");
+    expect(command.isExecuting, emits(false),reason: "Canexecute before true");
+
+    expect(command.results, emitsError(isException));
+    expect(command, emitsError(isException));
+    
+
+    command.execute(1);
+
+    expect(command.canExecute, emits(true),reason: "Canexecute after false");
+    expect(command.isExecuting, emits(false));    
+  });
+
+*/
 
 }

@@ -17,3 +17,8 @@
 ## [1.0.1] - 11.04.2018
 
 * Small update in docs
+
+## [1.0.2] - 16.04.2018
+
+* Added CommandResult, now RxCommand is itself an Observable that emits CommandResults
+

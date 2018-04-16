@@ -50,17 +50,34 @@
       <h2>Classes</h2>
 
       <dl>
+        <dt id="CommandResult">
+          <span class="name "><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;T&gt;</span></span>
+        </dt>
+        <dd>
+          Combined execution state of an <code>RxCommand</code>
+Will be issued for any statechange of any of the fields
+During normal command execution you will get this items if directly listening at the command. <a href="rx_command/CommandResult-class.html">[...]</a>
+        </dd>
         <dt id="RxCommand">
           <span class="name "><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;TParam, TRESULT&gt;</span></span>
         </dt>
         <dd>
           <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method. 
-The result of this method is then published through its <code>results</code> Observable (Observable wrap Dart Streams). 
+The result of this method is then published through its <code>results</code> Observable (Observable wrap Dart Streams)
 Additionally it offers Observables for it's current execution state, fs the command can be executed and for 
-all possibly thrown exceptions during command execution. <a href="rx_command/RxCommand-class.html">[...]</a>
+all possibly thrown exceptions during command execution.
+<code>RxCommand</code> also implments the <code>Observable</code> interface so you can listen directly to the <code>RxCommand</code> which emitts 
+<code>CommandResult&lt;TRESULT&gt;</code> which is often easier in combaination with Flutter <code>StreamBuilder</code> because you have all 
+state information at one place. <a href="rx_command/RxCommand-class.html">[...]</a>
         </dd>
         <dt id="RxCommandAsync">
           <span class="name "><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a><span class="signature">&lt;TParam, TResult&gt;</span></span>
+        </dt>
+        <dd>
+          
+        </dd>
+        <dt id="RxCommandStream">
+          <span class="name "><a href="rx_command/RxCommandStream-class.html">RxCommandStream</a><span class="signature">&lt;TParam, TResult&gt;</span></span>
         </dt>
         <dd>
           
@@ -155,6 +172,15 @@ methods of RxCommand.
           
           
 </dd>
+        <dt id="StreamProvider" class="callable">
+          <span class="name"><a href="rx_command/StreamProvider.html">StreamProvider</a></span><span class="signature">&lt;TParam, TResult&gt;</span><span class="signature">(<wbr><span class="parameter" id="StreamProvider-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
+            <span class="returntype parameter">&#8594; Stream<span class="signature">&lt;TResult&gt;</span></span>
+          </span>
+        </dt>
+        <dd>
+          
+          
+</dd>
       </dl>
     </section>
 
@@ -165,8 +191,10 @@ methods of RxCommand.
     <h5>rx_command library</h5>
     <ol>
       <li class="section-title"><a href="rx_command/rx_command-library.html#classes">Classes</a></li>
+      <li><a href="rx_command/CommandResult-class.html">CommandResult</a></li>
       <li><a href="rx_command/RxCommand-class.html">RxCommand</a></li>
       <li><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a></li>
+      <li><a href="rx_command/RxCommandStream-class.html">RxCommandStream</a></li>
       <li><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a></li>
     
     
@@ -182,6 +210,7 @@ methods of RxCommand.
       <li><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a></li>
       <li><a href="rx_command/Func.html">Func</a></li>
       <li><a href="rx_command/Func1.html">Func1</a></li>
+      <li><a href="rx_command/StreamProvider.html">StreamProvider</a></li>
     
     </ol>
   </div><!--/sidebar-offcanvas-right-->
@@ -190,7 +219,7 @@ methods of RxCommand.
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.0
+    rx_command 1.0.2
   </span>
 
 </footer>

@@ -64,6 +64,21 @@ RxCommand<bool,bool>  switchChangedCommand;
 
 ```
 
+#### createFromStream
+
+  Creates  a RxCommand from an "one time" observable. This is handy if used together with a Stream generator function.  
+  `provider`: provider function that returns a new `Stream` that will be subscribed on the call of [execute]
+  `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  If omitted the command can be executed always except it's already executing
+
+```Dart
+  static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(StreamProvider<TParam, TResult> provider, [Observable<bool> canExecute])
+```
+
+  An `RxCommand` created with `createFromStream` will emit one more `CommandResult` item after the last data Item was received. **Not sure if this is an ideal solution, will have play with it**
+
+### Example
+
 The sample App contains a `Switch` widget that enables/disables the update command. The switch itself is bound to the `switchChangedCommand` that's result is then used as `canExcecute` of the `updateWeatherCommand`:
 
 ```Dart
@@ -91,6 +106,25 @@ As RxCommand is a callable class you can assign it directly to handler functions
 ```Dart
 new TextField(onChanged: TheViewModel.of(context).textChangedCommand,)
 ```
+
+#### Listening for CommandResults
+
+The original `ReactiveCommand` from _ReactiveUI_ separates the state information of the command into four Observables (`result, thrownExceptions, isExecuting, canExecute`) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a `StreamBuilder` to have all this information at one place so that you can decide what to display depending on the returned state. Therefore `RxCommand` itself is an Observable emitting `CommandResult`objects:
+
+```Dart
+class CommandResult<T>
+{
+  final T         data;
+  final Exception error;
+  final bool      isExecuting;
+
+  const CommandResult(this.data, this.error, this.isExecuting);
+
+  bool get hasData => data != null;
+  bool get hasError => error != null;  
+}
+```
+
 
 ### Disposing subscriptions (listeners)
 When subscribing to an Observable with `.listen` you should store the returned `StreamSubscription` and call `.cancel` on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
