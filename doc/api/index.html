@@ -93,7 +93,6 @@ RxCommand&lt;bool,bool&gt;  switchChangedCommand;
   If omitted the command can be executed always except it's already executing</p>
 <pre class="language-Dart"><code class="language-Dart">  static RxCommand&lt;TParam, TResult&gt; createFromStream&lt;TParam, TResult&gt;(StreamProvider&lt;TParam, TResult&gt; provider, [Observable&lt;bool&gt; canExecute])
 </code></pre>
-<p>  An <code>RxCommand</code> created with <code>createFromStream</code> will emit one more <code>CommandResult</code> item after the last data Item was received. <strong>Not sure if this is an ideal solution, will have play with it</strong></p>
 <h3>Example</h3>
 <p>The sample App contains a <code>Switch</code> widget that enables/disables the update command. The switch itself is bound to the <code>switchChangedCommand</code> that's result is then used as <code>canExcecute</code> of the <code>updateWeatherCommand</code>:</p>
 <pre class="language-Dart"><code class="language-Dart">switchChangedCommand = RxCommand.createSync3&lt;bool,bool&gt;((b)=&gt;b);
@@ -159,7 +158,7 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.2
+    rx_command 1.0.3
   </span>
 
 </footer>

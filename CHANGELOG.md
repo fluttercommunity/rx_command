@@ -22,3 +22,6 @@
 
 * Added CommandResult, now RxCommand is itself an Observable that emits CommandResults
 
+## [1.0.3] - 17.04.2018
+
+* RxCommands created by RxCommand.createFromStream no longer emit a final event after the last item of the source stream was received

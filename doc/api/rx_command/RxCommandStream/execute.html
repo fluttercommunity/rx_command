@@ -223,7 +223,7 @@ execute([TParam param])
                                     .doOnData( (result) {
                                       _resultsSubject.add(result);
                                     })
-                                    .map( (result) =&gt; new CommandResult(result, null, true));
+                                    .map( (result) =&gt; new CommandResult(result, null, false));
 
          _commandResultsSubject.addStream(inputObservable)
                                   .then((_) {
@@ -242,10 +242,6 @@ execute([TParam param])
                                                   }
 
                                               }
-                                              else
-                                              {
-                                                _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(null,null,false));
-                                              }
                                               _isRunning = false;
                                               _canExecuteSubject.add(true);
                                           }, onError: (error) {
@@ -263,7 +259,7 @@ execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.2
+    rx_command 1.0.3
   </span>
 
 </footer>
