@@ -480,7 +480,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
                                       .doOnData( (result) {
                                         _resultsSubject.add(result);
                                       })
-                                      .map( (result) => new CommandResult(result, null, true));
+                                      .map( (result) => new CommandResult(result, null, false));
 
            _commandResultsSubject.addStream(inputObservable)                       
                                     .then((_) {
@@ -498,10 +498,6 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
                                                       _commandResultsSubject.add(new CommandResult<TResult>(null,thrownException,false));                                                      
                                                     }
 
-                                                }
-                                                else
-                                                {
-                                                  _commandResultsSubject.add(new CommandResult<TResult>(null,null,false));     
                                                 }
                                                 _isRunning = false;
                                                 _canExecuteSubject.add(true);

@@ -75,8 +75,6 @@ RxCommand<bool,bool>  switchChangedCommand;
   static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(StreamProvider<TParam, TResult> provider, [Observable<bool> canExecute])
 ```
 
-  An `RxCommand` created with `createFromStream` will emit one more `CommandResult` item after the last data Item was received. **Not sure if this is an ideal solution, will have play with it**
-
 ### Example
 
 The sample App contains a `Switch` widget that enables/disables the update command. The switch itself is bound to the `switchChangedCommand` that's result is then used as `canExcecute` of the `updateWeatherCommand`:

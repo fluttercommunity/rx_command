@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:rxdart/rxdart.dart';
+
 import 'package:test/test.dart';
 
 import 'package:rx_command/rx_command.dart';
@@ -266,7 +266,7 @@ Future<String> slowAsyncFunctionFail(String s) async
     expect(command.canExecute, emits(true),reason: "Canexecute before false");
     expect(command.isExecuting, emits(false),reason: "Canexecute before true");
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(1,false,true),crm(2,false,true),crm(3,false,true),crm(null,false,false)]));
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(1,false,false),crm(2,false,false),crm(3,false,false)]));
 
 
     command.execute(1);
@@ -302,6 +302,7 @@ Future<String> slowAsyncFunctionFail(String s) async
     expect(command.canExecute, emits(true),reason: "Canexecute after false");
     expect(command.isExecuting, emits(false));    
   });
+
 
 // No idea why it's not posible to catch the exception with     expect(command.results, emitsError(isException));
 /*
