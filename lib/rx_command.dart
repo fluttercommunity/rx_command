@@ -3,6 +3,7 @@ library rx_command;
 import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:quiver/core.dart';
 
 typedef void Action();
 typedef void Action1<TParam>(TParam param);
@@ -36,7 +37,15 @@ class CommandResult<T>
   const CommandResult(this.data, this.error, this.isExecuting);
 
   bool get hasData => data != null;
-  bool get hasError => error != null;  
+  bool get hasError => error != null;
+
+  operator == (other) => other.data == data &&
+                         other.eror == error &&
+                         other.isExecuting ==isExecuting;  
+  @override
+    int get hashCode => hash3(data.hashCode,error.hashCode,isExecuting.hashCode);
+  
+
 }
 
 
@@ -55,8 +64,10 @@ class CommandResult<T>
 /// a handler doesn't take a parameter or returns no value use the dummy type `Null`
 abstract class RxCommand<TParam, TRESULT> extends Observable<CommandResult<TRESULT>>
 {
-  
-  RxCommand(this._commandResultsSubject):super(_commandResultsSubject.observable)
+  bool _isRunning = false;
+  bool _canExecute = true;
+
+  RxCommand(this._commandResultsSubject, Observable<bool> canExecuteRestriction):super(_commandResultsSubject.observable)
   {
       this
         .where( (x) => x.hasError)
@@ -64,7 +75,25 @@ abstract class RxCommand<TParam, TRESULT> extends Observable<CommandResult<TRESU
           
       this
         .listen((x) => _isExecutingSubject.add(x.isExecuting));
-        
+
+       var _canExecuteParam = canExecuteRestriction == null ? new Observable.just(true) 
+                                                  : canExecute.handleError((error)
+                                                    {
+                                                        if (error is Exception)
+                                                        {
+                                                          _thrownExceptionsSubject.add(error);
+                                                        }
+                                                    })
+                                                    .distinct();
+                                                                                                  
+
+
+      _canExecuteParam.listen((canExecute){
+        _canExecute = canExecute && (!_isRunning);
+        _canExecuteSubject.add(_canExecute);
+      });    
+
+
   }
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
@@ -207,36 +236,10 @@ abstract class RxCommand<TParam, TRESULT> extends Observable<CommandResult<TRESU
 class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
 {
  
-  bool _isRunning = false;
-  bool _canExecute = true;
- 
   Func1<TParam, TResult> _func;
 
   RxCommandSync._(Func1<TParam, TResult> func, BehaviorSubject<CommandResult<TResult>> subject, 
-                  Observable<bool> canExecute):super(subject)
-  {
-    var canExecuteParam = canExecute == null ? new Observable.just(true) 
-                                              : canExecute.handleError((error)
-                                                {
-                                                    if (error is Exception)
-                                                    {
-                                                      _thrownExceptionsSubject.add(error);
-                                                    }
-                                                })
-                                                .distinct();
-                                                                                              
-
-
-  canExecuteParam.listen((canExecute){
-    _canExecute = canExecute && (!_isRunning);
-    _canExecuteSubject.add(_canExecute);
-  });    
-
-
-
-    _func = func;
-
-  }
+                  Observable<bool> canExecute):_func=func, super(subject, canExecute);
 
   factory RxCommandSync(Func1<TParam, TResult> func, [Observable<bool> canExecute] )
   {
@@ -299,37 +302,12 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
 class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 {
  
-  bool _isRunning = false;
-  bool _canExecute = true;
 
   AsyncFunc1<TParam, TResult> _func;
 
   RxCommandAsync._(AsyncFunc1<TParam, TResult> func, BehaviorSubject<CommandResult<TResult>> subject, 
-                  Observable<bool> canExecute):super(subject)
-  {
-    var canExecuteParam = canExecute == null ? new Observable.just(true) 
-                                              : canExecute.handleError((error)
-                                                {
-                                                    if (error is Exception)
-                                                    {
-                                                      _thrownExceptionsSubject.add(error);
-                                                    }
-                                                })
-                                                .distinct();
-                                                                                              
-
-
-  canExecuteParam.listen((canExecute){
-    _canExecute = canExecute && (!_isRunning);
-    _canExecuteSubject.add(_canExecute);
-  });    
-
-
-
-    _func = func;
-
-  }
-
+                  Observable<bool> canExecute):_func= func, super(subject, canExecute);
+ 
   factory RxCommandAsync(AsyncFunc1<TParam, TResult> func, [Observable<bool> canExecute] )
   {
 
@@ -400,37 +378,11 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
 class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
 {
  
-  bool _isRunning = false;
-  bool _canExecute = true;
-
-
-  StreamProvider<TParam,TResult> observableProvider;
+  StreamProvider<TParam,TResult> _observableProvider;
 
 
   RxCommandStream._(StreamProvider<TParam,TResult>  provider, BehaviorSubject<CommandResult<TResult>> subject, 
-                  Observable<bool> canExecute):super(subject)
-  {
-    var canExecuteParam = canExecute == null ? new Observable.just(true) 
-                                              : canExecute.handleError((error)
-                                                {
-                                                    if (error is Exception)
-                                                    {
-                                                      _thrownExceptionsSubject.add(error);
-                                                    }
-                                                })
-                                                .distinct();
-                                                                                              
-
-
-    canExecuteParam.listen((canExecute){
-      _canExecute = canExecute && (!_isRunning);
-      _canExecuteSubject.add(_canExecute);
-    });    
-
-
-    observableProvider = provider;
-
-  }
+                  Observable<bool> canExecute):_observableProvider= provider, super(subject, canExecute);
 
    factory RxCommandStream(StreamProvider<TParam, TResult> provider, [Observable<bool> canExecute] )
   {
@@ -464,7 +416,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
 
         Exception thrownException;
 
-        var inputObservable = new Observable(observableProvider(param))          
+        var inputObservable = new Observable(_observableProvider(param))          
                                       .handleError((error)
                                       {
                                         
@@ -511,3 +463,60 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
 
 
 
+class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
+{
+  @override
+  bool throwExceptions;
+
+  List<CommandResult<TResult>> returnValuesForNextExecute;
+
+  BehaviorSubject<CommandResult<TResult>> subject;
+
+   factory MockCommand([Func1<TParam, TResult> func, Observable<bool> canExecute] )
+  {
+
+    return new MockCommand._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
+  }
+
+  MockCommand._(Func1<TParam, TResult> func, this.subject, 
+                Observable<bool> canExecute):super(subject,canExecute);
+
+
+  queueResultsForNextExecuteCall(List<CommandResult<TResult>> values)
+  {
+      returnValuesForNextExecute = values;
+  }
+
+  @override
+  execute([TParam param])  {
+     print("Called Execute");
+      subject.addStream(new Observable<CommandResult<TResult>>.fromIterable (returnValuesForNextExecute));  
+  }
+
+  void startExecution()
+  {
+    subject.add(new CommandResult(null,null,true));
+    _canExecuteSubject.add(false);
+  }
+
+  void endExecutionWithData(TResult data)
+  {
+    subject.add(new CommandResult<TResult>(data,null,false));
+    _canExecuteSubject.add(true);
+  }
+
+  void endExecutionWithError(String message)
+  {
+    subject.add(new CommandResult<TResult>(null,new Exception(message),false));
+    _canExecuteSubject.add(true);
+  }
+
+  void endExecutionNoData()
+  {
+    subject.add(new CommandResult<TResult>(null,null,true));
+    _canExecuteSubject.add(true);
+  }
+
+
+
+}
