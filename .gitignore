@@ -10,3 +10,4 @@ ios/Runner/GeneratedPluginRegistrant.m
 pubspec.lock
 .vscode
 example/flutter_weather_demo/pubspec.lock
+/*.code-workspace
