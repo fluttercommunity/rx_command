@@ -7,10 +7,10 @@ import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
 
   
-  StreamMatcher crm( data, bool hasError, bool isExceuting)
+  StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting)
   {
       return new StreamMatcher((x) async {
-                                              CommandResult event =  await x.next;
+                                              final CommandResult<T> event =  await x.next;
                                               if (event.data != data)
                                                 return "Wong data $data != ${event.data}";
                                                 
@@ -54,7 +54,7 @@ void main() {
   });
 
   test('Execute simple sync action with canExceute restriction', () async{
-    var restriction = new BehaviorSubject<bool>(seedValue: true);
+    final restriction = new BehaviorSubject<bool>(seedValue: true);
 
     restriction.observable.listen((b)=> print("Restriction issued: $b"));
 
@@ -79,7 +79,7 @@ void main() {
 
     restriction.add(false);
 
-    await new Future.delayed(Duration(milliseconds: 10)); // make sure the restriction Observable has time to emit a new value
+    await new Future.delayed(const Duration(milliseconds: 10)); // make sure the restriction Observable has time to emit a new value
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -88,13 +88,14 @@ void main() {
 
     expect(executionCount, 1);
 
+    await restriction.close();
 
   });
 
 
   test('Execute simple sync action with exception  throwExceptions==true', () {
-    final command  = RxCommand.createSync( () => throw new Exception("Intentional"));
-    command.throwExceptions = true;
+    final command  = RxCommand.createSync( () => throw new Exception("Intentional"))
+                      ..throwExceptions = true;
                                                               
 
     expect(command.canExecute, emits(true));
@@ -203,7 +204,7 @@ void main() {
   {
       print("___Start____Action__________");
 
-      await new Future.delayed(new Duration(milliseconds: 50));
+      await new Future.delayed(const Duration(milliseconds: 50));
       print("___End____Action__________");
       return s;
   }

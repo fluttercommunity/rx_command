@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:rxdart/rxdart.dart';
+import 'package:rx_command/rx_command.dart';
 
 import 'package:http/http.dart' as http;
 
 import 'json/weather_in_cities.dart';
-import 'package:rx_command/rx_command.dart';
 
 
   class WeatherViewModel {
@@ -47,7 +47,7 @@ import 'package:rx_command/rx_command.dart';
     {
 
 
-      const String url = "http://api.openweathermap.org/data/2.5/box/city?bbox=5,47,14,54,20&appid=27ac337102cc4931c24ba0b50aca6bbd";  
+      const url = "http://api.openweathermap.org/data/2.5/box/city?bbox=5,47,14,54,20&appid=27ac337102cc4931c24ba0b50aca6bbd";  
       
 
       var httpStream = new Observable(http.get(url).asStream()); 
@@ -56,7 +56,7 @@ import 'package:rx_command/rx_command.dart';
               .where((data) => data.statusCode == 200)  // only continue if valid response
                 .map( (data) // convert JSON result into a List of WeatherEntries
                 {
-                      return new WeatherInCities.fromJson(json.decode(data.body)).Cities // we are only interested in the Cities part of the response
+                      return new WeatherInCities.fromJson(json.decode(data.body) as Map<String,dynamic> ).Cities // we are only interested in the Cities part of the response
                         .where( (weatherInCity) =>  filtertext ==null || 
                                                     filtertext.isEmpty ||  // if filtertext is null or empty we return all returned entries
                                                     weatherInCity.Name.toUpperCase().startsWith(filtertext.toUpperCase())) // otherwise only matching entries
