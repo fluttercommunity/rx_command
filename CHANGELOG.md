@@ -36,4 +36,8 @@
 
 ## [1.0.6] - 20.04.2018
 
-* Polishing and including analysis_options.yaml 
+* Polishing and including `analysis_options.yaml` 
+
+## [1.0.7] - 20.04.2018
+
+* Forgot to run tests and missed an error that I introduced following an analyzer hint that I should use `const` instead of `new` 
