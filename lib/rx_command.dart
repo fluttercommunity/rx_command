@@ -2,7 +2,7 @@ library rx_command;
 
 import 'dart:async';
 
-import 'package:quiver/core.dart';
+import 'package:quiver_hashcode/hashcode.dart';
 import 'package:rxdart/rxdart.dart';
 
 
