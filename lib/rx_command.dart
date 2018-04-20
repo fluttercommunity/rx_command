@@ -245,7 +245,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
   factory RxCommandSync(Func1<TParam, TResult> func, [Observable<bool> canExecute] )
   {
 
-    return new RxCommandSync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: const CommandResult<TResult>(null, null, false)), canExecute);
+    return new RxCommandSync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
   }
 
   RxCommandSync._(Func1<TParam, TResult> func, BehaviorSubject<CommandResult<TResult>> subject, 
@@ -269,7 +269,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
           _canExecuteSubject.add(false);
         }
 
-        _commandResultsSubject.add(const CommandResult<TResult>(null,null,true));                 
+        _commandResultsSubject.add(new  CommandResult<TResult>(null,null,true));                 
 
         try {
           final  result = _func(param);
@@ -552,7 +552,7 @@ class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
   /// isExecuting : false
   void endExecutionNoData()
   {
-    subject.add(const CommandResult<TResult>(null,null,true));
+    subject.add(new CommandResult<TResult>(null,null,true));
     _canExecuteSubject.add(true);
   }
 
