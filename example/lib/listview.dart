@@ -14,7 +14,7 @@ class WeatherListView extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<List<WeatherEntry>> snapshot)  // in Dart Lambdas with body don't use =>
                   {
                     // only if we get data
-                    if (snapshot.hasData && snapshot.data.length > 0)
+                    if (snapshot.hasData && snapshot.data.isNotEmpty)
                     {
                         return new ListView.builder(
                                     itemCount: snapshot.data.length,

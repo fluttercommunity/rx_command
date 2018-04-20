@@ -299,14 +299,14 @@ isExecuting : false
 </dd>
         <dt id="execute" class="callable">
           <span class="name"><a href="rx_command/MockCommand/execute.html">execute</a></span><span class="signature">(<wbr>[<span class="parameter" id="execute-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span> ])
-            <span class="returntype parameter">&#8594; dynamic</span>
+            <span class="returntype parameter">&#8594; void</span>
           </span>
         </dt>
         <dd>
           Can either be called directly or by calling the object itself because RxCommands are callable classes
 Will increase <a href="rx_command/MockCommand/executionCount.html">executionCount</a> and assign <a href="rx_command/MockCommand/lastPassedValueToExecute.html">lastPassedValueToExecute</a> the value of <code>param</code>
 If you have queued a result with <a href="rx_command/MockCommand/queueResultsForNextExecuteCall.html">queueResultsForNextExecuteCall</a> it will be copies tho the output stream.
-<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a>, <code>canExceute</code> and <a href="rx_command/RxCommand/results.html">results</a> will work as with a real command.
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a>, <a href="rx_command/RxCommand/canExecute.html">canExecute</a> and <a href="rx_command/RxCommand/results.html">results</a> will work as with a real command.
           
 </dd>
         <dt id="queueResultsForNextExecuteCall" class="callable">
@@ -442,7 +442,7 @@ from the source sequence, sampled on <code>onStream</code>. <a href="rx_command/
 </dd>
         <dt id="call" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/call.html">call</a></span><span class="signature">(<wbr>[<span class="parameter" id="call-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span> ])
-            <span class="returntype parameter">&#8594; dynamic</span>
+            <span class="returntype parameter">&#8594; void</span>
           </span>
         </dt>
         <dd class="inherited">
@@ -1388,7 +1388,7 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

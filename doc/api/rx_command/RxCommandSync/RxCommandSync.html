@@ -176,7 +176,7 @@
       <pre class="language-dart"><code class="language-dart">factory RxCommandSync(Func1&lt;TParam, TResult&gt; func, [Observable&lt;bool&gt; canExecute] )
 {
 
-  return new RxCommandSync._(func, new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;(seedValue: new CommandResult&lt;TResult&gt;(null, null, false)), canExecute);
+  return new RxCommandSync._(func, new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;(seedValue: const CommandResult&lt;TResult&gt;(null, null, false)), canExecute);
 }</code></pre>
     </section>
 
@@ -189,7 +189,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

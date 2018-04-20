@@ -171,7 +171,7 @@
           <li>@override</li>
         </ol>
       </div>
-      <span class="returntype">dynamic</span>
+      <span class="returntype">void</span>
       <span class="name ">execute</span>
 (<wbr>[<span class="parameter" id="execute-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span> ])
     </section>
@@ -219,9 +219,7 @@ execute([TParam param])
                                           thrownException= new Exception(error.toString());
                                         }
                                     })
-                                    .doOnData( (result) {
-                                      _resultsSubject.add(result);
-                                    })
+                                    .doOnData( (result) =&gt; _resultsSubject.add(result))
                                     .map( (result) =&gt; new CommandResult(result, null, false));
 
          _commandResultsSubject.addStream(inputObservable)
@@ -258,7 +256,7 @@ execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

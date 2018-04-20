@@ -12,6 +12,7 @@ dependencies:
 
   rxdart : ^0.16.6 
   quiver_hashcode: ^1.0.0 
+  json_annotation: ^0.2.3
 
 dev_dependencies:
   flutter_test:

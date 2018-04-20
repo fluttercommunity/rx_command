@@ -1,6 +1,8 @@
-import "package:json_annotation/json_annotation.dart";    
+import 'package:json_annotation/json_annotation.dart';
+
 
 part "weather_in_cities.g.dart";  
+
 
     // ignore_for_file: non_constant_identifier_names
 

@@ -171,7 +171,7 @@
           <li>@override</li>
         </ol>
       </div>
-      <span class="returntype">dynamic</span>
+      <span class="returntype">void</span>
       <span class="name ">execute</span>
 (<wbr>[<span class="parameter" id="execute-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span> ])
     </section>
@@ -182,7 +182,7 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">@override
-execute([TParam param])
+void execute([TParam param])
 {
       if (!_canExecute)
       {
@@ -199,11 +199,11 @@ execute([TParam param])
         _canExecuteSubject.add(false);
       }
 
-      _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(null,null,true));
+      _commandResultsSubject.add(const CommandResult&lt;TResult&gt;(null,null,true));
 
       try {
-        var result = _func(param);
-        _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(result,null,false));
+        final  result = _func(param);
+        _commandResultsSubject.add(new  CommandResult&lt;TResult&gt;(result,null,false));
         _resultsSubject.add(result);
       }
       catch (error)
@@ -241,7 +241,7 @@ execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

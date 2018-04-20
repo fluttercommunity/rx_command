@@ -69,9 +69,14 @@
     <h1>operator == method</h1>
 
     <section class="multi-line-signature">
+      <div>
+        <ol class="annotation-list">
+          <li>@override</li>
+        </ol>
+      </div>
       <span class="returntype">bool</span>
       <span class="name ">operator ==</span>
-(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">dynamic</span> <span class="parameter-name">other</span></span>)
+(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">Object</span> <span class="parameter-name">other</span></span>)
     </section>
     <section class="desc markdown">
       <p>The equality operator.</p>
@@ -96,8 +101,9 @@ the <a href="rx_command/CommandResult/hashCode.html">hashCode</a> method as well
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">operator == (other) =&gt; other.data == data &amp;&amp;
-                       other.eror == error &amp;&amp;
+      <pre class="language-dart"><code class="language-dart">@override
+bool operator == (Object other) =&gt; other is CommandResult&lt;T&gt; &amp;&amp; other.data == data &amp;&amp;
+                       other.error == error &amp;&amp;
                        other.isExecuting ==isExecuting;</code></pre>
     </section>
 
@@ -110,7 +116,7 @@ the <a href="rx_command/CommandResult/hashCode.html">hashCode</a> method as well
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

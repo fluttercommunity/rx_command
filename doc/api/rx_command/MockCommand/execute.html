@@ -180,7 +180,7 @@
           <li>@override</li>
         </ol>
       </div>
-      <span class="returntype">dynamic</span>
+      <span class="returntype">void</span>
       <span class="name ">execute</span>
 (<wbr>[<span class="parameter" id="execute-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span> ])
     </section>
@@ -188,7 +188,7 @@
       <p>Can either be called directly or by calling the object itself because RxCommands are callable classes
 Will increase <a href="rx_command/MockCommand/executionCount.html">executionCount</a> and assign <a href="rx_command/MockCommand/lastPassedValueToExecute.html">lastPassedValueToExecute</a> the value of <code>param</code>
 If you have queued a result with <a href="rx_command/MockCommand/queueResultsForNextExecuteCall.html">queueResultsForNextExecuteCall</a> it will be copies tho the output stream.
-<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a>, <code>canExceute</code> and <a href="rx_command/RxCommand/results.html">results</a> will work as with a real command.</p>
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a>, <a href="rx_command/RxCommand/canExecute.html">canExecute</a> and <a href="rx_command/RxCommand/results.html">results</a> will work as with a real command.</p>
     </section>
     
     <section class="summary source-code" id="source">
@@ -221,7 +221,7 @@ execute([TParam param])  {
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

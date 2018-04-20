@@ -6,21 +6,21 @@ import 'package:quiver/core.dart';
 import 'package:rxdart/rxdart.dart';
 
 
-typedef void Action();
-typedef void Action1<TParam>(TParam param);
+typedef Action = void Function();
+typedef Action1<TParam> = void Function(TParam param);
 
 
-typedef TResult Func<TResult>();
-typedef TResult Func1<TParam, TResult>(TParam param);
+typedef Func<TResult> = TResult Function();
+typedef Func1<TParam, TResult> = TResult Function(TParam param);
 
-typedef Future AsyncAction();
-typedef Future AsyncAction1<TParam>(TParam param);
+typedef AsyncAction = Future Function();
+typedef AsyncAction1<TParam> = Future Function(TParam param);
 
 
-typedef Future<TResult> AsyncFunc<TResult>();
-typedef Future<TResult> AsyncFunc1<TParam, TResult>(TParam param);
+typedef AsyncFunc<TResult> = Future<TResult> Function();
+typedef AsyncFunc1<TParam, TResult> = Future<TResult> Function(TParam param);
 
-typedef Stream<TResult> StreamProvider<TParam, TResult>(TParam param);
+typedef StreamProvider<TParam, TResult> = Stream<TResult> Function(TParam param);
 
 /// Combined execution state of an `RxCommand`
 /// Will be issued for any statechange of any of the fields

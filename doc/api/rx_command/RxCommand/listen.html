@@ -25,7 +25,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="index.html">rx_command</a></li>
     <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
-    <li><a href="rx_command/RxCommand-class.html">RxCommand<span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TRESULT</span>&gt;</span></a></li>
+    <li><a href="rx_command/RxCommand-class.html">RxCommand<span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></a></li>
     <li class="self-crumb">listen method</li>
   </ol>
   <div class="self-name">listen</div>
@@ -181,7 +181,7 @@
           <li>@override</li>
         </ol>
       </div>
-      <span class="returntype">StreamSubscription<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TRESULT</span>&gt;</span></span>&gt;</span></span>
+      <span class="returntype">StreamSubscription<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
       <span class="name ">listen</span>
 (<wbr><span class="parameter" id="listen-param-onData"><span class="type-annotation">void</span> <span class="parameter-name">onData</span>(<span class="parameter" id="onData-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>), {</span> <span class="parameter" id="listen-param-onError"><span class="type-annotation">Function</span> <span class="parameter-name">onError</span>, </span> <span class="parameter" id="listen-param-onDone"><span class="type-annotation">void</span> <span class="parameter-name">onDone</span>(), </span> <span class="parameter" id="listen-param-cancelOnError"><span class="type-annotation">bool</span> <span class="parameter-name">cancelOnError</span></span> })
     </section>
@@ -236,7 +236,7 @@ StreamSubscription&lt;T&gt; listen(void onData(T event),
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

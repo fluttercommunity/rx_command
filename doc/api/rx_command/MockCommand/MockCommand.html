@@ -188,7 +188,7 @@
       <pre class="language-dart"><code class="language-dart">factory MockCommand({Observable&lt;bool&gt; canExecute} )
 {
 
-  return new MockCommand._(null, new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;(seedValue: new CommandResult&lt;TResult&gt;(null, null, false)), canExecute);
+  return new MockCommand._(new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;(seedValue: new CommandResult&lt;TResult&gt;(null, null, false)), canExecute);
 }</code></pre>
     </section>
 
@@ -201,7 +201,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.4
+    rx_command 1.0.5
   </span>
 
 </footer>

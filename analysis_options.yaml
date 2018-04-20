@@ -7,7 +7,7 @@ analyzer:
     dead_code: error
     override_on_non_overriding_method: error
   exclude:
-    - example/**
+    - example/lib/json/weather_in_cities.g.dart
 
 linter:
   rules:
