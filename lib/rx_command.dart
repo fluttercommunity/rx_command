@@ -459,8 +459,8 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
   }
 } 
  
-/// [MockCommand] allows you to easily moch an RxCommand for your Unit and UI tests
-/// Mocking a command with `mockito` has its limitations.
+/// `MockCommand` allows you to easily moch an RxCommand for your Unit and UI tests
+/// Mocking a command with `mockito` https://pub.dartlang.org/packages/mockito has its limitations.
 class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
 {
 
@@ -514,9 +514,9 @@ class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
   }
 
 
-  /// For a more fine grained control to simulate the different states of an `RxCommand`
+  /// For a more fine grained control to simulate the different states of an [RxCommand]
   /// there are these functions
-  /// [startExecution] will issue a `CommandResult` with
+  /// `startExecution` will issue a [CommandResult] with
   /// data: null
   /// error: null
   /// isExecuting : true
@@ -526,7 +526,7 @@ class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
     _canExecuteSubject.add(false);
   }
 
-  /// [endExecutionWithData] will issue a `CommandResult` with
+  /// `endExecutionWithData` will issue a [CommandResult] with
   /// data: [data]
   /// error: null
   /// isExecuting : false
@@ -536,7 +536,7 @@ class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
     _canExecuteSubject.add(true);
   }
 
-  /// [endExecutionWithData] will issue a `CommandResult` with
+  /// `endExecutionWithData` will issue a [CommandResult] with
   /// data: null
   /// error: Exeption([message])
   /// isExecuting : false
@@ -546,7 +546,7 @@ class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
     _canExecuteSubject.add(true);
   }
 
-  /// [endExecutionWithData] will issue a `CommandResult` with
+  /// `endExecutionWithData` will issue a [CommandResult] with
   /// data: null
   /// error: null
   /// isExecuting : false

@@ -157,6 +157,171 @@ The view model publishes two commands
 
 `listview.dart` implements `WeatherListView` which consists again of a StreamBuilder which updates automatically by listening on `TheViewModel.of(context).updateWeatherCommand.results`
 
+## Mocking RxCommands
+
+When writing UI Tests with Flutter its often better not to work with the real commands in the ViewModel but to use a `MockCommand` to have better control over the data a command receives and emits.
+
+For this the `MockCommand` class is for. It behaves almost like a normal `RxCommand`
+
+It's created by
+
+```Dart
+/// Factory constructor that can take an optional observable to control if the command can be executet
+factory MockCommand({Observable<bool> canExecute} )
+```
+
+You don't pass a handler function because this should be controlled from the outside.
+To control the outcome of the Command execution you can inspect these properties:
+
+```Dart
+/// the last value that was passed when execute or the command directly was called
+TParam lastPassedValueToExecute;
+
+/// Number of times execute or the command directly was called
+int executionCount = 0; 
+```
+
+To simulate a certain data output after calling the command use:
+
+```Dart
+/// to be able to simulate any output of the command when it is called you can here queue the output data for the next exeution call
+queueResultsForNextExecuteCall(List<CommandResult<TResult>> values)
+```
+
+To execute the command you can either call the command instance directly or call `execute`
+
+```Dart
+/// Can either be called directly or by calling the object itself because RxCommands are callable classes
+/// Will increase [executionCount] and assign [lastPassedValueToExecute] the value of [param]
+/// If you have queued a result with [queueResultsForNextExecuteCall] it will be copies tho the output stream.
+/// [isExecuting], [canExceute] and [results] will work as with a real command.  
+execute([TParam param])
+```
+
+Here an example from the `rx_widgets` example App
+
+```Dart
+testWidgets('Tapping update button updates the weather', (tester) async {
+  final model = new MockModel(); // using mockito
+  final command = new MockCommand<String,List<WeatherEntry>>();
+    final widget = new ModelProvider(
+                          model: model,
+                          child: new MaterialApp(home: new HomePage()),
+                      );
+
+  // to make the mocked model use the MockCommand instance. 
+  when(model.updateWeatherCommand).thenReturn(command);
+  // if your App does not only access the command but also calls
+  // it directly you have to register the call too:
+  when(model.updateWeatherCommand()).thenAnswer((_)=>command());
+
+  command.queueResultsForNextExecuteCall([CommandResult<List<WeatherEntry>>(
+              [WeatherEntry("London", 10.0, 30.0, "sunny", 12)],null, false)]);
+
+  expect(command, emitsInOrder([ crm(null, false, false), // default value that will be emited at startup 
+                                 crm([WeatherEntry("London", 10.0, 30.0, "sunny", 12)], // data
+                                  false, false) ]));
+
+  await tester.pumpWidget(widget); // Build initial State
+  await tester.pump(); // Build after Stream delivers value
+
+  await tester.tap(find.byKey(AppKeys.updateButtonEnabled));
+
+
+});
+```    
+
+
+To verify the changing states of the command e.g. to check if linked UI controls are created or in a certain state use:
+
+
+```Dart
+/// For a more fine grained control to simulate the different states of an `RxCommand`
+/// there are these functions
+/// [startExecution] will issue a `CommandResult` with
+/// data: null
+/// error: null
+/// isExecuting : true
+void startExecution()
+
+/// [endExecutionWithData] will issue a `CommandResult` with
+/// data: [data]
+/// error: null
+/// isExecuting : false
+void endExecutionWithData(TResult data)
+
+/// [endExecutionWithData] will issue a `CommandResult` with
+/// data: null
+/// error: Exeption([message])
+/// isExecuting : false
+void endExecutionWithError(String message)
+
+/// [endExecutionWithData] will issue a `CommandResult` with
+/// data: null
+/// error: null
+/// isExecuting : false
+void endExecutionNoData()
+```
+
+Also an example from `rx_widgets`
+
+```Dart
+testWidgets('Shows a loading spinner and disables the button while executing 
+            and shows the ListView on data arrival', (tester) async {
+  final model = new MockModel();
+  final command = new MockCommand<String,List<WeatherEntry>>();
+  final widget = new ModelProvider(
+                        model: model,
+                        child: new MaterialApp(home: new HomePage()),
+                      );
+
+  // Link MockCommand instance to mocked field in model
+  when(model.updateWeatherCommand).thenReturn(command);
+
+
+  await tester.pumpWidget(widget);// Build initial State
+  await tester.pump(); 
+
+  expect(find.byKey(AppKeys.loadingSpinner), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonDisabled), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonEnabled), findsOneWidget);
+  expect(find.byKey(AppKeys.weatherList), findsNothing);
+  expect(find.byKey(AppKeys.loaderError), findsNothing);
+  expect(find.byKey(AppKeys.loaderPlaceHolder), findsOneWidget);
+
+
+  command.startExecution();
+  await tester.pump(); 
+  // because there are two streams involded it seems we have to pump 
+  // twice so that both streambuilders can work
+  await tester.pump();  
+
+  expect(find.byKey(AppKeys.loadingSpinner), findsOneWidget);
+  expect(find.byKey(AppKeys.updateButtonDisabled), findsOneWidget);
+  expect(find.byKey(AppKeys.updateButtonEnabled), findsNothing);
+  expect(find.byKey(AppKeys.weatherList), findsNothing);
+  expect(find.byKey(AppKeys.loaderError), findsNothing);
+  expect(find.byKey(AppKeys.loaderPlaceHolder), findsNothing);
+
+  command.endExecutionWithData([new WeatherEntry("London", 10.0, 30.0, "sunny", 12)]);
+  await tester.pump(); // Build after Stream delivers value
+
+  expect(find.byKey(AppKeys.loadingSpinner), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonDisabled), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonEnabled), findsOneWidget);
+  expect(find.byKey(AppKeys.weatherList), findsOneWidget);
+  expect(find.byKey(AppKeys.loaderError), findsNothing);
+  expect(find.byKey(AppKeys.loaderPlaceHolder), findsNothing);
+});
+```
+
+
+
+
+
+
+
+
 
 
 

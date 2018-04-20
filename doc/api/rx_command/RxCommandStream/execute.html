@@ -25,7 +25,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="index.html">rx_command</a></li>
     <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
-    <li><a href="rx_command/RxCommandStream-class.html">RxCommandStream<span class="signature">&lt;TParam, TResult&gt;</span></a></li>
+    <li><a href="rx_command/RxCommandStream-class.html">RxCommandStream<span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></a></li>
     <li class="self-crumb">execute method</li>
   </ol>
   <div class="self-name">execute</div>
@@ -42,10 +42,9 @@
       <li class="section-title"><a href="rx_command/RxCommandStream-class.html#constructors">Constructors</a></li>
       <li><a href="rx_command/RxCommandStream/RxCommandStream.html">RxCommandStream</a></li>
     
-      <li class="section-title">
+      <li class="section-title inherited">
         <a href="rx_command/RxCommandStream-class.html#instance-properties">Properties</a>
       </li>
-      <li><a href="rx_command/RxCommandStream/observableProvider.html">observableProvider</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/canExecute.html">canExecute</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/first.html">first</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/hashCode.html">hashCode</a></li>
@@ -207,7 +206,7 @@ execute([TParam param])
 
       Exception thrownException;
 
-      var inputObservable = new Observable(observableProvider(param))
+      var inputObservable = new Observable(_observableProvider(param))
                                     .handleError((error)
                                     {
 
@@ -259,7 +258,7 @@ execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.3
+    rx_command 1.0.4
   </span>
 
 </footer>

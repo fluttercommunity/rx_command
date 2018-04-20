@@ -25,7 +25,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="index.html">rx_command</a></li>
     <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
-    <li><a href="rx_command/RxCommand-class.html">RxCommand<span class="signature">&lt;TParam, TRESULT&gt;</span></a></li>
+    <li><a href="rx_command/RxCommand-class.html">RxCommand<span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TRESULT</span>&gt;</span></a></li>
     <li class="self-crumb">RxCommand constructor</li>
   </ol>
   <div class="self-name">RxCommand</div>
@@ -173,17 +173,17 @@
   </div><!--/.sidebar-offcanvas-left-->
 
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
-    <h1>RxCommand&lt;TParam, TRESULT&gt; constructor</h1>
+    <h1>RxCommand&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TRESULT</span>&gt; constructor</h1>
 
     <section class="multi-line-signature">
       
-      <span class="name ">RxCommand&lt;TParam, TRESULT&gt;</span>(<wbr><span class="parameter" id="-param-_commandResultsSubject"><span class="type-annotation">BehaviorSubject<span class="signature">&lt;<a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;TRESULT&gt;</span>&gt;</span></span> <span class="parameter-name">_commandResultsSubject</span></span>)
+      <span class="name ">RxCommand&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TRESULT</span>&gt;</span>(<wbr><span class="parameter" id="-param-_commandResultsSubject"><span class="type-annotation">BehaviorSubject<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TRESULT</span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">_commandResultsSubject</span>, </span> <span class="parameter" id="-param-canExecuteRestriction"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecuteRestriction</span></span>)
     </section>
 
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">RxCommand(this._commandResultsSubject):super(_commandResultsSubject.observable)
+      <pre class="language-dart"><code class="language-dart">RxCommand(this._commandResultsSubject, Observable&lt;bool&gt; canExecuteRestriction):super(_commandResultsSubject.observable)
 {
     this
       .where( (x) =&gt; x.hasError)
@@ -191,6 +191,24 @@
 
     this
       .listen((x) =&gt; _isExecutingSubject.add(x.isExecuting));
+
+     var _canExecuteParam = canExecuteRestriction == null ? new Observable.just(true)
+                                                : canExecuteRestriction.handleError((error)
+                                                  {
+                                                      if (error is Exception)
+                                                      {
+                                                        _thrownExceptionsSubject.add(error);
+                                                      }
+                                                  })
+                                                  .distinct();
+
+
+
+    _canExecuteParam.listen((canExecute){
+      _canExecute = canExecute &amp;&amp; (!_isRunning);
+      _canExecuteSubject.add(_canExecute);
+    });
+
 
 }</code></pre>
     </section>
@@ -204,7 +222,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.3
+    rx_command 1.0.4
   </span>
 
 </footer>

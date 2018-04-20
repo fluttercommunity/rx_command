@@ -29,3 +29,7 @@
 ## [1.0.4] - 19.04.2018
 
 * Added MockCommand 
+
+## [1.0.5] - 20.04.2018
+
+* Improvements and docs for MockCommand 

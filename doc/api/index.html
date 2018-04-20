@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="made with love by dartdoc 0.18.0">
+  <meta name="generator" content="made with love by dartdoc 0.18.1">
   <meta name="description" content="rx_command API docs, for the Dart programming language.">
   <title>rx_command - Dart API docs</title>
 
@@ -139,6 +139,138 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 <p>a middle block which can either be a <code>ListView</code> (<code>WeatherListView</code>) or a busy spinner. It is created by a <code>StreamBuilder</code> which listens to &lt;br/&gt; <code>TheViewModel.of(context).updateWeatherCommand.isExecuting</code>&lt;br/&gt;</p></li><li>
 <p>A row with the Update <code>Button</code> and a <code>Switch</code> that toggles if an update should be possible or not by binding to <code>TheViewModel.of(context).switchChangedCommand)</code>. To change the enabled state of the button the button is build by a <code>StreamBuilder</code> that listens to the  <code>TheViewModel.of(context).updateWeatherCommand.canExecute</code> </p></li></ul>
 <p><code>listview.dart</code> implements <code>WeatherListView</code> which consists again of a StreamBuilder which updates automatically by listening on <code>TheViewModel.of(context).updateWeatherCommand.results</code></p>
+<h2>Mocking RxCommands</h2>
+<p>When writing UI Tests with Flutter its often better not to work with the real commands in the ViewModel but to use a <code>MockCommand</code> to have better control over the data a command receives and emits.</p>
+<p>For this the <code>MockCommand</code> class is for. It behaves almost like a normal <code>RxCommand</code></p>
+<p>It's created by</p>
+<pre class="language-Dart"><code class="language-Dart">/// Factory constructor that can take an optional observable to control if the command can be executet
+factory MockCommand({Observable&lt;bool&gt; canExecute} )
+</code></pre>
+<p>You don't pass a handler function because this should be controlled from the outside.
+To control the outcome of the Command execution you can inspect these properties:</p>
+<pre class="language-Dart"><code class="language-Dart">/// the last value that was passed when execute or the command directly was called
+TParam lastPassedValueToExecute;
+
+/// Number of times execute or the command directly was called
+int executionCount = 0; 
+</code></pre>
+<p>To simulate a certain data output after calling the command use:</p>
+<pre class="language-Dart"><code class="language-Dart">/// to be able to simulate any output of the command when it is called you can here queue the output data for the next exeution call
+queueResultsForNextExecuteCall(List&lt;CommandResult&lt;TResult&gt;&gt; values)
+</code></pre>
+<p>To execute the command you can either call the command instance directly or call <code>execute</code></p>
+<pre class="language-Dart"><code class="language-Dart">/// Can either be called directly or by calling the object itself because RxCommands are callable classes
+/// Will increase [executionCount] and assign [lastPassedValueToExecute] the value of [param]
+/// If you have queued a result with [queueResultsForNextExecuteCall] it will be copies tho the output stream.
+/// [isExecuting], [canExceute] and [results] will work as with a real command.  
+execute([TParam param])
+</code></pre>
+<p>Here an example from the <code>rx_widgets</code> example App</p>
+<pre class="language-Dart"><code class="language-Dart">testWidgets('Tapping update button updates the weather', (tester) async {
+  final model = new MockModel(); // using mockito
+  final command = new MockCommand&lt;String,List&lt;WeatherEntry&gt;&gt;();
+    final widget = new ModelProvider(
+                          model: model,
+                          child: new MaterialApp(home: new HomePage()),
+                      );
+
+  // to make the mocked model use the MockCommand instance. 
+  when(model.updateWeatherCommand).thenReturn(command);
+  // if your App does not only access the command but also calls
+  // it directly you have to register the call too:
+  when(model.updateWeatherCommand()).thenAnswer((_)=&gt;command());
+
+  command.queueResultsForNextExecuteCall([CommandResult&lt;List&lt;WeatherEntry&gt;&gt;(
+              [WeatherEntry("London", 10.0, 30.0, "sunny", 12)],null, false)]);
+
+  expect(command, emitsInOrder([ crm(null, false, false), // default value that will be emited at startup 
+                                 crm([WeatherEntry("London", 10.0, 30.0, "sunny", 12)], // data
+                                  false, false) ]));
+
+  await tester.pumpWidget(widget); // Build initial State
+  await tester.pump(); // Build after Stream delivers value
+
+  await tester.tap(find.byKey(AppKeys.updateButtonEnabled));
+
+
+});
+</code></pre>
+<p>To verify the changing states of the command e.g. to check if linked UI controls are created or in a certain state use:</p>
+<pre class="language-Dart"><code class="language-Dart">/// For a more fine grained control to simulate the different states of an `RxCommand`
+/// there are these functions
+/// [startExecution] will issue a `CommandResult` with
+/// data: null
+/// error: null
+/// isExecuting : true
+void startExecution()
+
+/// [endExecutionWithData] will issue a `CommandResult` with
+/// data: [data]
+/// error: null
+/// isExecuting : false
+void endExecutionWithData(TResult data)
+
+/// [endExecutionWithData] will issue a `CommandResult` with
+/// data: null
+/// error: Exeption([message])
+/// isExecuting : false
+void endExecutionWithError(String message)
+
+/// [endExecutionWithData] will issue a `CommandResult` with
+/// data: null
+/// error: null
+/// isExecuting : false
+void endExecutionNoData()
+</code></pre>
+<p>Also an example from <code>rx_widgets</code></p>
+<pre class="language-Dart"><code class="language-Dart">testWidgets('Shows a loading spinner and disables the button while executing 
+            and shows the ListView on data arrival', (tester) async {
+  final model = new MockModel();
+  final command = new MockCommand&lt;String,List&lt;WeatherEntry&gt;&gt;();
+  final widget = new ModelProvider(
+                        model: model,
+                        child: new MaterialApp(home: new HomePage()),
+                      );
+
+  // Link MockCommand instance to mocked field in model
+  when(model.updateWeatherCommand).thenReturn(command);
+
+
+  await tester.pumpWidget(widget);// Build initial State
+  await tester.pump(); 
+
+  expect(find.byKey(AppKeys.loadingSpinner), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonDisabled), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonEnabled), findsOneWidget);
+  expect(find.byKey(AppKeys.weatherList), findsNothing);
+  expect(find.byKey(AppKeys.loaderError), findsNothing);
+  expect(find.byKey(AppKeys.loaderPlaceHolder), findsOneWidget);
+
+
+  command.startExecution();
+  await tester.pump(); 
+  // because there are two streams involded it seems we have to pump 
+  // twice so that both streambuilders can work
+  await tester.pump();  
+
+  expect(find.byKey(AppKeys.loadingSpinner), findsOneWidget);
+  expect(find.byKey(AppKeys.updateButtonDisabled), findsOneWidget);
+  expect(find.byKey(AppKeys.updateButtonEnabled), findsNothing);
+  expect(find.byKey(AppKeys.weatherList), findsNothing);
+  expect(find.byKey(AppKeys.loaderError), findsNothing);
+  expect(find.byKey(AppKeys.loaderPlaceHolder), findsNothing);
+
+  command.endExecutionWithData([new WeatherEntry("London", 10.0, 30.0, "sunny", 12)]);
+  await tester.pump(); // Build after Stream delivers value
+
+  expect(find.byKey(AppKeys.loadingSpinner), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonDisabled), findsNothing);
+  expect(find.byKey(AppKeys.updateButtonEnabled), findsOneWidget);
+  expect(find.byKey(AppKeys.weatherList), findsOneWidget);
+  expect(find.byKey(AppKeys.loaderError), findsNothing);
+  expect(find.byKey(AppKeys.loaderPlaceHolder), findsNothing);
+});
+</code></pre>
       </section>
       
         <section class="summary">
@@ -158,7 +290,7 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.3
+    rx_command 1.0.4
   </span>
 
 </footer>
