@@ -77,7 +77,7 @@ abstract class RxCommand<TParam, TRESULT> extends Observable<CommandResult<TRESU
         .listen((x) => _isExecutingSubject.add(x.isExecuting));
 
        var _canExecuteParam = canExecuteRestriction == null ? new Observable.just(true) 
-                                                  : canExecute.handleError((error)
+                                                  : canExecuteRestriction.handleError((error)
                                                     {
                                                         if (error is Exception)
                                                         {
@@ -459,58 +459,97 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
   }
 } 
  
-
-
-
-
+/// [MockCommand] allows you to easily moch an RxCommand for your Unit and UI tests
+/// Mocking a command with `mockito` has its limitations.
 class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
 {
-  @override
-  bool throwExceptions;
 
   List<CommandResult<TResult>> returnValuesForNextExecute;
-
   BehaviorSubject<CommandResult<TResult>> subject;
 
-   factory MockCommand([Func1<TParam, TResult> func, Observable<bool> canExecute] )
+
+  /// the last value that was passed when execute or the command directly was called
+  TParam lastPassedValueToExecute;
+
+  /// Number of times execute or the command directly was called
+  int executionCount = 0; 
+
+  /// Factory constructor that can take an optional observable to control if the command can be executet
+  factory MockCommand({Observable<bool> canExecute} )
   {
 
-    return new MockCommand._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
+    return new MockCommand._(null, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
   }
 
   MockCommand._(Func1<TParam, TResult> func, this.subject, 
                 Observable<bool> canExecute):super(subject,canExecute);
 
 
+  /// to be able to simulate any output of the command when it is called you can here queue the output data for the next exeution call
   queueResultsForNextExecuteCall(List<CommandResult<TResult>> values)
   {
       returnValuesForNextExecute = values;
   }
 
+  /// Can either be called directly or by calling the object itself because RxCommands are callable classes
+  /// Will increase [executionCount] and assign [lastPassedValueToExecute] the value of [param]
+  /// If you have queued a result with [queueResultsForNextExecuteCall] it will be copies tho the output stream.
+  /// [isExecuting], [canExceute] and [results] will work as with a real command.  
   @override
   execute([TParam param])  {
+    _canExecuteSubject.add(false);
+    executionCount++;
+    lastPassedValueToExecute  = param;
      print("Called Execute");
-      subject.addStream(new Observable<CommandResult<TResult>>.fromIterable (returnValuesForNextExecute));  
+     if (returnValuesForNextExecute != null)
+     {
+        subject.addStream(new Observable<CommandResult<TResult>>.fromIterable (returnValuesForNextExecute));  
+     }
+     else
+     {
+       print("No values for execution queued");
+
+     }
+    _canExecuteSubject.add(true);
   }
 
+
+  /// For a more fine grained control to simulate the different states of an `RxCommand`
+  /// there are these functions
+  /// [startExecution] will issue a `CommandResult` with
+  /// data: null
+  /// error: null
+  /// isExecuting : true
   void startExecution()
   {
     subject.add(new CommandResult(null,null,true));
     _canExecuteSubject.add(false);
   }
 
+  /// [endExecutionWithData] will issue a `CommandResult` with
+  /// data: [data]
+  /// error: null
+  /// isExecuting : false
   void endExecutionWithData(TResult data)
   {
     subject.add(new CommandResult<TResult>(data,null,false));
     _canExecuteSubject.add(true);
   }
 
+  /// [endExecutionWithData] will issue a `CommandResult` with
+  /// data: null
+  /// error: Exeption([message])
+  /// isExecuting : false
   void endExecutionWithError(String message)
   {
     subject.add(new CommandResult<TResult>(null,new Exception(message),false));
     _canExecuteSubject.add(true);
   }
 
+  /// [endExecutionWithData] will issue a `CommandResult` with
+  /// data: null
+  /// error: null
+  /// isExecuting : false
   void endExecutionNoData()
   {
     subject.add(new CommandResult<TResult>(null,null,true));

@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 
 import 'package:rx_command/rx_command.dart';
-
+import 'package:rxdart/rxdart.dart';
 
   
   StreamMatcher crm( data, bool hasError, bool isExceuting)
@@ -51,6 +51,44 @@ void main() {
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));    
+  });
+
+  test('Execute simple sync action with canExceute restriction', () async{
+    var restriction = new BehaviorSubject<bool>(seedValue: true);
+
+    restriction.observable.listen((b)=> print("Restriction issued: $b"));
+
+    var executionCount = 0;
+
+    final command  = RxCommand.createSync( () =>executionCount++, restriction.observable);
+                                                              
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    
+    expect(command.results, emits(null));
+    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,false,false)]));
+
+    command.execute();
+
+    expect(executionCount, 1);
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));    
+
+    restriction.add(false);
+
+    await new Future.delayed(Duration(milliseconds: 10)); // make sure the restriction Observable has time to emit a new value
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    command.execute();
+
+    expect(executionCount, 1);
+
+
   });
 
 
