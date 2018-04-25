@@ -22,7 +22,7 @@ import 'json/weather_in_cities.dart';
         switchChangedCommand = RxCommand.createSync3<bool,bool>((b)=>b);
 
         // We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
-        updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update,switchChangedCommand.results);
+        updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update, canExecute:  switchChangedCommand.results);
 
         // Will be called on every change of the searchfield
         textChangedCommand = RxCommand.createSync3((s) => s);

@@ -123,6 +123,11 @@ class CommandResult<T>
 }
 ```
 
+`isExecuting` will issue a `bool` value on each state change. Even if you subscribe to a newly created command it will issue `false`. When listening for `CommandResult` this normally doesn't make sense, so no initial `CommandResult` will be emitted.
+If you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+`emitInitialCommandResult=true` when creating a command.
+
+
 
 ### Disposing subscriptions (listeners)
 When subscribing to an Observable with `.listen` you should store the returned `StreamSubscription` and call `.cancel` on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.

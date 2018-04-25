@@ -190,7 +190,7 @@ isExecuting : false</p>
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">void endExecutionNoData()
 {
-  subject.add(const CommandResult&lt;TResult&gt;(null,null,true));
+  subject.add(new CommandResult&lt;TResult&gt;(null,null,true));
   _canExecuteSubject.add(true);
 }</code></pre>
     </section>
@@ -204,7 +204,7 @@ isExecuting : false</p>
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.5
+    rx_command 1.0.8
   </span>
 
 </footer>

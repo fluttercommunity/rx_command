@@ -199,7 +199,7 @@ void execute([TParam param])
         _canExecuteSubject.add(false);
       }
 
-      _commandResultsSubject.add(const CommandResult&lt;TResult&gt;(null,null,true));
+      _commandResultsSubject.add(new  CommandResult&lt;TResult&gt;(null,null,true));
 
       try {
         final  result = _func(param);
@@ -241,7 +241,7 @@ void execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.5
+    rx_command 1.0.8
   </span>
 
 </footer>

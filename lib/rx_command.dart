@@ -53,16 +53,16 @@ class CommandResult<T>
 
 
 
-/// `RxCommand` capsules a given handler function that can then be executed by its `execute` method. 
-/// The result of this method is then published through its `results` Observable (Observable wrap Dart Streams)
+/// [RxCommand] capsules a given handler function that can then be executed by its [execute] method. 
+/// The result of this method is then published through its [results] Observable (Observable wrap Dart Streams)
 /// Additionally it offers Observables for it's current execution state, fs the command can be executed and for 
 /// all possibly thrown exceptions during command execution.
-/// `RxCommand` also implments the `Observable` interface so you can listen directly to the `RxCommand` which emitts 
-/// `CommandResult<TRESULT>` which is often easier in combaination with Flutter `StreamBuilder` because you have all 
+/// [RxCommand] also implments the `Observable` interface so you can listen directly to the [RxCommand] which emitts 
+/// [CommandResult<TRESULT>] which is often easier in combaination with Flutter `StreamBuilder` because you have all 
 /// state information at one place.
 ///
-/// An `RxCommand` is a generic class of type `RxCommand<TParam, TRESULT>` 
-/// where [TParam] is the type of data that is passed when calling `execute` and 
+/// An [RxCommand] is a generic class of type [RxCommand<TParam, TRESULT>] 
+/// where [TParam] is the type of data that is passed when calling [execute] and 
 /// [TResult] denotes the return type of the handler function. To signal that 
 /// a handler doesn't take a parameter or returns no value use the dummy type `Null`
 abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResult>>
@@ -100,39 +100,59 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
   }
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
-  /// `action`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// [action]: handler function
+  /// [canExecute] : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<Null, Null> createSync(Action action,[Observable<bool> canExecute])
+  /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+  static RxCommand<Null, Null> createSync(Action action,{Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandSync<Null,Null>((_) {action(); return null;},canExecute);
+      return new RxCommandSync<Null,Null>((_) {action(); return null;},canExecute, emitInitialCommandResult);
   }
 
   /// Creates  a RxCommand for a synchronous handler function with one parameter and no return type 
   /// `action`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<TParam, Null> createSync1<TParam>(Action1<TParam> action, [Observable<bool> canExecute])
+  /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+  static RxCommand<TParam, Null> createSync1<TParam>(Action1<TParam> action, {Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandSync<TParam,Null>((x) {action(x); return null;},canExecute);
+      return new RxCommandSync<TParam,Null>((x) {action(x); return null;},canExecute, emitInitialCommandResult);
   }
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter that returns a value 
   /// `func`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<Null, TResult> createSync2<TResult>(Func<TResult> func,[Observable<bool> canExecute])
+  /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+  static RxCommand<Null, TResult> createSync2<TResult>(Func<TResult> func,{Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandSync<Null,TResult>((_) => func(),canExecute);
+      return new RxCommandSync<Null,TResult>((_) => func(),canExecute, emitInitialCommandResult);
   }
 
   /// Creates  a RxCommand for a synchronous handler function with parameter that returns a value 
   /// `func`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam,TResult> func,[Observable<bool> canExecute])
+   /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+ static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam,TResult> func,{Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandSync<TParam,TResult>((x) => func(x),canExecute);
+      return new RxCommandSync<TParam,TResult>((x) => func(x),canExecute,emitInitialCommandResult);
   }    
 
 
@@ -142,9 +162,14 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
   /// `action`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<Null, Null> createAsync(AsyncAction action,[Observable<bool> canExecute])
+   /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+ static RxCommand<Null, Null> createAsync(AsyncAction action,{Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandAsync<Null,Null>((_)  { action(); return  null;},canExecute);
+      return new RxCommandAsync<Null,Null>((_)  { action(); return  null;},canExecute,emitInitialCommandResult);
   }
 
 
@@ -152,36 +177,56 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
   /// `action`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<TParam, Null> createAsync1<TParam>(AsyncAction1<TParam> action,[Observable<bool> canExecute])
+  /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+  static RxCommand<TParam, Null> createAsync1<TParam>(AsyncAction1<TParam> action,{Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandAsync<TParam,Null>((x) {action(x); return null;} ,canExecute);
+      return new RxCommandAsync<TParam,Null>((x) {action(x); return null;} ,canExecute, emitInitialCommandResult);
   }
 
   /// Creates  a RxCommand for an asynchronous handler function with no parameter that returns a value 
   /// `func`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<Null, TResult> createAsync2<TResult>(AsyncFunc<TResult> func,[Observable<bool> canExecute])
+  /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+  static RxCommand<Null, TResult> createAsync2<TResult>(AsyncFunc<TResult> func,{Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandAsync<Null,TResult>((_) async => func(),canExecute);
+      return new RxCommandAsync<Null,TResult>((_) async => func(),canExecute, emitInitialCommandResult);
   }
 
   /// Creates  a RxCommand for an asynchronous handler function with parameter that returns a value 
   /// `func`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func, [Observable<bool> canExecute])
+  /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+  static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam,TResult> func, {Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandAsync<TParam,TResult>((x) async => func(x),canExecute);
+      return new RxCommandAsync<TParam,TResult>((x) async => func(x),canExecute, emitInitialCommandResult);
   }    
 
   /// Creates  a RxCommand from an "one time" observable. This is handy if used together with a streame generator function.  
   /// [provider]: provider function that returns a new Observable that will be subscribed on the call of [execute]
   /// [canExecute] : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(StreamProvider<TParam, TResult> provider, [Observable<bool> canExecute])
+  /// [isExecuting] will issue a `bool` value on each state change. Even if you 
+  /// subscribe to a newly created command it will issue `false`
+  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// [emitInitialCommandResult=true].
+  static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(StreamProvider<TParam, TResult> provider, {Observable<bool> canExecute, bool emitInitialCommandResult = false})
   {
-      return new RxCommandStream<TParam, TResult>(provider,canExecute);
+      return new RxCommandStream<TParam, TResult>(provider,canExecute, emitInitialCommandResult);
   }    
 
   /// Calls the wrapped handler function with an option input parameter
@@ -217,7 +262,6 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
   /// and in the `CommandResult`. If don't want this and have exceptions thrown, set this to true.
   bool throwExceptions = false;
 
-
   /// If you don't need a command any longer it is a good practise to 
   /// dispose it to make sure all stream subsriptions are cancelled to prevent memory leaks
   void dispose()
@@ -242,10 +286,10 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult>
   Func1<TParam, TResult> _func;
 
 
-  factory RxCommandSync(Func1<TParam, TResult> func, [Observable<bool> canExecute] )
+  factory RxCommandSync(Func1<TParam, TResult> func, Observable<bool> canExecute, bool emitInitialCommandResult )
   {
 
-    return new RxCommandSync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
+    return new RxCommandSync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: emitInitialCommandResult ?  new CommandResult<TResult>(null, null, false) : null ), canExecute);
   }
 
   RxCommandSync._(Func1<TParam, TResult> func, BehaviorSubject<CommandResult<TResult>> subject, 
@@ -312,10 +356,10 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult>
   RxCommandAsync._(AsyncFunc1<TParam, TResult> func, BehaviorSubject<CommandResult<TResult>> subject, 
                   Observable<bool> canExecute):_func= func, super(subject, canExecute);
  
-  factory RxCommandAsync(AsyncFunc1<TParam, TResult> func, [Observable<bool> canExecute] )
+  factory RxCommandAsync(AsyncFunc1<TParam, TResult> func, Observable<bool> canExecute, bool emitInitialCommandResult )
   {
 
-    return new RxCommandAsync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
+    return new RxCommandAsync._(func, new BehaviorSubject<CommandResult<TResult>>(seedValue: emitInitialCommandResult ?  new CommandResult<TResult>(null, null, false) : null), canExecute);
   }
 
 
@@ -386,10 +430,10 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult>
   RxCommandStream._(StreamProvider<TParam,TResult>  provider, BehaviorSubject<CommandResult<TResult>> subject, 
                   Observable<bool> canExecute):_observableProvider= provider, super(subject, canExecute);
 
-   factory RxCommandStream(StreamProvider<TParam, TResult> provider, [Observable<bool> canExecute] )
+   factory RxCommandStream(StreamProvider<TParam, TResult> provider, Observable<bool> canExecute, bool emitInitialCommandResult )
   {
 
-    return new RxCommandStream._(provider, new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
+    return new RxCommandStream._(provider, new BehaviorSubject<CommandResult<TResult>>(seedValue: emitInitialCommandResult ?  new CommandResult<TResult>(null, null, false) : null), canExecute);
   }
 
 
@@ -475,10 +519,10 @@ class MockCommand<TParam,TResult>  extends RxCommand<TParam,TResult>
   int executionCount = 0; 
 
   /// Factory constructor that can take an optional observable to control if the command can be executet
-  factory MockCommand({Observable<bool> canExecute} )
+  factory MockCommand({Observable<bool> canExecute, bool emitInitialCommandResult = false} )
   {
 
-    return new MockCommand._(new BehaviorSubject<CommandResult<TResult>>(seedValue: new CommandResult<TResult>(null, null, false)), canExecute);
+    return new MockCommand._(new BehaviorSubject<CommandResult<TResult>>(seedValue: emitInitialCommandResult ?  new CommandResult<TResult>(null, null, false) : null), canExecute);
   }
 
   MockCommand._(this.subject, 

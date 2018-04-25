@@ -178,20 +178,30 @@
     <section class="multi-line-signature">
       <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">Null</span>, <span class="type-parameter">Null</span>&gt;</span></span>
       <span class="name ">createAsync</span>
-(<wbr><span class="parameter" id="createAsync-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, [</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
+(<wbr><span class="parameter" id="createAsync-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span></span> })
     </section>
     <section class="desc markdown">
       <p>Creates  a RxCommand for an asynchronous handler function with no parameter and no return type 
 <code>action</code>: handler function
 <code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
-if omitted the command can be executed always except it's already executing</p>
+if omitted the command can be executed always except it's already executing
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you 
+subscribe to a newly created command it will issue <code>false</code>
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
+if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
+<code>emitInitialCommandResult=true</code>.</p>
     </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;Null, Null&gt; createAsync(AsyncAction action,[Observable&lt;bool&gt; canExecute])
+      <pre class="language-dart"><code class="language-dart">&#47;&#47;&#47; [isExecuting] will issue a `bool` value on each state change. Even if you
+&#47;&#47;&#47; subscribe to a newly created command it will issue `false`
+&#47;&#47;&#47; For the `Observable&lt;CommandResult&gt;` that [RxCommand] implement this normally doesn&#39;t make sense
+&#47;&#47;&#47; if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+&#47;&#47;&#47; [emitInitialCommandResult=true].
+ static RxCommand&lt;Null, Null&gt; createAsync(AsyncAction action,{Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult = false})
 {
-    return new RxCommandAsync&lt;Null,Null&gt;((_)  { action(); return  null;},canExecute);
+    return new RxCommandAsync&lt;Null,Null&gt;((_)  { action(); return  null;},canExecute,emitInitialCommandResult);
 }</code></pre>
     </section>
 
@@ -204,7 +214,7 @@ if omitted the command can be executed always except it's already executing</p>
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.5
+    rx_command 1.0.8
   </span>
 
 </footer>

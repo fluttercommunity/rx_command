@@ -33,11 +33,27 @@ import 'package:rxdart/rxdart.dart';
 void main() {
 
 
-
-
   test('Execute simple sync action', () {
     final command  = RxCommand.createSync( () => print("action"));
-                                                              
+                                                          
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    
+    expect(command.results, emits(null));
+    expect(command, emitsInOrder([crm(null,false,true),crm(null,false,false)]));
+
+    command.execute();
+
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));    
+  });
+
+  test('Execute simple sync action with emitInitialCommandResult: true', () {
+    final command  = RxCommand.createSync( () => print("action"),emitInitialCommandResult: true );
+                                                          
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -60,7 +76,7 @@ void main() {
 
     var executionCount = 0;
 
-    final command  = RxCommand.createSync( () =>executionCount++, restriction.observable);
+    final command  = RxCommand.createSync( () =>executionCount++, canExecute:  restriction.observable);
                                                               
 
     expect(command.canExecute, emits(true));
@@ -68,7 +84,7 @@ void main() {
 
     
     expect(command.results, emits(null));
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,false,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm(null,false,false)]));
 
     command.execute();
 
@@ -117,7 +133,7 @@ void main() {
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,true,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm(null,true,false)]));
 
 
     command.execute();
@@ -139,7 +155,7 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,false,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm(null,false,false)]));
 
 
     command.execute( "Parameter");
@@ -165,7 +181,7 @@ void main() {
     expect(command.results, emits("4711"));
    
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm("4711",false,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm("4711",false,false)]));
 
 
     command.execute();
@@ -189,7 +205,7 @@ void main() {
 
     expect(command.results, emits("47114711"));
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm("47114711",false,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm("47114711",false,false)]));
 
 
     command.execute("4711");
@@ -224,7 +240,7 @@ void main() {
     expect(command.canExecute, emits(true),reason: "Canexecute before false");
     expect(command.isExecuting, emits(false),reason: "Canexecute before true");
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm("Done",false,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm("Done",false,false)]));
 
 
     command.execute("Done");
@@ -253,7 +269,7 @@ Future<String> slowAsyncFunctionFail(String s) async
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true)]));
+    expect(command, emitsInOrder([crm(null,false,true)]));
 
 
     command.execute("Done");
@@ -274,7 +290,7 @@ Future<String> slowAsyncFunctionFail(String s) async
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,true,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm(null,true,false)]));
 
 
     command.execute("Done");
@@ -305,7 +321,7 @@ Future<String> slowAsyncFunctionFail(String s) async
     expect(command.canExecute, emits(true),reason: "Canexecute before false");
     expect(command.isExecuting, emits(false),reason: "Canexecute before true");
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(1,false,false),crm(2,false,false),crm(3,false,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm(1,false,false),crm(2,false,false),crm(3,false,false)]));
 
 
     command.execute(1);
@@ -333,7 +349,7 @@ Future<String> slowAsyncFunctionFail(String s) async
     expect(command.canExecute, emits(true),reason: "Canexecute before false");
     expect(command.isExecuting, emits(false),reason: "Canexecute before true");
 
-    expect(command, emitsInOrder([crm(null,false,false), crm(null,false,true),crm(null,true,false)]));
+    expect(command, emitsInOrder([crm(null,false,true),crm(null,true,false)]));
 
 
     command.execute(1);

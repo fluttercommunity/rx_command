@@ -178,20 +178,25 @@
     <section class="multi-line-signature">
       <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
       <span class="name ">createAsync3</span>
-&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;(<wbr><span class="parameter" id="createAsync3-param-func"><span class="type-annotation"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, [</span> <span class="parameter" id="createAsync3-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span></span> ])
+&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;(<wbr><span class="parameter" id="createAsync3-param-func"><span class="type-annotation"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createAsync3-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync3-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span></span> })
     </section>
     <section class="desc markdown">
       <p>Creates  a RxCommand for an asynchronous handler function with parameter that returns a value 
 <code>func</code>: handler function
 <code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
-if omitted the command can be executed always except it's already executing</p>
+if omitted the command can be executed always except it's already executing
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you 
+subscribe to a newly created command it will issue <code>false</code>
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
+if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
+<code>emitInitialCommandResult=true</code>.</p>
     </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;TParam, TResult&gt; createAsync3&lt;TParam, TResult&gt;(AsyncFunc1&lt;TParam,TResult&gt; func, [Observable&lt;bool&gt; canExecute])
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;TParam, TResult&gt; createAsync3&lt;TParam, TResult&gt;(AsyncFunc1&lt;TParam,TResult&gt; func, {Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult = false})
 {
-    return new RxCommandAsync&lt;TParam,TResult&gt;((x) async =&gt; func(x),canExecute);
+    return new RxCommandAsync&lt;TParam,TResult&gt;((x) async =&gt; func(x),canExecute, emitInitialCommandResult);
 }</code></pre>
     </section>
 
@@ -204,7 +209,7 @@ if omitted the command can be executed always except it's already executing</p>
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.5
+    rx_command 1.0.8
   </span>
 
 </footer>
