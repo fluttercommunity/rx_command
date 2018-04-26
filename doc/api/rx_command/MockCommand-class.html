@@ -93,7 +93,7 @@ Mocking a command with <code>mockito</code> https://pub.dartlang.org/packages/mo
 
       <dl class="constructor-summary-list">
         <dt id="MockCommand" class="callable">
-          <span class="name"><a href="rx_command/MockCommand/MockCommand.html">MockCommand</a></span><span class="signature">({<span class="parameter" id="-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span></span> })</span>
+          <span class="name"><a href="rx_command/MockCommand/MockCommand.html">MockCommand</a></span><span class="signature">({<span class="parameter" id="-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span></span> })</span>
         </dt>
         <dd>
           Factory constructor that can take an optional observable to control if the command can be executet
@@ -196,6 +196,14 @@ but also if the command receives a false from the canExecute Observable that you
           The last element of this stream. <a href="rx_command/RxCommand/last.html">[...]</a>
           <div class="features">read-only, inherited</div>
 </dd>
+        <dt id="lastResult" class="property inherited">
+          <span class="name"><a href="rx_command/RxCommand/lastResult.html">lastResult</a></span>
+          <span class="signature">&#8596; TResult</span>
+        </dt>
+        <dd class="inherited">
+          The result of the last sucessful call to execute
+          <div class="features">read / write, inherited</div>
+</dd>
         <dt id="length" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/length.html">length</a></span>
           <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">int</span>&gt;</span></span>
@@ -267,7 +275,7 @@ If no subscription exists the Exception will be rethrown
           </span>
         </dt>
         <dd>
-          <code>endExecutionWithData</code> will issue a <a href="rx_command/CommandResult-class.html">CommandResult</a> with
+          <code>endExecutionNoData</code> will issue a <a href="rx_command/CommandResult-class.html">CommandResult</a> with
 data: null
 error: null
 isExecuting : false
@@ -369,16 +377,6 @@ emitted. <a href="rx_command/RxCommand/asyncExpand.html">[...]</a>
         <dd class="inherited">
           Creates an Observable with each data event of this stream asynchronously
 mapped to a new event. <a href="rx_command/RxCommand/asyncMap.html">[...]</a>
-          <div class="features">inherited</div>
-</dd>
-        <dt id="buffer" class="callable inherited">
-          <span class="name"><a href="rx_command/RxCommand/buffer.html">buffer</a></span><span class="signature">(<wbr><span class="parameter" id="buffer-param-sampler"><span class="type-annotation">SamplerBuilder<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>, <span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">sampler</span></span>)
-            <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
-          </span>
-        </dt>
-        <dd class="inherited">
-          Creates an Observable where each item is a <code>List</code> containing the items
-from the source sequence, batched by the <code>sampler</code>. <a href="rx_command/RxCommand/buffer.html">[...]</a>
           <div class="features">inherited</div>
 </dd>
         <dt id="bufferCount" class="callable inherited">
@@ -1269,6 +1267,7 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
       <li class="inherited"><a href="rx_command/RxCommand/isEmpty.html">isEmpty</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/isExecuting.html">isExecuting</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/last.html">last</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/lastResult.html">lastResult</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/length.html">length</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/results.html">results</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/runtimeType.html">runtimeType</a></li>
@@ -1288,7 +1287,6 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
-      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -1388,7 +1386,7 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.8
+    rx_command 1.0.9
   </span>
 
 </footer>

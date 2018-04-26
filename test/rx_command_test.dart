@@ -191,6 +191,30 @@ void main() {
     expect(command.isExecuting, emits(false));    
   });
 
+  test('Execute simple sync function without parameter with shouldBuffer=true', () {
+
+    final command  = RxCommand.createSync2<String>(() {
+      print("action: ");
+      return "4711";
+    }, emitLastResult: true);
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    expect(command.results, emits("4711"));
+   
+
+    expect(command, emitsInOrder([crm(null,false,true),crm("4711",false,false),crm("4711",false,true),crm("4711",false,false)]));
+
+
+    command.execute();
+    command.execute();
+
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));    
+  });
+
 
 
   test('Execute simple sync function with parameter', () {
@@ -220,16 +244,18 @@ void main() {
   {
       print("___Start____Action__________");
 
-      await new Future.delayed(const Duration(milliseconds: 50));
+      await new Future.delayed(const Duration(milliseconds: 10));
       print("___End____Action__________");
       return s;
   }
 
 
 
- test('Execute simple async function with parameter', () {
+ test('Execute simple async function with parameter', () async {
 
-    final command  = RxCommand.createAsync3<String,String>(slowAsyncFunction);
+    var executionCount = 0;
+
+    final command  = RxCommand.createAsync3<String,String>((s) async {executionCount++; return slowAsyncFunction(s);} );
 
     command.canExecute.listen((b){print("Can execute:" + b.toString());});
     command.isExecuting.listen((b){print("Is executing:" + b.toString());});
@@ -237,18 +263,103 @@ void main() {
     command.results.listen((s){print("Results:" + s);});
 
 
-    expect(command.canExecute, emits(true),reason: "Canexecute before false");
-    expect(command.isExecuting, emits(false),reason: "Canexecute before true");
+    expect(command.canExecute, emitsInOrder([true, false, true]),reason: "Canexecute before false");
+    expect(command.isExecuting, emits(false),reason: "IsExecuting before true");
 
     expect(command, emitsInOrder([crm(null,false,true),crm("Done",false,false)]));
 
 
     command.execute("Done");
-    command.execute("Done");
+    await new Future.delayed(new Duration(milliseconds: 50));
 
 
-    expect(command.canExecute, emits(true),reason: "Canexecute after false");
     expect(command.isExecuting, emits(false));    
+    expect(executionCount, 1);
+  });
+  
+
+ test('Execute simple async function call while already running', () async {
+
+    var executionCount = 0;
+
+    final command  = RxCommand.createAsync3<String,String>((s) async {executionCount++; return slowAsyncFunction(s);} );
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((s){print("Results:" + s);});
+
+
+    expect(command.canExecute, emitsInOrder([true, false, true]),reason: "Canexecute before false");
+    expect(command.isExecuting, emits(false),reason: "IsExecuting before true");
+
+    expect(command, emitsInOrder([crm(null,false,true),crm("Done",false,false)]));
+
+
+    command.execute("Done");
+    command.execute("Done"); // should not execute
+
+    await new Future.delayed(new Duration(milliseconds: 1000));
+
+    expect(command.isExecuting, emits(false));    
+    expect(executionCount, 1);
+  });
+
+ test('Execute simple async function called twice with delay', () async {
+
+    var executionCount = 0;
+
+    final command  = RxCommand.createAsync3<String,String>((s) async {executionCount++; return slowAsyncFunction(s);} );
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((s){print("Results:" + s);});
+
+
+    expect(command.canExecute, emitsInOrder([true, false, true,false,true]),reason: "Canexecute wrong");
+    expect(command.isExecuting, emits(false),reason: "IsExecuting before true");
+
+    expect(command, emitsInOrder([crm(null,false,true),crm("Done",false,false),crm(null,false,true),crm("Done",false,false)]));
+
+
+    command.execute("Done");
+    await new Future.delayed(new Duration(milliseconds: 50));
+    command.execute("Done"); // should not execute
+
+    await new Future.delayed(new Duration(milliseconds: 50));
+
+    expect(command.isExecuting, emits(false));    
+    expect(executionCount, 2);
+  });
+
+
+ test('Execute simple async function called twice with delay and shouldBuffer=true', () async {
+
+    var executionCount = 0;
+
+    final command  = RxCommand.createAsync3<String,String>((s) async {executionCount++; return slowAsyncFunction(s);},emitLastResult: true );
+
+    command.canExecute.listen((b){print("Can execute:" + b.toString());});
+    command.isExecuting.listen((b){print("Is executing:" + b.toString());});
+
+    command.results.listen((s){print("Results:" + s);});
+
+
+    expect(command.canExecute, emitsInOrder([true, false, true,false,true]),reason: "Canexecute wrong");
+    expect(command.isExecuting, emits(false),reason: "IsExecuting before true");
+
+    expect(command, emitsInOrder([crm(null,false,true),crm("Done",false,false),crm("Done",false,true),crm("Done",false,false)]));
+
+
+    command.execute("Done");
+    await new Future.delayed(new Duration(milliseconds: 50));
+    command.execute("Done"); // should not execute
+
+    await new Future.delayed(new Duration(milliseconds: 50));
+
+    expect(command.isExecuting, emits(false));    
+    expect(executionCount, 2);
   });
 
 
@@ -319,7 +430,7 @@ Future<String> slowAsyncFunctionFail(String s) async
 
 
     expect(command.canExecute, emits(true),reason: "Canexecute before false");
-    expect(command.isExecuting, emits(false),reason: "Canexecute before true");
+    expect(command.isExecuting, emits(false),reason: "IsExecuting before true");
 
     expect(command, emitsInOrder([crm(null,false,true),crm(1,false,false),crm(2,false,false),crm(3,false,false)]));
 
@@ -347,7 +458,7 @@ Future<String> slowAsyncFunctionFail(String s) async
 
 
     expect(command.canExecute, emits(true),reason: "Canexecute before false");
-    expect(command.isExecuting, emits(false),reason: "Canexecute before true");
+    expect(command.isExecuting, emits(false),reason: "IsExecuting before true");
 
     expect(command, emitsInOrder([crm(null,false,true),crm(null,true,false)]));
 

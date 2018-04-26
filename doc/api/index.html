@@ -126,6 +126,9 @@ updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;
 <p><code>isExecuting</code> will issue a <code>bool</code> value on each state change. Even if you subscribe to a newly created command it will issue <code>false</code>. When listening for <code>CommandResult</code> this normally doesn't make sense, so no initial <code>CommandResult</code> will be emitted.
 If you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
 <code>emitInitialCommandResult=true</code> when creating a command.</p>
+<h3>Accessing the last result</h3>
+<p><code>RxCommand.lastResult</code> gives you access to the last successful result of the commands execution.</p>
+<p>If you want to get the last result included in the <code>CommandResult</code> events while executing or in case of and error you can pass <code>emitInitialCommandResult=true</code> when creating the command. </p>
 <h3>Disposing subscriptions (listeners)</h3>
 <p>When subscribing to an Observable with <code>.listen</code> you should store the returned <code>StreamSubscription</code> and call <code>.cancel</code> on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
 <code>RxCommand</code> has a <code>dispose</code> function that will cancel all active subscriptions on its observables. Calling <code>dispose</code>before a command gets out of scope is a good practise.</p>
@@ -293,7 +296,7 @@ void endExecutionNoData()
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.8
+    rx_command 1.0.9
   </span>
 
 </footer>

@@ -127,6 +127,11 @@ class CommandResult<T>
 If you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
 `emitInitialCommandResult=true` when creating a command.
 
+### Accessing the last result
+
+`RxCommand.lastResult` gives you access to the last successful result of the commands execution.
+
+If you want to get the last result included in the `CommandResult` events while executing or in case of and error you can pass `emitInitialCommandResult=true` when creating the command. 
 
 
 ### Disposing subscriptions (listeners)

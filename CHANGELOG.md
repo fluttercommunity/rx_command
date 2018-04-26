@@ -45,3 +45,7 @@
 ## [1.0.8] - 25.04.2018
 
 * RxCommand no longer issues an initial `CommandResult(null,null,false)` unless you set `emitInitialCommandResult: true` when creating the command.
+
+## [1.0.9] - 26.04.2018
+
+* Added an `emitLastResult` parameter to RxCommand factory functions. If true the last result will be transmitted in the data field of `CommandResults` while `isExecuting==true` or `hasError==true`.

@@ -52,6 +52,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/isEmpty.html">isEmpty</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/isExecuting.html">isExecuting</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/last.html">last</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/lastResult.html">lastResult</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/length.html">length</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/results.html">results</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/runtimeType.html">runtimeType</a></li>
@@ -66,7 +67,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
-      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -201,7 +201,7 @@ execute([TParam param])
       }
 
       _isExecutingSubject.add(true);
-      _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(null,null,true));
+      _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null,null,true));
 
 
       Exception thrownException;
@@ -220,7 +220,10 @@ execute([TParam param])
                                         }
                                     })
                                     .doOnData( (result) =&gt; _resultsSubject.add(result))
-                                    .map( (result) =&gt; new CommandResult(result, null, false));
+                                    .map( (result) {
+                                      lastResult = result;
+                                      return new CommandResult(result, null, false);
+                                    });
 
          _commandResultsSubject.addStream(inputObservable)
                                   .then((_) {
@@ -240,7 +243,7 @@ execute([TParam param])
 
                                               }
                                               _isRunning = false;
-                                              _canExecuteSubject.add(true);
+                                              _canExecuteSubject.add(!_executionLocked);
                                           }, onError: (error) {
                                               print(error);
                                           });
@@ -256,7 +259,7 @@ execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.8
+    rx_command 1.0.9
   </span>
 
 </footer>

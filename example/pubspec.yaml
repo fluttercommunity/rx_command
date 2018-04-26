@@ -12,7 +12,7 @@ dependencies:
   http: "^0.11.3+16"
 
   rxdart : any
-  rx_command: ^1.0.8
+  rx_command: ^1.0.9
   #rx_command:
   #  path: ..\
   quiver_hashcode: ^1.0.0

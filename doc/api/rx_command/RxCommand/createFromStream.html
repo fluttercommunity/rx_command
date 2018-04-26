@@ -47,6 +47,7 @@
       </li>
       <li><a href="rx_command/RxCommand/canExecute.html">canExecute</a></li>
       <li><a href="rx_command/RxCommand/isExecuting.html">isExecuting</a></li>
+      <li><a href="rx_command/RxCommand/lastResult.html">lastResult</a></li>
       <li><a href="rx_command/RxCommand/results.html">results</a></li>
       <li><a href="rx_command/RxCommand/throwExceptions.html">throwExceptions</a></li>
       <li><a href="rx_command/RxCommand/thrownExceptions.html">thrownExceptions</a></li>
@@ -68,7 +69,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
-      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -178,7 +178,7 @@
     <section class="multi-line-signature">
       <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
       <span class="name ">createFromStream</span>
-&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;(<wbr><span class="parameter" id="createFromStream-param-provider"><span class="type-annotation"><a href="rx_command/StreamProvider.html">StreamProvider</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">provider</span>, {</span> <span class="parameter" id="createFromStream-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createFromStream-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span></span> })
+&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;(<wbr><span class="parameter" id="createFromStream-param-provider"><span class="type-annotation"><a href="rx_command/StreamProvider.html">StreamProvider</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">provider</span>, {</span> <span class="parameter" id="createFromStream-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createFromStream-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createFromStream-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span></span> })
     </section>
     <section class="desc markdown">
       <p>Creates  a RxCommand from an "one time" observable. This is handy if used together with a streame generator function.<br>
@@ -187,6 +187,7 @@
 if omitted the command can be executed always except it's already executing
 <a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you 
 subscribe to a newly created command it will issue <code>false</code>
+<code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
 if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
 <code>emitInitialCommandResult=true</code>.</p>
@@ -194,9 +195,9 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;TParam, TResult&gt; createFromStream&lt;TParam, TResult&gt;(StreamProvider&lt;TParam, TResult&gt; provider, {Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult = false})
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;TParam, TResult&gt; createFromStream&lt;TParam, TResult&gt;(StreamProvider&lt;TParam, TResult&gt; provider, {Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult = false, bool emitLastResult=false})
 {
-    return new RxCommandStream&lt;TParam, TResult&gt;(provider,canExecute, emitInitialCommandResult);
+    return new RxCommandStream&lt;TParam, TResult&gt;(provider,canExecute, emitInitialCommandResult,emitLastResult);
 }</code></pre>
     </section>
 
@@ -209,7 +210,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.8
+    rx_command 1.0.9
   </span>
 
 </footer>
