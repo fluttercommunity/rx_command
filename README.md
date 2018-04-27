@@ -1,5 +1,7 @@
 # RxCommand
 
+You can find a tutorial on how to use `RxCommands` in this blog post [Making Flutter more Reactive](https://www.burkharts.net/apps/blog/making-flutter-more-reactive/)
+
 `RxCommand` is an [_Reactive Extensions_ (Rx)](http://reactivex.io/) based abstraction for event handlers. It is based on `ReactiveCommand` for the [ReactiveUI](https://reactiveui.net/) framework. It makes heavy use of the [RxDart](https://github.com/ReactiveX/rxdart) package.
 
 >PRs are always welcome ;-)
