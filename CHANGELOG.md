@@ -49,3 +49,7 @@
 ## [1.0.9] - 26.04.2018
 
 * Added an `emitLastResult` parameter to RxCommand factory functions. If true the last result will be transmitted in the data field of `CommandResults` while `isExecuting==true` or `hasError==true`.
+
+## [1.1.0] - 08.05.2018
+
+* Updated to accommodate a a breaking API change in RxDart 0.16.7 because no longer do Subjects expose an `observable` property because Subjects now implement Observable interface directly like other Rx implimentation.

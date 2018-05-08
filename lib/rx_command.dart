@@ -79,7 +79,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
   TResult lastResult;
 
 
-  RxCommand(this._commandResultsSubject, Observable<bool> canExecuteRestriction,  this._emitLastResult):super(_commandResultsSubject.observable)
+  RxCommand(this._commandResultsSubject, Observable<bool> canExecuteRestriction,  this._emitLastResult):super(_commandResultsSubject)
   {
       this
         .where( (x) => x.hasError)
@@ -251,19 +251,19 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
 
   /// Observable stream that outputs any result from the called handler function. If the handler function has void return type 
   /// it will still output one `Null` item so that you can listen for the end of the execution.
-  Observable<TResult> get results => _resultsSubject.observable;
+  Observable<TResult> get results => _resultsSubject;
 
   /// Observable stream that issues a bool on any execution state change of the command
-  Observable<bool> get isExecuting => _isExecutingSubject.observable.startWith(false).distinct();
+  Observable<bool> get isExecuting => _isExecutingSubject.startWith(false).distinct();
   
   /// Observable stream that issues a bool on any change of the current executable state of the command. 
   /// Meaning if the command cann be executed or not. This will issue `false` while the command executes 
   /// but also if the command receives a false from the canExecute Observable that you can pass when creating the Command
-  Observable<bool>  get canExecute  => _canExecuteSubject.observable.startWith(true).distinct();
+  Observable<bool>  get canExecute  => _canExecuteSubject.startWith(true).distinct();
 
   /// When subribing to `thrownExceptions`you will every excetpion that was thrown in your handler function as an event on this Observable.
   /// If no subscription exists the Exception will be rethrown
-  Observable<Exception> get thrownExceptions => _thrownExceptionsSubject.observable;
+  Observable<Exception> get thrownExceptions => _thrownExceptionsSubject;
 
 
 

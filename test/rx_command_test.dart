@@ -72,11 +72,11 @@ void main() {
   test('Execute simple sync action with canExceute restriction', () async{
     final restriction = new BehaviorSubject<bool>(seedValue: true);
 
-    restriction.observable.listen((b)=> print("Restriction issued: $b"));
+    restriction.listen((b)=> print("Restriction issued: $b"));
 
     var executionCount = 0;
 
-    final command  = RxCommand.createSync( () =>executionCount++, canExecute:  restriction.observable);
+    final command  = RxCommand.createSync( () =>executionCount++, canExecute:  restriction);
                                                               
 
     expect(command.canExecute, emits(true));

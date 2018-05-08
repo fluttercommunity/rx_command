@@ -11,7 +11,7 @@ dependencies:
   json_annotation: ^0.2.3
   http: "^0.11.3+16"
 
-  rxdart : any
+  rxdart : ^0.16.7
   rx_command: ^1.0.9
   #rx_command:
   #  path: ..\
