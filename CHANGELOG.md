@@ -52,4 +52,4 @@
 
 ## [1.1.0] - 08.05.2018
 
-* Updated to accommodate a a breaking API change in RxDart 0.16.7 because no longer do Subjects expose an `observable` property because Subjects now implement Observable interface directly like other Rx implimentation.
+* Updated to accommodate a a breaking API change in RxDart 0.16.7 because no longer do Subjects expose an `observable` property because Subjects now implement Observable interface directly like other Rx implementation.
