@@ -67,6 +67,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -182,54 +183,42 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">@override
-void execute([TParam param])
-{
-      if (!_canExecute)
-      {
-        return;
-      }
+void execute([TParam param]) {
+  if (!_canExecute) {
+    return;
+  }
 
-      if (_isRunning)
-      {
-         return;
-      }
-      else
-      {
-        _isRunning = true;
-        _canExecuteSubject.add(false);
-      }
+  if (_isRunning) {
+    return;
+  } else {
+    _isRunning = true;
+    _canExecuteSubject.add(false);
+  }
 
-      _commandResultsSubject.add(new  CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, null,true));
+  _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, null, true));
 
-      try {
-        final  result = _func(param);
-        lastResult = result;
-        _commandResultsSubject.add(new  CommandResult&lt;TResult&gt;(result,null,false));
-        _resultsSubject.add(result);
-      }
-      catch (error)
-      {
-          if (throwExceptions)
-          {
-              _resultsSubject.addError(error);
-              return;
-          }
+  try {
+    final result = _func(param);
+    lastResult = result;
+    _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(result, null, false));
+    _resultsSubject.add(result);
+  } catch (error) {
+    if (throwExceptions) {
+      _resultsSubject.addError(error);
+      return;
+    }
 
-          if (error is Exception)
-          {
-            _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null,error,false));
-          }
-          else
-          {
-            _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null,new Exception(error.toString()),false));
-          }
-      }
-      finally
-      {
-        _isRunning = false;
-        _isExecutingSubject.add(false);
-        _canExecuteSubject.add(!_executionLocked);
-      }
+    if (error is Exception) {
+      _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, error, false));
+    } else {
+      _commandResultsSubject.add(
+          new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, new Exception(error.toString()), false));
+    }
+  } finally {
+    _isRunning = false;
+    _isExecutingSubject.add(false);
+    _canExecuteSubject.add(!_executionLocked);
+  }
 }</code></pre>
     </section>
 
@@ -242,7 +231,7 @@ void execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

@@ -69,12 +69,12 @@ Mocking a command with <code>mockito</code> https://pub.dartlang.org/packages/mo
           <span class="name "><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
         </dt>
         <dd>
-          <a href="rx_command/RxCommand-class.html">RxCommand</a> capsules a given handler function that can then be executed by its <a href="rx_command/RxCommand/execute.html">execute</a> method. 
+          <a href="rx_command/RxCommand-class.html">RxCommand</a> capsules a given handler function that can then be executed by its <a href="rx_command/RxCommand/execute.html">execute</a> method.
 The result of this method is then published through its <a href="rx_command/RxCommand/results.html">results</a> Observable (Observable wrap Dart Streams)
-Additionally it offers Observables for it's current execution state, fs the command can be executed and for 
+Additionally it offers Observables for it's current execution state, fs the command can be executed and for
 all possibly thrown exceptions during command execution.
-<a href="rx_command/RxCommand-class.html">RxCommand</a> also implments the <code>Observable</code> interface so you can listen directly to the <a href="rx_command/RxCommand-class.html">RxCommand</a> which emitts 
-<a href="rx_command/CommandResult-class.html">CommandResult<tresult></tresult></a> which is often easier in combaination with Flutter <code>StreamBuilder</code> because you have all 
+<a href="rx_command/RxCommand-class.html">RxCommand</a> also implments the <code>Observable</code> interface so you can listen directly to the <a href="rx_command/RxCommand-class.html">RxCommand</a> which emitts
+<a href="rx_command/CommandResult-class.html">CommandResult<tresult></tresult></a> which is often easier in combaination with Flutter <code>StreamBuilder</code> because you have all
 state information at one place. <a href="rx_command/RxCommand-class.html">[...]</a>
         </dd>
         <dt id="RxCommandAsync">
@@ -93,7 +93,7 @@ state information at one place. <a href="rx_command/RxCommand-class.html">[...]<
           <span class="name "><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
         </dt>
         <dd>
-          Implementation of RxCommand to handle async handler functions. Normally you will not instanciate this directly but use one of the factory 
+          Implementation of RxCommand to handle async handler functions. Normally you will not instanciate this directly but use one of the factory
 methods of RxCommand.
         </dd>
       </dl>
@@ -227,7 +227,7 @@ methods of RxCommand.
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

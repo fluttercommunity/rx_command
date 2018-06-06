@@ -69,6 +69,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -198,8 +199,8 @@ ended minus the <code>skip</code> value.</p>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">Observable&lt;List&lt;T&gt;&gt; bufferCount(int count, [int skip]) =&gt;
-    transform(new BufferStreamTransformer&lt;T&gt;(onCount(count, skip)));</code></pre>
+      <pre class="language-dart"><code class="language-dart">Observable&lt;List&lt;T&gt;&gt; bufferCount(int count, [int skip]) =&gt; transform(
+    new BufferStreamTransformer&lt;T&gt;(onCount&lt;T, List&lt;T&gt;&gt;(count, skip)));</code></pre>
     </section>
 
   </div> <!-- /.main-content -->
@@ -211,7 +212,7 @@ ended minus the <code>skip</code> value.</p>
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

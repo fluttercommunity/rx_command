@@ -67,6 +67,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -182,61 +183,45 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">@override
-execute([TParam param])
-{
+execute([TParam param]) {
+  &#47;&#47; print(&quot;************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning&quot;);
 
+  if (!_canExecute) {
+    return;
+  }
 
-      &#47;&#47; print(&quot;************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning&quot;);
+  if (_isRunning) {
+    return;
+  } else {
+    _isRunning = true;
+    _canExecuteSubject.add(false);
+  }
 
-      if (!_canExecute)
-      {
-        return;
-      }
+  _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, null, true));
 
-      if (_isRunning)
-      {
-         return;
-      }
-      else
-      {
-        _isRunning = true;
-        _canExecuteSubject.add(false);
-      }
+  _func(param).asStream().handleError((error) {
+    if (throwExceptions) {
+      _resultsSubject.addError(error);
+      return;
+    }
 
-      _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null,null,true));
-
-      _func(param).asStream()
-        .handleError((error)
-        {
-          if (throwExceptions)
-          {
-              _resultsSubject.addError(error);
-              return;
-          }
-
-            if (error is Exception)
-            {
-              _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null,error,false));
-            }
-            else
-            {
-              _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null,new Exception(error.toString()),false));
-            }
-            _isRunning = false;
-            _isExecutingSubject.add(false);
-            _canExecuteSubject.add(true);
-
-
-        })
-
-        .listen( (result) {
-            _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(result,null,false));
-            lastResult = result;
-            _resultsSubject.add(result);
-            _isRunning = false;
-            _canExecute = !_executionLocked;
-            _canExecuteSubject.add(!_executionLocked);
-       });
+    if (error is Exception) {
+      _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, error, false));
+    } else {
+      _commandResultsSubject.add(
+          new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, new Exception(error.toString()), false));
+    }
+    _isRunning = false;
+    _isExecutingSubject.add(false);
+    _canExecuteSubject.add(true);
+  }).listen((result) {
+    _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(result, null, false));
+    lastResult = result;
+    _resultsSubject.add(result);
+    _isRunning = false;
+    _canExecute = !_executionLocked;
+    _canExecuteSubject.add(!_executionLocked);
+  });
 }</code></pre>
     </section>
 
@@ -249,7 +234,7 @@ execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

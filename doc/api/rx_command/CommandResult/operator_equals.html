@@ -102,9 +102,8 @@ the <a href="rx_command/CommandResult/hashCode.html">hashCode</a> method as well
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">@override
-bool operator == (Object other) =&gt; other is CommandResult&lt;T&gt; &amp;&amp; other.data == data &amp;&amp;
-                       other.error == error &amp;&amp;
-                       other.isExecuting ==isExecuting;</code></pre>
+bool operator ==(Object other) =&gt;
+    other is CommandResult&lt;T&gt; &amp;&amp; other.data == data &amp;&amp; other.error == error &amp;&amp; other.isExecuting == isExecuting;</code></pre>
     </section>
 
   </div> <!-- /.main-content -->
@@ -116,7 +115,7 @@ bool operator == (Object other) =&gt; other is CommandResult&lt;T&gt; &amp;&amp;
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

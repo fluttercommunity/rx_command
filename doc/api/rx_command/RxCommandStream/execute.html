@@ -67,6 +67,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -182,71 +183,52 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">@override
-execute([TParam param])
-{
+execute([TParam param]) {
+  if (!_canExecute) {
+    return;
+  }
 
-      if (!_canExecute)
-      {
-        return;
+  if (_isRunning) {
+    return;
+  } else {
+    _isRunning = true;
+    _canExecuteSubject.add(false);
+  }
+
+  _isExecutingSubject.add(true);
+  _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, null, true));
+
+  Exception thrownException;
+
+  var inputObservable = new Observable(_observableProvider(param))
+      .handleError((error) {
+        if (error is Exception) {
+          thrownException = error;
+        } else {
+          thrownException = new Exception(error.toString());
+        }
+      })
+      .doOnData((result) =&gt; _resultsSubject.add(result))
+      .map((result) {
+        lastResult = result;
+        return new CommandResult(result, null, false);
+      });
+
+  _commandResultsSubject.addStream(inputObservable).then((_) {
+    if (thrownException != null) {
+      if (throwExceptions) {
+        _resultsSubject.addError(thrownException);
+        _commandResultsSubject.addError(thrownException);
+      } else {
+        _thrownExceptionsSubject.add(thrownException);
+        _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(null, thrownException, false));
       }
-
-      if (_isRunning)
-      {
-         return;
-      }
-      else
-      {
-        _isRunning = true;
-        _canExecuteSubject.add(false);
-      }
-
-      _isExecutingSubject.add(true);
-      _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null,null,true));
-
-
-      Exception thrownException;
-
-      var inputObservable = new Observable(_observableProvider(param))
-                                    .handleError((error)
-                                    {
-
-                                        if (error is Exception)
-                                        {
-                                            thrownException = error;
-                                        }
-                                        else
-                                        {
-                                          thrownException= new Exception(error.toString());
-                                        }
-                                    })
-                                    .doOnData( (result) =&gt; _resultsSubject.add(result))
-                                    .map( (result) {
-                                      lastResult = result;
-                                      return new CommandResult(result, null, false);
-                                    });
-
-         _commandResultsSubject.addStream(inputObservable)
-                                  .then((_) {
-
-                                              if (thrownException != null)
-                                              {
-                                                  if (throwExceptions)
-                                                  {
-                                                      _resultsSubject.addError(thrownException);
-                                                      _commandResultsSubject.addError(thrownException);
-                                                  }
-                                                  else
-                                                  {
-                                                    _thrownExceptionsSubject.add(thrownException);
-                                                    _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(null,thrownException,false));
-                                                  }
-
-                                              }
-                                              _isRunning = false;
-                                              _canExecuteSubject.add(!_executionLocked);
-                                          }, onError: (error) {
-                                              print(error);
-                                          });
+    }
+    _isRunning = false;
+    _canExecuteSubject.add(!_executionLocked);
+  }, onError: (error) {
+    print(error);
+  });
 }</code></pre>
     </section>
 
@@ -259,7 +241,7 @@ execute([TParam param])
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

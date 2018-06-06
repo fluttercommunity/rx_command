@@ -26,7 +26,7 @@
     <li><a href="index.html">rx_command</a></li>
     <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
     <li><a href="rx_command/RxCommand-class.html">RxCommand<span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></a></li>
-    <li class="self-crumb">bufferWhen method</li>
+    <li class="self-crumb">bufferWhen&lt;<wbr><span class="type-parameter">O</span>&gt; method</li>
   </ol>
   <div class="self-name">bufferWhen</div>
   <form class="search navbar-right" role="search">
@@ -69,6 +69,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -173,12 +174,12 @@
   </div><!--/.sidebar-offcanvas-->
 
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
-    <h1>bufferWhen method</h1>
+    <h1>bufferWhen&lt;<wbr><span class="type-parameter">O</span>&gt; method</h1>
 
     <section class="multi-line-signature">
       <span class="returntype">Observable<span class="signature">&lt;<wbr><span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
       <span class="name ">bufferWhen</span>
-(<wbr><span class="parameter" id="bufferWhen-param-other"><span class="type-annotation">Stream</span> <span class="parameter-name">other</span></span>)
+&lt;<wbr><span class="type-parameter">O</span>&gt;(<wbr><span class="parameter" id="bufferWhen-param-other"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">O</span>&gt;</span></span> <span class="parameter-name">other</span></span>)
     </section>
     <section class="desc markdown">
       <p>Creates an Observable where each item is a <code>List</code> containing the items
@@ -192,7 +193,7 @@ from the source sequence, sampled on <code>onStream</code>.</p>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">Observable&lt;List&lt;T&gt;&gt; bufferWhen(Stream&lt;dynamic&gt; other) =&gt;
+      <pre class="language-dart"><code class="language-dart">Observable&lt;List&lt;T&gt;&gt; bufferWhen&lt;O&gt;(Stream&lt;O&gt; other) =&gt;
     transform(new BufferStreamTransformer&lt;T&gt;(onStream(other)));</code></pre>
     </section>
 
@@ -205,7 +206,7 @@ from the source sequence, sampled on <code>onStream</code>.</p>
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

@@ -67,6 +67,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -167,16 +168,22 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">RxCommandSync&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span>(<wbr><span class="parameter" id="-param-func"><span class="type-annotation"><a href="rx_command/Func1.html">Func1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, </span> <span class="parameter" id="-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>, </span> <span class="parameter" id="-param-buffer"><span class="type-annotation">bool</span> <span class="parameter-name">buffer</span></span>)
+      <span class="name ">RxCommandSync&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span>(<wbr><span class="parameter" id="-param-func"><span class="type-annotation"><a href="rx_command/Func1.html">Func1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, </span> <span class="parameter" id="-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>, </span> <span class="parameter" id="-param-buffer"><span class="type-annotation">bool</span> <span class="parameter-name">buffer</span>, </span> <span class="parameter" id="-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span></span>)
     </section>
 
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">factory RxCommandSync(Func1&lt;TParam, TResult&gt; func, Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult, bool buffer )
-{
-
-  return new RxCommandSync._(func, new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;(seedValue: emitInitialCommandResult ?  new CommandResult&lt;TResult&gt;(null, null, false) : null ), canExecute, buffer);
+      <pre class="language-dart"><code class="language-dart">factory RxCommandSync(Func1&lt;TParam, TResult&gt; func, Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult,
+    bool buffer, bool emitsLastValueToNewSubscriptions) {
+  return new RxCommandSync._(
+      func,
+      emitsLastValueToNewSubscriptions || emitInitialCommandResult
+          ? new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;(
+              seedValue: emitInitialCommandResult ? new CommandResult&lt;TResult&gt;(null, null, false) : null)
+          : new PublishSubject&lt;CommandResult&lt;TResult&gt;&gt;(),
+      canExecute,
+      buffer, emitsLastValueToNewSubscriptions);
 }</code></pre>
     </section>
 
@@ -189,7 +196,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

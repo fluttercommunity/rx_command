@@ -53,3 +53,8 @@
 ## [1.1.0] - 08.05.2018
 
 * Updated to accommodate a a breaking API change in RxDart 0.16.7 because no longer do Subjects expose an `observable` property because Subjects now implement Observable interface directly like other Rx implementation.
+
+## [2.0.0] - 06.06.2018
+
+* Till now the `results` Observable and the `RxCommand` itself behaved like a `BehaviourSubjects`. This can lead to problems when using with Flutter.
+From now on the default is `PublishSubject`. If you need `BehaviourSubject` behaviour, meaning every new listener gets the last received value, you can set `emitsLastValueToNewSubscriptions = true` when creating `RxCommand`.

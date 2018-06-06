@@ -76,6 +76,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -194,29 +195,21 @@ If you have queued a result with <a href="rx_command/MockCommand/queueResultsFor
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">@override
-execute([TParam param])  {
+execute([TParam param]) {
   _canExecuteSubject.add(false);
   executionCount++;
-  lastPassedValueToExecute  = param;
-   print(&quot;Called Execute&quot;);
-   if (returnValuesForNextExecute != null)
-   {
-      subject.addStream(new Observable&lt;CommandResult&lt;TResult&gt;&gt;
-                              .fromIterable (returnValuesForNextExecute)
-                                .map((data)
-                                  {
-                                    if ((data.isExecuting || data.hasError) &amp;&amp; _emitLastResult)
-                                    {
-                                        return new CommandResult&lt;TResult&gt;(lastResult, data.error, data.isExecuting);
-                                    }
-                                    return data;
-                                  }));
-   }
-   else
-   {
-     print(&quot;No values for execution queued&quot;);
-
-   }
+  lastPassedValueToExecute = param;
+  print(&quot;Called Execute&quot;);
+  if (returnValuesForNextExecute != null) {
+    subject.addStream(new Observable&lt;CommandResult&lt;TResult&gt;&gt;.fromIterable(returnValuesForNextExecute).map((data) {
+      if ((data.isExecuting || data.hasError) &amp;&amp; _emitLastResult) {
+        return new CommandResult&lt;TResult&gt;(lastResult, data.error, data.isExecuting);
+      }
+      return data;
+    }));
+  } else {
+    print(&quot;No values for execution queued&quot;);
+  }
   _canExecuteSubject.add(true);
 }</code></pre>
     </section>
@@ -230,7 +223,7 @@ execute([TParam param])  {
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

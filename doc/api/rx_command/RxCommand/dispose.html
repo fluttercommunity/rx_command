@@ -69,6 +69,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -181,19 +182,18 @@
 (<wbr>)
     </section>
     <section class="desc markdown">
-      <p>If you don't need a command any longer it is a good practise to 
+      <p>If you don't need a command any longer it is a good practise to
 dispose it to make sure all stream subsriptions are cancelled to prevent memory leaks</p>
     </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">void dispose()
-{
-    _isExecutingSubject.close();
-    _canExecuteSubject.close();
-    _thrownExceptionsSubject.close();
-    _resultsSubject.close();
-    _commandResultsSubject.close();
+      <pre class="language-dart"><code class="language-dart">void dispose() {
+  _isExecutingSubject.close();
+  _canExecuteSubject.close();
+  _thrownExceptionsSubject.close();
+  _resultsSubject.close();
+  _commandResultsSubject.close();
 }</code></pre>
     </section>
 
@@ -206,7 +206,7 @@ dispose it to make sure all stream subsriptions are cancelled to prevent memory 
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

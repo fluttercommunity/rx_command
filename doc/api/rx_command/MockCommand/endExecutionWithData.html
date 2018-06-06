@@ -76,6 +76,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -188,10 +189,9 @@ isExecuting : false</p>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">void endExecutionWithData(TResult data)
-{
+      <pre class="language-dart"><code class="language-dart">void endExecutionWithData(TResult data) {
   lastResult = data;
-  subject.add(new CommandResult&lt;TResult&gt;(data,null,false));
+  subject.add(new CommandResult&lt;TResult&gt;(data, null, false));
   _canExecuteSubject.add(true);
 }</code></pre>
     </section>
@@ -205,7 +205,7 @@ isExecuting : false</p>
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

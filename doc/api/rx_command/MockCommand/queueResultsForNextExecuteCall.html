@@ -76,6 +76,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -185,9 +186,8 @@
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">queueResultsForNextExecuteCall(List&lt;CommandResult&lt;TResult&gt;&gt; values)
-{
-    returnValuesForNextExecute = values;
+      <pre class="language-dart"><code class="language-dart">queueResultsForNextExecuteCall(List&lt;CommandResult&lt;TResult&gt;&gt; values) {
+  returnValuesForNextExecute = values;
 }</code></pre>
     </section>
 
@@ -200,7 +200,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>

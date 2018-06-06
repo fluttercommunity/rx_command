@@ -69,6 +69,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/buffer.html">buffer</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferFuture.html">bufferFuture</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
@@ -178,25 +179,32 @@
     <section class="multi-line-signature">
       <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">Null</span>&gt;</span></span>
       <span class="name ">createAsync1</span>
-&lt;<wbr><span class="type-parameter">TParam</span>&gt;(<wbr><span class="parameter" id="createAsync1-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction1.html">AsyncAction1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsync1-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync1-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span></span> })
+&lt;<wbr><span class="type-parameter">TParam</span>&gt;(<wbr><span class="parameter" id="createAsync1-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction1.html">AsyncAction1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsync1-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync1-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync1-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
     </section>
     <section class="desc markdown">
-      <p>Creates  a RxCommand for an asynchronous handler function with one parameter and no return type 
+      <p>Creates  a RxCommand for an asynchronous handler function with one parameter and no return type
 <code>action</code>: handler function
 <code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
 if omitted the command can be executed always except it's already executing
-<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you 
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
 subscribe to a newly created command it will issue <code>false</code>
 For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
 if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
-<code>emitInitialCommandResult=true</code>.</p>
+<code>emitInitialCommandResult=true</code>.
+By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
+a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.</p>
     </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;TParam, Null&gt; createAsync1&lt;TParam&gt;(AsyncAction1&lt;TParam&gt; action,{Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult = false})
-{
-    return new RxCommandAsync&lt;TParam,Null&gt;((x) {action(x); return null;} ,canExecute, emitInitialCommandResult,false);
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;TParam, Null&gt; createAsync1&lt;TParam&gt;(AsyncAction1&lt;TParam&gt; action,
+    {Observable&lt;bool&gt; canExecute,
+    bool emitInitialCommandResult = false,
+    bool emitsLastValueToNewSubscriptions = false}) {
+  return new RxCommandAsync&lt;TParam, Null&gt;((x) {
+    action(x);
+    return null;
+  }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions);
 }</code></pre>
     </section>
 
@@ -209,7 +217,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 
 <footer>
   <span class="no-break">
-    rx_command 1.0.9+1
+    rx_command 2.0.0
   </span>
 
 </footer>
