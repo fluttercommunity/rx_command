@@ -193,8 +193,8 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
-    return new RxCommandAsync<Null, Null>((_) {
-      action();
+    return new RxCommandAsync<Null, Null>((_) async {
+      await action();
       return null;
     }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions);
   }
@@ -214,8 +214,8 @@ abstract class RxCommand<TParam, TResult> extends Observable<CommandResult<TResu
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
-    return new RxCommandAsync<TParam, Null>((x) {
-      action(x);
+    return new RxCommandAsync<TParam, Null>((x) async {
+      await action(x);
       return null;
     }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions);
   }

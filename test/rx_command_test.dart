@@ -204,6 +204,34 @@ void main() {
   test('Execute simple async function with parameter', () async {
     var executionCount = 0;
 
+    final command = RxCommand.createAsync1<String>((s) async {
+      executionCount++;
+      await slowAsyncFunction(s);
+    });
+
+    command.canExecute.listen((b) {
+      print("Can execute:" + b.toString());
+    });
+    command.isExecuting.listen((b) {
+      print("Is executing:" + b.toString());
+    });
+
+
+    expect(command.canExecute, emitsInOrder([true, false, true]), reason: "Canexecute before false");
+    expect(command.isExecuting, emits(false), reason: "IsExecuting before true");
+
+    expect(command, emitsInOrder([crm(null, false, true), crm(null, false, false)]));
+
+    command.execute("Done");
+    await new Future.delayed(new Duration(milliseconds: 50));
+
+    expect(command.isExecuting, emits(false));
+    expect(executionCount, 1);
+  });
+
+  test('Execute simple async function with parameter and return value', () async {
+    var executionCount = 0;
+
     final command = RxCommand.createAsync3<String, String>((s) async {
       executionCount++;
       return slowAsyncFunction(s);

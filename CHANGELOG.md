@@ -58,3 +58,7 @@
 
 * Till now the `results` Observable and the `RxCommand` itself behaved like a `BehaviourSubjects`. This can lead to problems when using with Flutter.
 From now on the default is `PublishSubject`. If you need `BehaviourSubject` behaviour, meaning every new listener gets the last received value, you can set `emitsLastValueToNewSubscriptions = true` when creating `RxCommand`.
+
+## [2.0.1] - 15.06.2018
+
++ Bug fix. `createAsync` and `createAsync1` were missing an await.
