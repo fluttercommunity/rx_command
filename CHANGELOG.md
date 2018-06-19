@@ -61,4 +61,8 @@ From now on the default is `PublishSubject`. If you need `BehaviourSubject` beha
 
 ## [2.0.1] - 15.06.2018
 
-+ Bug fix. `createAsync` and `createAsync1` were missing an await.
+* Bug fix. `createAsync` and `createAsync1` were missing an await.
+
+## [2.0.2] - 19.06.2018
+
+* Update to RxDart 0.18.0
