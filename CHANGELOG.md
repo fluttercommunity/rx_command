@@ -66,3 +66,7 @@ From now on the default is `PublishSubject`. If you need `BehaviourSubject` beha
 ## [2.0.2] - 19.06.2018
 
 * Update to RxDart 0.18.0
+
+## [2.0.3] - 21.06.2018
+
+* Moved package to [Flutter Community](https://github.com/fluttercommunity)
