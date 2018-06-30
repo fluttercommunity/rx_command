@@ -1,6 +1,7 @@
 name: rx_command
 description: Reactive event handler wrapper class inspired by ReactiveUI.
 version: 2.0.3
+maintainer: Thomas Burkhart (@escamoteur)
 authors: 
 - Flutter Community <flutter-community@googlegroups.com>
 - Thomas Burkhart <burkhartsengineering@gmail.com>
