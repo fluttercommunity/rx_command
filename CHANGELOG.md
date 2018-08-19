@@ -70,3 +70,7 @@ From now on the default is `PublishSubject`. If you need `BehaviourSubject` beha
 ## [2.0.3] - 21.06.2018
 
 * Moved package to [Flutter Community](https://github.com/fluttercommunity)
+
+## [2.0.4] - 19.08.2018
+
+* Fixed `quiver_hashcode` dependency issue.
