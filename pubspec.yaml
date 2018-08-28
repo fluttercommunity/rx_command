@@ -11,11 +11,11 @@ environment:
   sdk: '>=2.0.0-dev <3.0.0'
 
 dependencies:
-  rxdart: ^0.18.0
+  rxdart: ^0.18.1
   quiver_hashcode: ^2.0.0
-  json_annotation: ^0.2.3
+  json_annotation: ^1.1.0
 
 dev_dependencies:
-  quiver: ^0.29.0
+  quiver: ^2.0.0
   flutter_test:
     sdk: flutter

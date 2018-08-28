@@ -6,15 +6,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  json_annotation: ^0.2.3
+  json_annotation: ^1.1.0
   http: "^0.11.3+16"
-  rxdart: ^0.18.0
+  rxdart: ^0.18.1
   rx_command:
     path: ..\
 
 dev_dependencies:
-  build_runner: ^0.9.1+1
-  json_serializable: ^0.5.0
+  build_runner: ^0.10.1+1
+  json_serializable: ^1.1.0
 
 flutter:
   uses-material-design: true
