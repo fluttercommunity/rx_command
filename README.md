@@ -51,9 +51,10 @@ textChangedCommand
 
 ## Getting Started
 
-Add to your `pubspec.yaml` dependencies to `rxdart`and `rx_command`.  
+Add to your `pubspec.yaml` dependencies to `rxdart` and `rx_command`.  
 
-An `RxCommand` is a generic class of type `RxCommand<TParam, TRESULT>` where `TPARAM` is the type of data that is passed when calling `execute` and `TResult` denotes the return type of the handler function. To signal that a handler doesn't take a parameter or returns a `Null` value. 
+An `RxCommand` is a generic class of type `RxCommand<TParam, TRESULT>` where `TPARAM` is the type of data that is passed when calling `execute` and `TResult` denotes the return type of the handler function. To signal that a handler doesn't take a parameter or returns a `null` value use `void` as type. 
+Even if you create a `RxCommand<void,void>` you will receive a `null` value when the wrapped function finishes so you can listen for the successful completion.
 
 An example of the declaration from the included sample App
 
@@ -73,7 +74,7 @@ RxCommand<bool,bool>  switchChangedCommand;
   /// `action`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<Null, Null> createSync(Action action,[Observable<bool> canExecute])
+  static RxCommand<void, void> createSync(Action action,[Observable<bool> canExecute])
 ```
 
 Please check the API docs for detailed description of all parameters
