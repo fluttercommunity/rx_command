@@ -5,6 +5,9 @@
 
 [![pub package](https://img.shields.io/pub/v/rx_command.svg)](https://pub.dartlang.org/packages/rx_command)
 
+> IMPORTANT: As of V3.0 `CommandResult` objects are now emitted on the `.results` property and the pure results of the wrapped function on the RxCommand itself. So I switched the two because while working on RxVMS it turned out that I use the pure result much more often. Also the name of `.results` matches much better with `CommandResult`. If you don't want to change your code you can just stay on 2.06 if you don't need any of V 3.0 features. 
+
+
 You can find a tutorial on how to use `RxCommands` in this blog post [Making Flutter more Reactive](https://www.burkharts.net/apps/blog/making-flutter-more-reactive/)
 
 `RxCommand` is an [_Reactive Extensions_ (Rx)](http://reactivex.io/) based abstraction for event handlers. It is based on `ReactiveCommand` for the [ReactiveUI](https://reactiveui.net/) framework. It makes heavy use of the [RxDart](https://github.com/ReactiveX/rxdart) package.
@@ -14,14 +17,14 @@ You can find a tutorial on how to use `RxCommands` in this blog post [Making Flu
 > MAYBE BREAKING CHANGE in 2.0.0: Till now the `results` Observable and the `RxCommand` itself behaved like a `BehaviourSubjects`. This can lead to problems when using with Flutter.
 From now on the default is `PublishSubject`. If you need `BehaviourSubject` behaviour, meaning every new listener gets the last received value, you can set `emitsLastValueToNewSubscriptions = true` when creating `RxCommand`.
 
-If you don't know Rx think of it as Dart `Streams` on steroids. `RxCommand` capsules a given handler function that can then be executed by its `execute` method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its `results` Observable (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.
+If you don't know Rx think of it as Dart `Streams` on steroids. `RxCommand` capsules a given handler function that can then be executed by its `execute` method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its Observable interface (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.
 
 A very simple example
 
 ```Dart
 final command = RxCommand.createSync3<int, String>((myInt) => "$myInt");
 
-command.results.listen((s) => print(s)); // Setup the listener that now waits for events, not doing anything
+command.listen((s) => print(s)); // Setup the listener that now waits for events, not doing anything
 
 // Somwhere else
 command.execute(10); // the listener will print "10"
@@ -34,7 +37,7 @@ Getting a bit more impressive:
 final textChangedCommand = RxCommand.createSync3((s) => s);
 
 // handler for results
-textChangedCommand.results
+textChangedCommand
   .debounce( new Duration(milliseconds: 500))  // Rx magic: make sure we start processing 
                                                // only if the user make a short pause typing 
     .listen( (filterText)
@@ -71,8 +74,9 @@ RxCommand<bool,bool>  switchChangedCommand;
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   static RxCommand<Null, Null> createSync(Action action,[Observable<bool> canExecute])
-
 ```
+
+Please check the API docs for detailed description of all parameters
 
 #### createFromStream
 
@@ -85,7 +89,9 @@ RxCommand<bool,bool>  switchChangedCommand;
   static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(StreamProvider<TParam, TResult> provider, [Observable<bool> canExecute])
 ```
 
-### Example
+You can pass in an additional `Observable<bool>` as `canExceute` that determines if command can be executed. 
+
+#### Example for `canExceute`
 
 The sample App contains a `Switch` widget that enables/disables the update command. The switch itself is bound to the `switchChangedCommand` that's result is then used as `canExcecute` of the `updateWeatherCommand`:
 
@@ -99,15 +105,20 @@ updateWeatherCommand = RxCommand.createAsync3<String,List<WeatherEntry>>(update,
 As the _Update_ `Button`'s building is based on a `StreamBuilder`that listens on the `canExecute` Observable of the `updateWeatherCommand` the buttons enabled/disabled state gets automatically updated when the `Switch's` state changes
 
 
-### Using RxCommands
+#### Error handling with RxCommands
+By default all exceptions thrown by the wrapped function will be caught and swallowed. If you want to react on the, you can listen on the `thrownException` property.
+If you want to force RxCommand not to catch Exceptions set `throwExceptions=true`.
 
-`RxCommand` is typically used in a ViewModel of a Page, which is made accessible to the Widgets via an `InheritedWidget`. Its `execute`method can then directly be assigned as event handler of the Widgets.
 
-The `result` of the command is best used with a `StreamBuilder` or inside a StatefulWidget.
+### Using RxCommands in a Flutter App
+
+`RxCommand` is typically used in a ViewModel of a Page, which is made accessible to the Widgets via an `InheritedWidget` or `GetIt`. Its `execute`method can then directly be assigned as event handler of the Widgets.
+
+The `result` of the command is best used with a `StreamBuilder` or inside a `StatefulWidget`.
 
 By subscribing (listening) to the `isExecuting` property of a RxCommand you can react on any execution state change of the command. E.g. show a spinner while the command is running.
 
-By subscribing to the `canExecute` property of a RxCommand you can react on any state change of the executability of the command.
+By subscribing to the `canExecute` property of a RxCommand you can react on any state change of the executability of the command. Like changing the appearance of a Button.
 
 As RxCommand is a callable class you can assign it directly to handler functions of Flutter widgets like:
 
@@ -117,7 +128,7 @@ new TextField(onChanged: TheViewModel.of(context).textChangedCommand,)
 
 #### Listening for CommandResults
 
-The original `ReactiveCommand` from _ReactiveUI_ separates the state information of the command into four Observables (`result, thrownExceptions, isExecuting, canExecute`) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a `StreamBuilder` to have all this information at one place so that you can decide what to display depending on the returned state. Therefore `RxCommand` itself is an Observable emitting `CommandResult`objects:
+The original `ReactiveCommand` from _ReactiveUI_ separates the state information of the command into four Observables (`result, thrownExceptions, isExecuting, canExecute`) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a `StreamBuilder` to have all this information at one place so that you can decide what to display depending on the returned state. Therefore `RxCommand` offer the `.results` Observable emitting `CommandResult`objects:
 
 ```Dart
 class CommandResult<T>
@@ -142,6 +153,8 @@ If you want to get an initial Result with `data==null, error==null, isExceuting=
 `RxCommand.lastResult` gives you access to the last successful result of the commands execution.
 
 If you want to get the last result included in the `CommandResult` events while executing or in case of and error you can pass `emitInitialCommandResult=true` when creating the command. 
+
+If you want to assign an initialValue to `.lastResult` e.g. if you use it with a `StreamBuilder's` `initialData` you can pass it with the `initialLastResult` parameter when creating the command.
 
 
 ### Disposing subscriptions (listeners)
@@ -238,7 +251,7 @@ testWidgets('Tapping update button updates the weather', (tester) async {
   command.queueResultsForNextExecuteCall([CommandResult<List<WeatherEntry>>(
               [WeatherEntry("London", 10.0, 30.0, "sunny", 12)],null, false)]);
 
-  expect(command, emitsInOrder([ crm(null, false, false), // default value that will be emited at startup 
+  expect(command.results, emitsInOrder([ crm(null, false, false), // default value that will be emited at startup 
                                  crm([WeatherEntry("London", 10.0, 30.0, "sunny", 12)], // data
                                   false, false) ]));
 
