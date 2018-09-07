@@ -181,18 +181,18 @@
         <section id="getter">
         
         <section class="multi-line-signature">
-          <span class="returntype">Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="returntype">Observable<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           <span class="name ">results</span>
   
 </section>
         
         <section class="desc markdown">
-  <p>Observable stream that outputs any result from the called handler function. If the handler function has void return type
-it will still output one <code>Null</code> item so that you can listen for the end of the execution.</p>
+  <p>emits <a href="rx_command/CommandResult-class.html">CommandResult<tresult></tresult></a> the combined state of the commane, which is often easier in combination with Flutter <code>StreamBuilder</code> 
+because you have all state information at one place.</p>
 </section>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span> </h2>
-  <pre class="language-dart"><code class="language-dart">Observable&lt;TResult&gt; get results =&gt; _resultsSubject;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Observable&lt;CommandResult&lt;TResult&gt;&gt; get results =&gt; _commandResultsSubject;</code></pre>
 </section>
 </section>
         
@@ -205,7 +205,7 @@ it will still output one <code>Null</code> item so that you can listen for the e
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

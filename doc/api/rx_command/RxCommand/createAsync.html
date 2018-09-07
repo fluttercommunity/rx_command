@@ -178,7 +178,7 @@
     <h1>createAsync method</h1>
 
     <section class="multi-line-signature">
-      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">Null</span>, <span class="type-parameter">Null</span>&gt;</span></span>
+      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">void</span>&gt;</span></span>
       <span class="name ">createAsync</span>
 (<wbr><span class="parameter" id="createAsync-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
     </section>
@@ -198,14 +198,14 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;Null, Null&gt; createAsync(AsyncAction action,
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;void, void&gt; createAsync(AsyncAction action,
     {Observable&lt;bool&gt; canExecute,
     bool emitInitialCommandResult = false,
     bool emitsLastValueToNewSubscriptions = false}) {
-  return new RxCommandAsync&lt;Null, Null&gt;((_) async {
+  return new RxCommandAsync&lt;void, void&gt;((_) async {
     await action();
     return null;
-  }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions);
+  }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions,null);
 }</code></pre>
     </section>
 
@@ -218,7 +218,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

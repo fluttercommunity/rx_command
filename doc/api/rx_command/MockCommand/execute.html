@@ -48,7 +48,6 @@
       <li><a href="rx_command/MockCommand/executionCount.html">executionCount</a></li>
       <li><a href="rx_command/MockCommand/lastPassedValueToExecute.html">lastPassedValueToExecute</a></li>
       <li><a href="rx_command/MockCommand/returnValuesForNextExecute.html">returnValuesForNextExecute</a></li>
-      <li><a href="rx_command/MockCommand/subject.html">subject</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/canExecute.html">canExecute</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/first.html">first</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/hashCode.html">hashCode</a></li>
@@ -202,7 +201,7 @@ execute([TParam param]) {
   lastPassedValueToExecute = param;
   print(&quot;Called Execute&quot;);
   if (returnValuesForNextExecute != null) {
-    subject.addStream(new Observable&lt;CommandResult&lt;TResult&gt;&gt;.fromIterable(returnValuesForNextExecute).map((data) {
+    _commandResultsSubject.addStream(new Observable&lt;CommandResult&lt;TResult&gt;&gt;.fromIterable(returnValuesForNextExecute).map((data) {
       if ((data.isExecuting || data.hasError) &amp;&amp; _emitLastResult) {
         return new CommandResult&lt;TResult&gt;(lastResult, data.error, data.isExecuting);
       }
@@ -224,7 +223,7 @@ execute([TParam param]) {
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

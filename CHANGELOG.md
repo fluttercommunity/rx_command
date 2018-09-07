@@ -1,71 +1,7 @@
-## [0.0.1] - 10.04.2018
+## [3.0.0] - 07.09.2018
 
-* Initial release.
-
-## [0.0.2] - 10.04.2018
-
-* Removed the necessity of type `Unit`. Instead now `Null` is used
-
-## [0.0.3] - 10.04.2018
-
-* Trying to fix the documentation link
-
-## [1.0.0] - 11.04.2018
-
-* Made RxCommand a callable class so that you now can directly assign it to your widget handlers
-
-## [1.0.1] - 11.04.2018
-
-* Small update in docs
-
-## [1.0.2] - 16.04.2018
-
-* Added CommandResult, now RxCommand is itself an Observable that emits CommandResults
-
-## [1.0.3] - 17.04.2018
-
-* RxCommands created by RxCommand.createFromStream no longer emit a final event after the last item of the source stream was received
-
-## [1.0.4] - 19.04.2018
-
-* Added MockCommand 
-
-## [1.0.5] - 20.04.2018
-
-* Improvements and docs for MockCommand 
-
-## [1.0.6] - 20.04.2018
-
-* Polishing and including `analysis_options.yaml` 
-
-## [1.0.7] - 20.04.2018
-
-* Forgot to run tests and missed an error that I introduced following an analyzer hint that I should use `const` instead of `new` 
-
-## [1.0.8] - 25.04.2018
-
-* RxCommand no longer issues an initial `CommandResult(null,null,false)` unless you set `emitInitialCommandResult: true` when creating the command.
-
-## [1.0.9] - 26.04.2018
-
-* Added an `emitLastResult` parameter to RxCommand factory functions. If true the last result will be transmitted in the data field of `CommandResults` while `isExecuting==true` or `hasError==true`.
-
-## [1.1.0] - 08.05.2018
-
-* Updated to accommodate a a breaking API change in RxDart 0.16.7 because no longer do Subjects expose an `observable` property because Subjects now implement Observable interface directly like other Rx implementation.
-
-## [2.0.0] - 06.06.2018
-
-* Till now the `results` Observable and the `RxCommand` itself behaved like a `BehaviourSubjects`. This can lead to problems when using with Flutter.
-From now on the default is `PublishSubject`. If you need `BehaviourSubject` behaviour, meaning every new listener gets the last received value, you can set `emitsLastValueToNewSubscriptions = true` when creating `RxCommand`.
-
-## [2.0.1] - 15.06.2018
-
-* Bug fix. `createAsync` and `createAsync1` were missing an await.
-
-## [2.0.2] - 19.06.2018
-
-* Update to RxDart 0.18.0
+* IMPORTANT: As of V3.0 `CommandResult` objects are now emitted on the `.results` property and the pure results of the wrapped function on the RxCommand itself. So I switched the two because while working on RxVMS it turned out that I use the pure result much more often. Also the name of `.results` matches much better with `CommandResult`. If you don't want to change your code you can just stay on 2.06 if you don't need any of V 3.0 features. 
+* Also you now can se an `initialLastResult` when creating an RxCommand.
 
 ## [2.0.3] - 21.06.2018
 
@@ -74,3 +10,76 @@ From now on the default is `PublishSubject`. If you need `BehaviourSubject` beha
 ## [2.0.4] - 19.08.2018
 
 * Fixed `quiver_hashcode` dependency issue.
+
+## [2.0.2] - 19.06.2018
+
+* Update to RxDart 0.18.0
+
+## [2.0.1] - 15.06.2018
+
+* Bug fix. `createAsync` and `createAsync1` were missing an await.
+
+## [2.0.0] - 06.06.2018
+
+* Till now the `results` Observable and the `RxCommand` itself behaved like a `BehaviourSubjects`. This can lead to problems when using with Flutter.
+From now on the default is `PublishSubject`. If you need `BehaviourSubject` behaviour, meaning every new listener gets the last received value, you can set `emitsLastValueToNewSubscriptions = true` when creating `RxCommand`.
+
+
+## [1.1.0] - 08.05.2018
+
+* Updated to accommodate a a breaking API change in RxDart 0.16.7 because no longer do Subjects expose an `observable` property because Subjects now implement Observable interface directly like other Rx implementation.
+
+## [1.0.9] - 26.04.2018
+
+* Added an `emitLastResult` parameter to RxCommand factory functions. If true the last result will be transmitted in the data field of `CommandResults` while `isExecuting==true` or `hasError==true`.
+
+
+## [1.0.8] - 25.04.2018
+
+* RxCommand no longer issues an initial `CommandResult(null,null,false)` unless you set `emitInitialCommandResult: true` when creating the command.
+
+## [1.0.7] - 20.04.2018
+
+* Forgot to run tests and missed an error that I introduced following an analyser hint that I should use `const` instead of `new` 
+
+## [1.0.6] - 20.04.2018
+
+* Polishing and including `analysis_options.yaml` 
+
+## [1.0.5] - 20.04.2018
+
+* Improvements and docs for MockCommand 
+
+## [1.0.4] - 19.04.2018
+
+* Added MockCommand 
+
+
+## [1.0.3] - 17.04.2018
+
+* RxCommands created by RxCommand.createFromStream no longer emit a final event after the last item of the source stream was received
+
+
+## [1.0.2] - 16.04.2018
+
+* Added CommandResult, now RxCommand is itself an Observable that emits CommandResults
+
+## [1.0.1] - 11.04.2018
+
+* Small update in docs
+
+## [1.0.0] - 11.04.2018
+
+* Made RxCommand a callable class so that you now can directly assign it to your widget handlers
+
+## [0.0.3] - 10.04.2018
+
+* Trying to fix the documentation link
+
+## [0.0.2] - 10.04.2018
+
+* Removed the necessity of type `Unit`. Instead now `Null` is used
+
+## [0.0.1] - 10.04.2018
+
+* Initial release.

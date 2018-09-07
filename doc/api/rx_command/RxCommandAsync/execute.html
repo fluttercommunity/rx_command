@@ -215,7 +215,8 @@ execute([TParam param]) {
     _isRunning = false;
     _isExecutingSubject.add(false);
     _canExecuteSubject.add(true);
-  }).listen((result) {
+  })
+  .listen((result) {
     _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(result, null, false));
     lastResult = result;
     _resultsSubject.add(result);
@@ -235,7 +236,7 @@ execute([TParam param]) {
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

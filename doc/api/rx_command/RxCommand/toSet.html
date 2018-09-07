@@ -183,17 +183,22 @@
           <li>@override</li>
         </ol>
       </div>
-      <span class="returntype">AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">Set<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
+      <span class="returntype">AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">Set<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
       <span class="name ">toSet</span>
 (<wbr>)
     </section>
     <section class="desc markdown">
       <p>Collects the data of this stream in a <code>Set</code>.</p>
+<p>Creates a <code>Set&lt;T&gt;</code> and adds all elements of the stream to the set.
+in the order they arrive.
+When the stream ends, the returned future is completed with that set.</p>
 <p>The returned set is the same type as returned by <code>new Set&lt;T&gt;()</code>.
 If another type of set is needed, either use <a href="rx_command/RxCommand/forEach.html">forEach</a> to add each
 element to the set, or use
 <code>toList().then((list) =&gt; new SomeOtherSet.from(list))</code>
 to create the set.</p>
+<p>If the stream contains an error, the returned future is completed
+with that error, and processing stops.</p>
     </section>
     
     <section class="summary source-code" id="source">
@@ -212,7 +217,7 @@ AsObservableFuture&lt;Set&lt;T&gt;&gt; toSet() =&gt;
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

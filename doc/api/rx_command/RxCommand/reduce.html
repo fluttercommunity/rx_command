@@ -183,9 +183,9 @@
           <li>@override</li>
         </ol>
       </div>
-      <span class="returntype">AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
+      <span class="returntype">AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
       <span class="name ">reduce</span>
-(<wbr><span class="parameter" id="reduce-param-combine"><span class="type-annotation"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">combine</span>(<span class="parameter" id="combine-param-previous"><span class="type-annotation">T</span> <span class="parameter-name">previous</span>, </span> <span class="parameter" id="combine-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
+(<wbr><span class="parameter" id="reduce-param-combine"><span class="type-annotation">TResult</span> <span class="parameter-name">combine</span>(<span class="parameter" id="combine-param-previous"><span class="type-annotation">T</span> <span class="parameter-name">previous</span>, </span> <span class="parameter" id="combine-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
     </section>
     <section class="desc markdown">
       <p>Combines a sequence of values by repeatedly applying <code>combine</code>.</p>
@@ -220,7 +220,7 @@ AsObservableFuture&lt;T&gt; reduce(T combine(T previous, T element)) =&gt;
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

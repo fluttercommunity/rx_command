@@ -168,7 +168,7 @@ The best way to understand how `RxCommand` is used is to look at the supplied sa
 
 ### The ViewModel
 
-It follow the MVVM design pattern so all business logic is bundled in the `WeatherViewModel` class in weather_viewmodel.dart.
+It follow the MVVM design pattern so all business logic is bundled in the `WeatherViewModel` class in `weather_viewmodel.dart`.
 
 It is made accessible to the Widgets by using an [InheritedWidget](https://docs.flutter.io/flutter/widgets/InheritedWidget-class.html) which is defined in main.dart and returns and instance of `WeatherViewModel`when used like `TheViewModel.of(context)`
 

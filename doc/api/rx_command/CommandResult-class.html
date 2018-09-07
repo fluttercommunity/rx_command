@@ -70,7 +70,7 @@
     <section class="desc markdown">
       <p>Combined execution state of an <code>RxCommand</code>
 Will be issued for any statechange of any of the fields
-During normal command execution you will get this items if directly listening at the command.</p><ol><li>If the command was just newly created you will get <code>null, false, false</code> (data, error, isExecuting)</li><li>When calling execute: <code>null, false, true</code></li><li>When exceution finishes: <code>the result, false, false</code></li></ol>
+During normal command execution you will get this items listening at the command's <code>.results</code> observable.</p><ol><li>If the command was just newly created you will get <code>null, false, false</code> (data, error, isExecuting)</li><li>When calling execute: <code>null, false, true</code></li><li>When exceution finishes: <code>the result, false, false</code></li></ol>
     </section>
     
 
@@ -151,9 +151,18 @@ During normal command execution you will get this items if directly listening at
       </dl>
     </section>
 
-    <section class="summary offset-anchor inherited" id="instance-methods">
+    <section class="summary offset-anchor" id="instance-methods">
       <h2>Methods</h2>
       <dl class="callables">
+        <dt id="toString" class="callable">
+          <span class="name"><a href="rx_command/CommandResult/toString.html">toString</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; String</span>
+          </span>
+        </dt>
+        <dd>
+          Returns a string representation of this object.
+          
+</dd>
         <dt id="noSuchMethod" class="callable inherited">
           <span class="name"><a href="rx_command/CommandResult/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation">Invocation</span> <span class="parameter-name">invocation</span></span>)
             <span class="returntype parameter">&#8594; dynamic</span>
@@ -161,16 +170,7 @@ During normal command execution you will get this items if directly listening at
         </dt>
         <dd class="inherited">
           Invoked when a non-existent method or property is accessed. <a href="rx_command/CommandResult/noSuchMethod.html">[...]</a>
-          <div class="features">inherited</div>
-</dd>
-        <dt id="toString" class="callable inherited">
-          <span class="name"><a href="rx_command/CommandResult/toString.html">toString</a></span><span class="signature">(<wbr>)
-            <span class="returntype parameter">&#8594; String</span>
-          </span>
-        </dt>
-        <dd class="inherited">
-          Returns a string representation of this object.
-          <div class="features">inherited</div>
+          <div class="features">@pragma(&quot;vm:entry-point&quot;), inherited</div>
 </dd>
       </dl>
     </section>
@@ -211,9 +211,9 @@ During normal command execution you will get this items if directly listening at
       <li><a href="rx_command/CommandResult/isExecuting.html">isExecuting</a></li>
       <li class="inherited"><a href="rx_command/CommandResult/runtimeType.html">runtimeType</a></li>
     
-      <li class="section-title inherited"><a href="rx_command/CommandResult-class.html#instance-methods">Methods</a></li>
+      <li class="section-title"><a href="rx_command/CommandResult-class.html#instance-methods">Methods</a></li>
+      <li><a href="rx_command/CommandResult/toString.html">toString</a></li>
       <li class="inherited"><a href="rx_command/CommandResult/noSuchMethod.html">noSuchMethod</a></li>
-      <li class="inherited"><a href="rx_command/CommandResult/toString.html">toString</a></li>
     
       <li class="section-title"><a href="rx_command/CommandResult-class.html#operators">Operators</a></li>
       <li><a href="rx_command/CommandResult/operator_equals.html">operator ==</a></li>
@@ -227,7 +227,7 @@ During normal command execution you will get this items if directly listening at
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

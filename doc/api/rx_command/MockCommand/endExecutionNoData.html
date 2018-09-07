@@ -48,7 +48,6 @@
       <li><a href="rx_command/MockCommand/executionCount.html">executionCount</a></li>
       <li><a href="rx_command/MockCommand/lastPassedValueToExecute.html">lastPassedValueToExecute</a></li>
       <li><a href="rx_command/MockCommand/returnValuesForNextExecute.html">returnValuesForNextExecute</a></li>
-      <li><a href="rx_command/MockCommand/subject.html">subject</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/canExecute.html">canExecute</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/first.html">first</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/hashCode.html">hashCode</a></li>
@@ -191,7 +190,7 @@ isExecuting : false</p>
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">void endExecutionNoData() {
-  subject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, null, true));
+  _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, null, true));
   _canExecuteSubject.add(true);
 }</code></pre>
     </section>
@@ -205,7 +204,7 @@ isExecuting : false</p>
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

@@ -178,6 +178,11 @@
     <h1>noSuchMethod method</h1>
 
     <section class="multi-line-signature">
+      <div>
+        <ol class="annotation-list">
+          <li>@pragma(&quot;vm:entry-point&quot;)</li>
+        </ol>
+      </div>
       <span class="returntype">dynamic</span>
       <span class="name ">noSuchMethod</span>
 (<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation">Invocation</span> <span class="parameter-name">invocation</span></span>)
@@ -191,7 +196,8 @@
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">external dynamic noSuchMethod(Invocation invocation);</code></pre>
+      <pre class="language-dart"><code class="language-dart">@pragma(&quot;vm:entry-point&quot;)
+external dynamic noSuchMethod(Invocation invocation);</code></pre>
     </section>
 
   </div> <!-- /.main-content -->
@@ -203,7 +209,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

@@ -53,9 +53,9 @@
       <li><a href="rx_command/CommandResult/isExecuting.html">isExecuting</a></li>
       <li class="inherited"><a href="rx_command/CommandResult/runtimeType.html">runtimeType</a></li>
     
-      <li class="section-title inherited"><a href="rx_command/CommandResult-class.html#instance-methods">Methods</a></li>
+      <li class="section-title"><a href="rx_command/CommandResult-class.html#instance-methods">Methods</a></li>
+      <li><a href="rx_command/CommandResult/toString.html">toString</a></li>
       <li class="inherited"><a href="rx_command/CommandResult/noSuchMethod.html">noSuchMethod</a></li>
-      <li class="inherited"><a href="rx_command/CommandResult/toString.html">toString</a></li>
     
       <li class="section-title"><a href="rx_command/CommandResult-class.html#operators">Operators</a></li>
       <li><a href="rx_command/CommandResult/operator_equals.html">operator ==</a></li>
@@ -69,6 +69,11 @@
     <h1>toString method</h1>
 
     <section class="multi-line-signature">
+      <div>
+        <ol class="annotation-list">
+          <li>@override</li>
+        </ol>
+      </div>
       <span class="returntype">String</span>
       <span class="name ">toString</span>
 (<wbr>)
@@ -79,7 +84,11 @@
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">external String toString();</code></pre>
+      <pre class="language-dart"><code class="language-dart">@override
+String toString()
+{
+  return &#39;Data: $data - HasError: $hasError - IsExecuting: $isExecuting&#39;;
+}</code></pre>
     </section>
 
   </div> <!-- /.main-content -->
@@ -91,7 +100,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

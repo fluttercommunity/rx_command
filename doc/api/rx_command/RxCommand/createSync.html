@@ -178,7 +178,7 @@
     <h1>createSync method</h1>
 
     <section class="multi-line-signature">
-      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">Null</span>, <span class="type-parameter">Null</span>&gt;</span></span>
+      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">void</span>&gt;</span></span>
       <span class="name ">createSync</span>
 (<wbr><span class="parameter" id="createSync-param-action"><span class="type-annotation"><a href="rx_command/Action.html">Action</a></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createSync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSync-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
     </section>
@@ -189,7 +189,7 @@
 if omitted the command can be executed always except it's already executing
 <a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
 subscribe to a newly created command it will issue <code>false</code>
-For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a> this normally doesn't make sense
 if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
 <code>emitInitialCommandResult=true</code>.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
@@ -198,14 +198,14 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;Null, Null&gt; createSync(Action action,
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;void, void&gt; createSync(Action action,
     {Observable&lt;bool&gt; canExecute,
     bool emitInitialCommandResult = false,
     bool emitsLastValueToNewSubscriptions = false}) {
-  return new RxCommandSync&lt;Null, Null&gt;((_) {
+  return new RxCommandSync&lt;void, void&gt;((_) {
     action();
     return null;
-  }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions);
+  }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions,null);
 }</code></pre>
     </section>
 
@@ -218,7 +218,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>

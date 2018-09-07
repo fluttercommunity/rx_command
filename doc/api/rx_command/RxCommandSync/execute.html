@@ -217,7 +217,6 @@ void execute([TParam param]) {
     }
   } finally {
     _isRunning = false;
-    _isExecutingSubject.add(false);
     _canExecuteSubject.add(!_executionLocked);
   }
 }</code></pre>
@@ -232,7 +231,7 @@ void execute([TParam param]) {
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.3
+    rx_command 2.0.5
   </span>
 
 </footer>
