@@ -14,14 +14,14 @@ class WeatherViewModel {
 
   WeatherViewModel() {
     // Command expects a bool value when executed and issues the value on it's result Observable (stream)
-    switchChangedCommand = RxCommand.createSync3<bool, bool>((b) => b);
+    switchChangedCommand = RxCommand.createSync<bool, bool>((b) => b);
 
     // We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
-    updateWeatherCommand = RxCommand.createAsync3<String, List<WeatherEntry>>(update,
+    updateWeatherCommand = RxCommand.createAsync<String, List<WeatherEntry>>(update,
         canExecute: switchChangedCommand, emitsLastValueToNewSubscriptions: true);
 
     // Will be called on every change of the searchfield
-    textChangedCommand = RxCommand.createSync3((s) => s);
+    textChangedCommand = RxCommand.createSync((s) => s);
 
     // handler for results
     textChangedCommand

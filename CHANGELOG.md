@@ -1,3 +1,7 @@
+## [4.0.1] - 07.09.2018
+
+* Updated to rxdart v 0.19.0
+
 ## [4.0.0] - 07.09.2018
 
 * **BREAKING CHANGE** All creation functions got renamed to be more descriptive than the numbered ones. The new variants are:
