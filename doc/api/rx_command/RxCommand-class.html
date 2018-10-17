@@ -174,7 +174,7 @@ If no subscription exists the Exception will be rethrown
           <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
         </dt>
         <dd class="inherited">
-          The first element of the stream. <a href="rx_command/RxCommand/first.html">[...]</a>
+          The first element of this stream. <a href="rx_command/RxCommand/first.html">[...]</a>
           <div class="features">read-only, inherited</div>
 </dd>
         <dt id="hashCode" class="property inherited">
@@ -565,7 +565,7 @@ resumes receiving items. <a href="rx_command/RxCommand/doOnResume.html">[...]</a
           </span>
         </dt>
         <dd class="inherited">
-          Discards all data on the stream, but signals when it's done or an error
+          Discards all data on this stream, but signals when it is done or an error
 occurred. <a href="rx_command/RxCommand/drain.html">[...]</a>
           <div class="features">inherited</div>
 </dd>
@@ -662,7 +662,7 @@ Iterable. Then, each item from the Iterable will be emitted one by one. <a href=
           </span>
         </dt>
         <dd class="inherited">
-          Executes <code>action</code> on each element of the stream. <a href="rx_command/RxCommand/forEach.html">[...]</a>
+          Executes <code>action</code> on each element of this stream. <a href="rx_command/RxCommand/forEach.html">[...]</a>
           <div class="features">inherited</div>
 </dd>
         <dt id="handleError" class="callable inherited">
@@ -1063,7 +1063,7 @@ that includes the emitted item and the time when the item was emitted. <a href="
           </span>
         </dt>
         <dd class="inherited">
-          Applies a <code>StreamTransformer</code> to the current stream. <a href="rx_command/RxCommand/transform.html">[...]</a>
+          Applies  <code>streamTransformer</code> to this stream. <a href="rx_command/RxCommand/transform.html">[...]</a>
           <div class="features">inherited</div>
 </dd>
         <dt id="where" class="callable inherited">
@@ -1187,45 +1187,29 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
       <h2>Static Methods</h2>
       <dl class="callables">
         <dt id="createAsync" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createAsync.html">createAsync</a></span><span class="signature">(<wbr><span class="parameter" id="createAsync-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">void</span>&gt;</span></span>
+          <span class="name"><a href="rx_command/RxCommand/createAsync.html">createAsync</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsync-param-func"><span class="type-annotation"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createAsync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
         </dt>
         <dd>
-          Creates  a RxCommand for an asynchronous handler function with no parameter and no return type
-<code>action</code>: handler function
+          Creates  a RxCommand for an asynchronous handler function with parameter that returns a value
+<code>func</code>: handler function
 <code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
 if omitted the command can be executed always except it's already executing
 <a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
 subscribe to a newly created command it will issue <code>false</code>
-For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a> this normally doesn't make sense
 if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
 <code>emitInitialCommandResult=true</code>.
+<code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
-        <dt id="createAsync1" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createAsync1.html">createAsync1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsync1-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction1.html">AsyncAction1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsync1-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync1-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync1-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">void</span>&gt;</span></span>
-          </span>
-        </dt>
-        <dd>
-          Creates  a RxCommand for an asynchronous handler function with one parameter and no return type
-<code>action</code>: handler function
-<code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
-if omitted the command can be executed always except it's already executing
-<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
-subscribe to a newly created command it will issue <code>false</code>
-For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
-if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
-<code>emitInitialCommandResult=true</code>.
-By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
-a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-          
-</dd>
-        <dt id="createAsync2" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createAsync2.html">createAsync2</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsync2-param-func"><span class="type-annotation"><a href="rx_command/AsyncFunc.html">AsyncFunc</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createAsync2-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync2-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync2-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync2-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync2-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
+        <dt id="createAsyncNoParam" class="callable">
+          <span class="name"><a href="rx_command/RxCommand/createAsyncNoParam.html">createAsyncNoParam</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsyncNoParam-param-func"><span class="type-annotation"><a href="rx_command/AsyncFunc.html">AsyncFunc</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createAsyncNoParam-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsyncNoParam-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsyncNoParam-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsyncNoParam-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsyncNoParam-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
             <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
         </dt>
@@ -1246,26 +1230,42 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
-        <dt id="createAsync3" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createAsync3.html">createAsync3</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsync3-param-func"><span class="type-annotation"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createAsync3-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsync3-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync3-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync3-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsync3-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+        <dt id="createAsyncNoParamNoResult" class="callable">
+          <span class="name"><a href="rx_command/RxCommand/createAsyncNoParamNoResult.html">createAsyncNoParamNoResult</a></span><span class="signature">(<wbr><span class="parameter" id="createAsyncNoParamNoResult-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction.html">AsyncAction</a></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsyncNoParamNoResult-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsyncNoParamNoResult-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsyncNoParamNoResult-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">void</span>&gt;</span></span>
           </span>
         </dt>
         <dd>
-          Creates  a RxCommand for an asynchronous handler function with parameter that returns a value
-<code>func</code>: handler function
+          Creates  a RxCommand for an asynchronous handler function with no parameter and no return type
+<code>action</code>: handler function
 <code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
 if omitted the command can be executed always except it's already executing
 <a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
 subscribe to a newly created command it will issue <code>false</code>
-For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a> this normally doesn't make sense
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
 if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
 <code>emitInitialCommandResult=true</code>.
-<code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
-<a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
+          
+</dd>
+        <dt id="createAsyncNoResult" class="callable">
+          <span class="name"><a href="rx_command/RxCommand/createAsyncNoResult.html">createAsyncNoResult</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createAsyncNoResult-param-action"><span class="type-annotation"><a href="rx_command/AsyncAction1.html">AsyncAction1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createAsyncNoResult-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createAsyncNoResult-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createAsyncNoResult-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">void</span>&gt;</span></span>
+          </span>
+        </dt>
+        <dd>
+          Creates  a RxCommand for an asynchronous handler function with one parameter and no return type
+<code>action</code>: handler function
+<code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
+if omitted the command can be executed always except it's already executing
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
+subscribe to a newly created command it will issue <code>false</code>
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
+if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
+<code>emitInitialCommandResult=true</code>.
+By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
+a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
           
 </dd>
         <dt id="createFromStream" class="callable">
@@ -1291,45 +1291,29 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
           
 </dd>
         <dt id="createSync" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createSync.html">createSync</a></span><span class="signature">(<wbr><span class="parameter" id="createSync-param-action"><span class="type-annotation"><a href="rx_command/Action.html">Action</a></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createSync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSync-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">void</span>&gt;</span></span>
+          <span class="name"><a href="rx_command/RxCommand/createSync.html">createSync</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSync-param-func"><span class="type-annotation"><a href="rx_command/Func1.html">Func1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createSync-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSync-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
         </dt>
         <dd>
-          Creates  a RxCommand for a synchronous handler function with no parameter and no return type
-<code>action</code>: handler function
+          Creates  a RxCommand for a synchronous handler function with parameter that returns a value
+<code>func</code>: handler function
 <code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
 if omitted the command can be executed always except it's already executing
 <a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
 subscribe to a newly created command it will issue <code>false</code>
-For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a> this normally doesn't make sense
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
 if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
 <code>emitInitialCommandResult=true</code>.
+<code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
-        <dt id="createSync1" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createSync1.html">createSync1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSync1-param-action"><span class="type-annotation"><a href="rx_command/Action1.html">Action1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createSync1-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSync1-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync1-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">void</span>&gt;</span></span>
-          </span>
-        </dt>
-        <dd>
-          Creates  a RxCommand for a synchronous handler function with one parameter and no return type
-<code>action</code>: handler function
-<code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
-if omitted the command can be executed always except it's already executing
-<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
-subscribe to a newly created command it will issue <code>false</code>
-For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a>  this normally doesn't make sense
-if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
-<code>emitInitialCommandResult=true</code>.
-By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
-a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-          
-</dd>
-        <dt id="createSync2" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createSync2.html">createSync2</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSync2-param-func"><span class="type-annotation"><a href="rx_command/Func.html">Func</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createSync2-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSync2-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync2-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync2-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync2-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
+        <dt id="createSyncNoParam" class="callable">
+          <span class="name"><a href="rx_command/RxCommand/createSyncNoParam.html">createSyncNoParam</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSyncNoParam-param-func"><span class="type-annotation"><a href="rx_command/Func.html">Func</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createSyncNoParam-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSyncNoParam-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoParam-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoParam-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoParam-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
             <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
         </dt>
@@ -1350,26 +1334,42 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
-        <dt id="createSync3" class="callable">
-          <span class="name"><a href="rx_command/RxCommand/createSync3.html">createSync3</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSync3-param-func"><span class="type-annotation"><a href="rx_command/Func1.html">Func1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createSync3-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSync3-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync3-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync3-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSync3-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
-            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+        <dt id="createSyncNoParamNoResult" class="callable">
+          <span class="name"><a href="rx_command/RxCommand/createSyncNoParamNoResult.html">createSyncNoParamNoResult</a></span><span class="signature">(<wbr><span class="parameter" id="createSyncNoParamNoResult-param-action"><span class="type-annotation"><a href="rx_command/Action.html">Action</a></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createSyncNoParamNoResult-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSyncNoParamNoResult-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoParamNoResult-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">void</span>&gt;</span></span>
           </span>
         </dt>
         <dd>
-          Creates  a RxCommand for a synchronous handler function with parameter that returns a value
-<code>func</code>: handler function
+          Creates  a RxCommand for a synchronous handler function with no parameter and no return type
+<code>action</code>: handler function
 <code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
 if omitted the command can be executed always except it's already executing
 <a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
 subscribe to a newly created command it will issue <code>false</code>
-For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> implement this normally doesn't make sense
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a> this normally doesn't make sense
 if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
 <code>emitInitialCommandResult=true</code>.
-<code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
-<a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
+          
+</dd>
+        <dt id="createSyncNoResult" class="callable">
+          <span class="name"><a href="rx_command/RxCommand/createSyncNoResult.html">createSyncNoResult</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="createSyncNoResult-param-action"><span class="type-annotation"><a href="rx_command/Action1.html">Action1</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span></span> <span class="parameter-name">action</span>, {</span> <span class="parameter" id="createSyncNoResult-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSyncNoResult-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoResult-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span></span> })
+            <span class="returntype parameter">&#8594; <a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">void</span>&gt;</span></span>
+          </span>
+        </dt>
+        <dd>
+          Creates  a RxCommand for a synchronous handler function with one parameter and no return type
+<code>action</code>: handler function
+<code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
+if omitted the command can be executed always except it's already executing
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
+subscribe to a newly created command it will issue <code>false</code>
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a>  this normally doesn't make sense
+if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
+<code>emitInitialCommandResult=true</code>.
+By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
+a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
           
 </dd>
       </dl>
@@ -1503,14 +1503,14 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
     
       <li class="section-title"><a href="rx_command/RxCommand-class.html#static-methods">Static methods</a></li>
       <li><a href="rx_command/RxCommand/createAsync.html">createAsync</a></li>
-      <li><a href="rx_command/RxCommand/createAsync1.html">createAsync1</a></li>
-      <li><a href="rx_command/RxCommand/createAsync2.html">createAsync2</a></li>
-      <li><a href="rx_command/RxCommand/createAsync3.html">createAsync3</a></li>
+      <li><a href="rx_command/RxCommand/createAsyncNoParam.html">createAsyncNoParam</a></li>
+      <li><a href="rx_command/RxCommand/createAsyncNoParamNoResult.html">createAsyncNoParamNoResult</a></li>
+      <li><a href="rx_command/RxCommand/createAsyncNoResult.html">createAsyncNoResult</a></li>
       <li><a href="rx_command/RxCommand/createFromStream.html">createFromStream</a></li>
       <li><a href="rx_command/RxCommand/createSync.html">createSync</a></li>
-      <li><a href="rx_command/RxCommand/createSync1.html">createSync1</a></li>
-      <li><a href="rx_command/RxCommand/createSync2.html">createSync2</a></li>
-      <li><a href="rx_command/RxCommand/createSync3.html">createSync3</a></li>
+      <li><a href="rx_command/RxCommand/createSyncNoParam.html">createSyncNoParam</a></li>
+      <li><a href="rx_command/RxCommand/createSyncNoParamNoResult.html">createSyncNoParamNoResult</a></li>
+      <li><a href="rx_command/RxCommand/createSyncNoResult.html">createSyncNoResult</a></li>
     
     </ol>
   </div><!--/.sidebar-offcanvas-->
@@ -1519,7 +1519,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.5
+    rx_command 4.0.0
   </span>
 
 </footer>

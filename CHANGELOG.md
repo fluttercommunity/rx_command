@@ -1,7 +1,25 @@
+## [4.0.0] - 07.09.2018
+
+* **BREAKING CHANGE** All creation functions got renamed to be more descriptive than the numbered ones. The new variants are:
+
+```Dart
+static RxCommand<TParam, TResult> createSync<TParam, TResult>(Func1<TParam, TResult> func,...
+static RxCommand<void, TResult> createSyncNoParam<TResult>(Func<TResult> func,...
+static RxCommand<TParam, void> createSyncNoResult<TParam>(Action1<TParam> action,...
+static RxCommand<void, void> createSyncNoParamNoResult(Action action,...
+
+static RxCommand<TParam, TResult> createAsync<TParam, TResult>(AsyncFunc1<TParam, TResult> func,...
+static RxCommand<void, TResult> createAsyncNoParam<TResult>(AsyncFunc<TResult> func,...
+static RxCommand<TParam, void> createAsyncNoResult<TParam>(AsyncAction1<TParam> action,...
+static RxCommand<void, void> createAsyncNoParamNoResult(AsyncAction action,...
+```
+
+
+
 ## [3.0.0] - 07.09.2018
 
 * IMPORTANT: As of V3.0 `CommandResult` objects are now emitted on the `.results` property and the pure results of the wrapped function on the RxCommand itself. So I switched the two because while working on RxVMS it turned out that I use the pure result much more often. Also the name of `.results` matches much better with `CommandResult`. If you don't want to change your code you can just stay on 2.06 if you don't need any of V 3.0 features. 
-* Also you now can se an `initialLastResult` when creating an RxCommand.
+* Also you now can set an `initialLastResult` when creating an RxCommand.
 
 ## [2.0.3] - 21.06.2018
 

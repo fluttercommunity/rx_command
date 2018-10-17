@@ -22,7 +22,7 @@ StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting) {
 
 void main() {
   test('Execute simple sync action', () {
-    final command = RxCommand.createSync(() => print("action"));
+    var command = RxCommand.createSyncNoParamNoResult(() => print("action"));
 
 
     expect(command.canExecute, emits(true));
@@ -38,7 +38,7 @@ void main() {
   });
 
   test('Execute simple sync action with emitInitialCommandResult: true', () {
-    final command = RxCommand.createSync(() => print("action"), emitInitialCommandResult: true);
+    final command = RxCommand.createSyncNoParamNoResult(() => print("action"), emitInitialCommandResult: true);
 
     command.results.listen((result) => print(result.toString()));
 
@@ -62,7 +62,7 @@ void main() {
 
     var executionCount = 0;
 
-    final command = RxCommand.createSync(() => executionCount++, canExecute: restriction);
+    final command = RxCommand.createSyncNoParamNoResult(() => executionCount++, canExecute: restriction);
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -93,7 +93,7 @@ void main() {
   });
 
   test('Execute simple sync action with exception  throwExceptions==true', () {
-    final command = RxCommand.createSync(() => throw new Exception("Intentional"))..throwExceptions = true;
+    final command = RxCommand.createSyncNoParamNoResult(() => throw new Exception("Intentional"))..throwExceptions = true;
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -107,7 +107,7 @@ void main() {
   });
 
   test('Execute simple sync action with exception and throwExceptions==false', () {
-    final command = RxCommand.createSync(() => throw new Exception("Intentional"));
+    final command = RxCommand.createSyncNoParamNoResult(() => throw new Exception("Intentional"));
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -120,7 +120,7 @@ void main() {
   });
 
   test('Execute simple sync action with parameter', () {
-    final command = RxCommand.createSync1<String>((x) {
+    final command = RxCommand.createSyncNoResult<String>((x) {
       print("action: " + x.toString());
       return null;
     });
@@ -137,7 +137,7 @@ void main() {
   });
 
   test('Execute simple sync function without parameter', () {
-    final command = RxCommand.createSync2<String>(() {
+    final command = RxCommand.createSyncNoParam<String>(() {
       print("action: ");
       return "4711";
     });
@@ -156,7 +156,7 @@ void main() {
   });
 
   test('Execute simple sync function without parameter with lastResult=true', () {
-    final command = RxCommand.createSync2<String>(() {
+    final command = RxCommand.createSyncNoParam<String>(() {
       print("action: ");
       return "4711";
     }, emitLastResult: true);
@@ -179,7 +179,7 @@ void main() {
   });
 
   test('Execute simple sync function with parameter', () {
-    final command = RxCommand.createSync3<String, String>((s) {
+    final command = RxCommand.createSync<String, String>((s) {
       print("action: " + s);
       return s + s;
     });
@@ -208,7 +208,7 @@ void main() {
   test('Execute simple async function with parameter', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync1<String>((s) async {
+    final command = RxCommand.createAsyncNoResult<String>((s) async {
       executionCount++;
       await slowAsyncFunction(s);
     });
@@ -237,7 +237,7 @@ void main() {
   test('Execute simple async function with parameter and return value', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync3<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
     });
@@ -270,7 +270,7 @@ void main() {
   test('Execute simple async function call while already running', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync3<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
     });
@@ -304,7 +304,7 @@ void main() {
   test('Execute simple async function called twice with delay', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync3<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
     });
@@ -343,7 +343,7 @@ void main() {
   test('Execute simple async function called twice with delay and emitLastResult=true', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync3<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
     }, emitLastResult: true);
@@ -384,7 +384,7 @@ void main() {
   }
 
   test('async function with exception and throwExceptions==true', () {
-    final command = RxCommand.createAsync3<String, String>(slowAsyncFunctionFail);
+    final command = RxCommand.createAsync<String, String>(slowAsyncFunctionFail);
     command.throwExceptions = true;
 
     expect(command.canExecute, emits(true));
@@ -399,7 +399,7 @@ void main() {
   });
 
   test('async function with exception with and throwExceptions==false', () {
-    final command = RxCommand.createAsync3<String, String>(slowAsyncFunctionFail);
+    final command = RxCommand.createAsync<String, String>(slowAsyncFunctionFail);
 
     command.thrownExceptions.listen((e) => print(e.toString()));
 

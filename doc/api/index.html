@@ -45,6 +45,18 @@
 <h1>RxCommand</h1>
 <p><a href="https://pub.dartlang.org/packages/rx_command"><img alt="pub package" src="https://img.shields.io/pub/v/rx_command.svg"></a></p>
 <blockquote>
+<p><strong>BREAKING CHANGE with V4.0</strong> All creation functions got renamed to be more descriptive than the numbered ones. The new variants are:</p></blockquote>
+<pre class="language-Dart"><code class="language-Dart">static RxCommand&lt;TParam, TResult&gt; createSync&lt;TParam, TResult&gt;(Func1&lt;TParam, TResult&gt; func,...
+static RxCommand&lt;void, TResult&gt; createSyncNoParam&lt;TResult&gt;(Func&lt;TResult&gt; func,...
+static RxCommand&lt;TParam, void&gt; createSyncNoResult&lt;TParam&gt;(Action1&lt;TParam&gt; action,...
+static RxCommand&lt;void, void&gt; createSyncNoParamNoResult(Action action,...
+
+static RxCommand&lt;TParam, TResult&gt; createAsync&lt;TParam, TResult&gt;(AsyncFunc1&lt;TParam, TResult&gt; func,...
+static RxCommand&lt;void, TResult&gt; createAsyncNoParam&lt;TResult&gt;(AsyncFunc&lt;TResult&gt; func,...
+static RxCommand&lt;TParam, void&gt; createAsyncNoResult&lt;TParam&gt;(AsyncAction1&lt;TParam&gt; action,...
+static RxCommand&lt;void, void&gt; createAsyncNoParamNoResult(AsyncAction action,...
+</code></pre>
+<blockquote>
 <p>IMPORTANT: As of V3.0 <code>CommandResult</code> objects are now emitted on the <code>.results</code> property and the pure results of the wrapped function on the RxCommand itself. So I switched the two because while working on RxVMS it turned out that I use the pure result much more often. Also the name of <code>.results</code> matches much better with <code>CommandResult</code>. If you don't want to change your code you can just stay on 2.06 if you don't need any of V 3.0 features. </p></blockquote>
 <p>You can find a tutorial on how to use <code>RxCommands</code> in this blog post <a href="https://www.burkharts.net/apps/blog/making-flutter-more-reactive/">Making Flutter more Reactive</a></p>
 <p><code>RxCommand</code> is an <a href="http://reactivex.io/"><em>Reactive Extensions</em> (Rx)</a> based abstraction for event handlers. It is based on <code>ReactiveCommand</code> for the <a href="https://reactiveui.net/">ReactiveUI</a> framework. It makes heavy use of the <a href="https://github.com/ReactiveX/rxdart">RxDart</a> package.</p>
@@ -55,7 +67,7 @@
 From now on the default is <code>PublishSubject</code>. If you need <code>BehaviourSubject</code> behaviour, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code> when creating <code>RxCommand</code>.</p></blockquote>
 <p>If you don't know Rx think of it as Dart <code>Streams</code> on steroids. <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its Observable interface (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.</p>
 <p>A very simple example</p>
-<pre class="language-Dart"><code class="language-Dart">final command = RxCommand.createSync3&lt;int, String&gt;((myInt) =&gt; "$myInt");
+<pre class="language-Dart"><code class="language-Dart">final command = RxCommand.createSync&lt;int, String&gt;((myInt) =&gt; "$myInt");
 
 command.listen((s) =&gt; print(s)); // Setup the listener that now waits for events, not doing anything
 
@@ -64,7 +76,7 @@ command.execute(10); // the listener will print "10"
 </code></pre>
 <p>Getting a bit more impressive:</p>
 <pre class="language-Dart"><code class="language-Dart">// This command will be executed everytime the text in a TextField changes
-final textChangedCommand = RxCommand.createSync3((s) =&gt; s);
+final textChangedCommand = RxCommand.createSync((s) =&gt; s);
 
 // handler for results
 textChangedCommand
@@ -87,12 +99,23 @@ RxCommand&lt;bool,bool&gt;  switchChangedCommand;
 </code></pre>
 <p><code>updateWeatherCommand</code> expects a handler that takes a <code>String</code> as parameter and returns a <code>List&lt;WeatherEntry&gt;</code>. <code>switchChangedCommand</code> expects and returns a <code>bool</code> value </p>
 <h3>Creating RxCommands</h3>
-<p> For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. Due to the limitation that Dart doesn't allow method overloading they are numbered and look like this.</p>
+<p> For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. They look like this.</p>
 <pre class="language-Dart"><code class="language-Dart">  /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
   /// `action`: handler function
   /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand&lt;void, void&gt; createSync(Action action,[Observable&lt;bool&gt; canExecute])
+  static RxCommand&lt;void, void&gt; createSyncNoParamNoResult(Action action,[Observable&lt;bool&gt; canExecute])
+</code></pre>
+<p>There are these variants:</p>
+<pre class="language-Dart"><code class="language-Dart">static RxCommand&lt;TParam, TResult&gt; createSync&lt;TParam, TResult&gt;(Func1&lt;TParam, TResult&gt; func,...
+static RxCommand&lt;void, TResult&gt; createSyncNoParam&lt;TResult&gt;(Func&lt;TResult&gt; func,...
+static RxCommand&lt;TParam, void&gt; createSyncNoResult&lt;TParam&gt;(Action1&lt;TParam&gt; action,...
+static RxCommand&lt;void, void&gt; createSyncNoParamNoResult(Action action,...
+
+static RxCommand&lt;TParam, TResult&gt; createAsync&lt;TParam, TResult&gt;(AsyncFunc1&lt;TParam, TResult&gt; func,...
+static RxCommand&lt;void, TResult&gt; createAsyncNoParam&lt;TResult&gt;(AsyncFunc&lt;TResult&gt; func,...
+static RxCommand&lt;TParam, void&gt; createAsyncNoResult&lt;TParam&gt;(AsyncAction1&lt;TParam&gt; action,...
+static RxCommand&lt;void, void&gt; createAsyncNoParamNoResult(AsyncAction action,...
 </code></pre>
 <p>Please check the API docs for detailed description of all parameters</p>
 <h4>createFromStream</h4>
@@ -105,10 +128,10 @@ RxCommand&lt;bool,bool&gt;  switchChangedCommand;
 <p>You can pass in an additional <code>Observable&lt;bool&gt;</code> as <code>canExceute</code> that determines if command can be executed. </p>
 <h4>Example for <code>canExceute</code></h4>
 <p>The sample App contains a <code>Switch</code> widget that enables/disables the update command. The switch itself is bound to the <code>switchChangedCommand</code> that's result is then used as <code>canExcecute</code> of the <code>updateWeatherCommand</code>:</p>
-<pre class="language-Dart"><code class="language-Dart">switchChangedCommand = RxCommand.createSync3&lt;bool,bool&gt;((b)=&gt;b);
+<pre class="language-Dart"><code class="language-Dart">switchChangedCommand = RxCommand.createSync&lt;bool,bool&gt;((b)=&gt;b);
 
 // We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
-updateWeatherCommand = RxCommand.createAsync3&lt;String,List&lt;WeatherEntry&gt;&gt;(update,switchChangedCommand.results);
+updateWeatherCommand = RxCommand.createAsync&lt;String,List&lt;WeatherEntry&gt;&gt;(update,switchChangedCommand.results);
 </code></pre>
 <p>As the <em>Update</em> <code>Button</code>'s building is based on a <code>StreamBuilder</code>that listens on the <code>canExecute</code> Observable of the <code>updateWeatherCommand</code> the buttons enabled/disabled state gets automatically updated when the <code>Switch's</code> state changes</p>
 <h4>Error handling with RxCommands</h4>
@@ -149,7 +172,7 @@ If you want to get an initial Result with <code>data==null, error==null, isExceu
 <h2>Exploring the sample App</h2>
 <p>The best way to understand how <code>RxCommand</code> is used is to look at the supplied sample app which is a simple app that queries a REST API for weather data.</p>
 <h3>The ViewModel</h3>
-<p>It follow the MVVM design pattern so all business logic is bundled in the <code>WeatherViewModel</code> class in weather_viewmodel.dart.</p>
+<p>It follow the MVVM design pattern so all business logic is bundled in the <code>WeatherViewModel</code> class in <code>weather_viewmodel.dart</code>.</p>
 <p>It is made accessible to the Widgets by using an <a href="https://docs.flutter.io/flutter/widgets/InheritedWidget-class.html">InheritedWidget</a> which is defined in main.dart and returns and instance of <code>WeatherViewModel</code>when used like <code>TheViewModel.of(context)</code></p>
 <p>The view model publishes two commands </p><ul><li><code>updateWeatherCommand</code> which makes a call to the weather API and filters the result based on a string that is passed to execute. Its result will be bound to a <code>StreamBuilder</code>in your View.</li><li><code>switchChangedCommand</code> which will be bound to a <code>Switch</code> widget to enable/disable the `updateWeatherCommand.</li></ul>
 <h3>The View</h3>
@@ -310,7 +333,7 @@ void endExecutionNoData()
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.5
+    rx_command 4.0.0
   </span>
 
 </footer>

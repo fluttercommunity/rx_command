@@ -162,14 +162,14 @@
     
       <li class="section-title"><a href="rx_command/RxCommand-class.html#static-methods">Static methods</a></li>
       <li><a href="rx_command/RxCommand/createAsync.html">createAsync</a></li>
-      <li><a href="rx_command/RxCommand/createAsync1.html">createAsync1</a></li>
-      <li><a href="rx_command/RxCommand/createAsync2.html">createAsync2</a></li>
-      <li><a href="rx_command/RxCommand/createAsync3.html">createAsync3</a></li>
+      <li><a href="rx_command/RxCommand/createAsyncNoParam.html">createAsyncNoParam</a></li>
+      <li><a href="rx_command/RxCommand/createAsyncNoParamNoResult.html">createAsyncNoParamNoResult</a></li>
+      <li><a href="rx_command/RxCommand/createAsyncNoResult.html">createAsyncNoResult</a></li>
       <li><a href="rx_command/RxCommand/createFromStream.html">createFromStream</a></li>
       <li><a href="rx_command/RxCommand/createSync.html">createSync</a></li>
-      <li><a href="rx_command/RxCommand/createSync1.html">createSync1</a></li>
-      <li><a href="rx_command/RxCommand/createSync2.html">createSync2</a></li>
-      <li><a href="rx_command/RxCommand/createSync3.html">createSync3</a></li>
+      <li><a href="rx_command/RxCommand/createSyncNoParam.html">createSyncNoParam</a></li>
+      <li><a href="rx_command/RxCommand/createSyncNoParamNoResult.html">createSyncNoParamNoResult</a></li>
+      <li><a href="rx_command/RxCommand/createSyncNoResult.html">createSyncNoResult</a></li>
     
     </ol>
   </div><!--/.sidebar-offcanvas-->
@@ -188,8 +188,8 @@
 &lt;<wbr><span class="type-parameter">S</span>&gt;(<wbr><span class="parameter" id="transform-param-streamTransformer"><span class="type-annotation">StreamTransformer<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>, <span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">streamTransformer</span></span>)
     </section>
     <section class="desc markdown">
-      <p>Applies a <code>StreamTransformer</code> to the current stream.</p>
-<p>Returns the result of the stream transformation,
+      <p>Applies  <code>streamTransformer</code> to this stream.</p>
+<p>Returns the transformed stream,
 that is, the result of <code>streamTransformer.bind(this)</code>.
 This method simply allows writing the call to <code>streamTransformer.bind</code>
 in a chained fashion, like</p>
@@ -218,7 +218,7 @@ Observable&lt;S&gt; transform&lt;S&gt;(StreamTransformer&lt;T, S&gt; streamTrans
 
 <footer>
   <span class="no-break">
-    rx_command 2.0.5
+    rx_command 4.0.0
   </span>
 
 </footer>

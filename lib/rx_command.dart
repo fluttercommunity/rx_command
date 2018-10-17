@@ -110,7 +110,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
-  static RxCommand<void, void> createSync(Action action,
+  static RxCommand<void, void> createSyncNoParamNoResult(Action action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
@@ -131,7 +131,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
-  static RxCommand<TParam, void> createSync1<TParam>(Action1<TParam> action,
+  static RxCommand<TParam, void> createSyncNoResult<TParam>(Action1<TParam> action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
@@ -155,7 +155,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use 
   /// [lastResult] as `initialData` of a `StreamBuilder`
-  static RxCommand<void, TResult> createSync2<TResult>(Func<TResult> func,
+  static RxCommand<void, TResult> createSyncNoParam<TResult>(Func<TResult> func,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,
@@ -179,7 +179,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use 
   /// [lastResult] as `initialData` of a `StreamBuilder`
- static RxCommand<TParam, TResult> createSync3<TParam, TResult>(Func1<TParam, TResult> func,
+ static RxCommand<TParam, TResult> createSync<TParam, TResult>(Func1<TParam, TResult> func,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,
@@ -202,7 +202,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
-  static RxCommand<void, void> createAsync(AsyncAction action,
+  static RxCommand<void, void> createAsyncNoParamNoResult(AsyncAction action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
@@ -223,7 +223,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
-  static RxCommand<TParam, void> createAsync1<TParam>(AsyncAction1<TParam> action,
+  static RxCommand<TParam, void> createAsyncNoResult<TParam>(AsyncAction1<TParam> action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
@@ -247,7 +247,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use 
   /// [lastResult] as `initialData` of a `StreamBuilder`
-  static RxCommand<void, TResult> createAsync2<TResult>(AsyncFunc<TResult> func,
+  static RxCommand<void, TResult> createAsyncNoParam<TResult>(AsyncFunc<TResult> func,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,
@@ -271,7 +271,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use 
   /// [lastResult] as `initialData` of a `StreamBuilder`
-  static RxCommand<TParam, TResult> createAsync3<TParam, TResult>(AsyncFunc1<TParam, TResult> func,
+  static RxCommand<TParam, TResult> createAsync<TParam, TResult>(AsyncFunc1<TParam, TResult> func,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,

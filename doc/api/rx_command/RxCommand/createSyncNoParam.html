@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="API docs for the timestamp method from the RxCommand class, for the Dart programming language.">
-  <title>timestamp method - RxCommand class - rx_command library - Dart API</title>
+  <meta name="description" content="API docs for the createSyncNoParam method from the RxCommand class, for the Dart programming language.">
+  <title>createSyncNoParam method - RxCommand class - rx_command library - Dart API</title>
   <!-- required because all the links are pseudo-absolute -->
   <base href="../..">
 
@@ -26,9 +26,9 @@
     <li><a href="index.html">rx_command</a></li>
     <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
     <li><a href="rx_command/RxCommand-class.html">RxCommand<span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></a></li>
-    <li class="self-crumb">timestamp method</li>
+    <li class="self-crumb">createSyncNoParam&lt;<wbr><span class="type-parameter">TResult</span>&gt; method</li>
   </ol>
-  <div class="self-name">timestamp</div>
+  <div class="self-name">createSyncNoParam</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -175,27 +175,40 @@
   </div><!--/.sidebar-offcanvas-->
 
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
-    <h1>timestamp method</h1>
+    <h1>createSyncNoParam&lt;<wbr><span class="type-parameter">TResult</span>&gt; method</h1>
 
     <section class="multi-line-signature">
-      <span class="returntype">Observable<span class="signature">&lt;<wbr><span class="type-parameter">Timestamped<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
-      <span class="name ">timestamp</span>
-(<wbr>)
+      <span class="returntype"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+      <span class="name ">createSyncNoParam</span>
+&lt;<wbr><span class="type-parameter">TResult</span>&gt;(<wbr><span class="parameter" id="createSyncNoParam-param-func"><span class="type-annotation"><a href="rx_command/Func.html">Func</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">func</span>, {</span> <span class="parameter" id="createSyncNoParam-param-canExecute"><span class="type-annotation">Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">canExecute</span>, </span> <span class="parameter" id="createSyncNoParam-param-emitInitialCommandResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitInitialCommandResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoParam-param-emitLastResult"><span class="type-annotation">bool</span> <span class="parameter-name">emitLastResult</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoParam-param-emitsLastValueToNewSubscriptions"><span class="type-annotation">bool</span> <span class="parameter-name">emitsLastValueToNewSubscriptions</span>: <span class="default-value">false</span>, </span> <span class="parameter" id="createSyncNoParam-param-initialLastResult"><span class="type-annotation">TResult</span> <span class="parameter-name">initialLastResult</span></span> })
     </section>
     <section class="desc markdown">
-      <p>Wraps each item emitted by the source Observable in a <code>Timestamped</code> object
-that includes the emitted item and the time when the item was emitted.</p>
-<p>Example</p>
-<pre class="language-dart"><code>new Observable.just(1)
-   .timestamp()
-   .listen((i) =&gt; print(i)); // prints 'TimeStamp{timestamp: XXX, value: 1}';
-</code></pre>
+      <p>Creates  a RxCommand for a synchronous handler function with no parameter that returns a value
+<code>func</code>: handler function
+<code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
+if omitted the command can be executed always except it's already executing
+<a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
+subscribe to a newly created command it will issue <code>false</code>
+<code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
+For the <code>Observable&lt;CommandResult&gt;</code> that <a href="rx_command/RxCommand-class.html">RxCommand</a> publishes in <a href="rx_command/RxCommand/results.html">results</a>  this normally doesn't make sense
+if you want to get an initial Result with <code>data==null, error==null, isExceuting==false</code> pass
+<code>emitInitialCommandResult=true</code>.
+By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
+a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code></p>
     </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">Observable&lt;Timestamped&lt;T&gt;&gt; timestamp() {
-  return transform(new TimestampStreamTransformer&lt;T&gt;());
+      <pre class="language-dart"><code class="language-dart">static RxCommand&lt;void, TResult&gt; createSyncNoParam&lt;TResult&gt;(Func&lt;TResult&gt; func,
+    {Observable&lt;bool&gt; canExecute,
+    bool emitInitialCommandResult = false,
+    bool emitLastResult = false,
+    bool emitsLastValueToNewSubscriptions = false,
+    TResult initialLastResult}) {
+  return new RxCommandSync&lt;void, TResult&gt;(
+      (_) =&gt; func(), canExecute, emitInitialCommandResult, emitLastResult, emitsLastValueToNewSubscriptions,initialLastResult);
 }</code></pre>
     </section>
 
