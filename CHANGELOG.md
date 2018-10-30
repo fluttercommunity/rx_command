@@ -1,3 +1,7 @@
+## [4.0.2] - 30.10.2018
+
+* removed dependency to json_annotations
+
 ## [4.0.1] - 07.09.2018
 
 * Updated to rxdart v 0.19.0
