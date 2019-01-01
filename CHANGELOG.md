@@ -1,3 +1,7 @@
+## [4.1.0] - 01.101.2019
+
+* added RxCommandListener
+
 ## [4.0.2] - 30.10.2018
 
 * removed dependency to json_annotations

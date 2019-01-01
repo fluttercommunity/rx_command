@@ -1,0 +1,98 @@
+import 'dart:async';
+
+import 'package:rx_command/rx_command.dart';
+
+class RxCommandListener<TParam, TResult> {
+  StreamSubscription valueSubscription;
+  StreamSubscription resultsSubscription;
+  StreamSubscription busyChangeSubscription;
+  StreamSubscription busySubscription;
+  StreamSubscription errorSubscription;
+  StreamSubscription canExecuteStateSubscription;
+
+  final RxCommand<TParam, TResult> command;
+
+  // Is called on every emitted value of the command
+  final void Function(TResult value) onValue;
+  // Is called when isExceuting changes 
+  final void Function(bool isBusy) onIsBusyChange;
+  // Is called on exceptions in the wrapped command function
+  final void Function(Exception ex) onError;
+  // Is called when canExecute changes
+  final void Function(bool state) onCanExecuteChange;
+  // is called with the vealue of the .results Observable of the command
+  final void Function(CommandResult<TResult> result) onResult;
+
+  // to make the handling of busy states even easier these are called on their respective states 
+  final void Function() onIsBusy;
+  final void Function() onNotBusy;
+
+  // optional you can directly pass in a debounce duration for the values of the command
+  final Duration debounceDuration;
+
+
+  RxCommandListener(this.command,{    
+    this.onValue,
+    this.onIsBusyChange,
+    this.onIsBusy,
+    this.onNotBusy,
+    this.onError,
+    this.onCanExecuteChange,
+    this.onResult,
+    this.debounceDuration,}
+  ) {
+    if (debounceDuration == null) {
+      if (onValue != null) {
+        valueSubscription = command.listen(onValue);
+      }
+
+      if (onResult != null) {
+        resultsSubscription = command.results.listen(onResult);
+      }
+
+      if (onIsBusyChange != null) {
+        busyChangeSubscription = command.isExecuting.listen(onIsBusyChange);
+      }
+      if (onIsBusy != null || onNotBusy != null) {
+        busySubscription =
+            command.isExecuting.listen((isBusy) {
+              return isBusy ? this?.onIsBusy() : this.onNotBusy();
+            });
+      }
+    } else {
+      if (onValue != null) {
+        valueSubscription = command.debounce(debounceDuration).listen(onValue);
+        if (onResult != null && debounceDuration != null) {
+          resultsSubscription = command.results.debounce(debounceDuration).listen(onResult);
+        }
+
+        if (onIsBusyChange != null) {
+          busyChangeSubscription =
+              command.isExecuting.debounce(debounceDuration).listen(onIsBusyChange);
+        }
+
+        if (onIsBusy != null && onNotBusy != null) {
+          busySubscription = command.isExecuting
+              .debounce(debounceDuration)
+              .listen((isBusy) => isBusy ? this?.onIsBusy : this.onNotBusy);
+        }
+      }
+
+      if (onError != null) {
+        errorSubscription = command.thrownExceptions.listen(onError);
+      }
+
+      if (onCanExecuteChange != null) {
+        canExecuteStateSubscription = command.canExecute.listen(onCanExecuteChange);
+      }
+    }
+  }
+
+  void dispose() {
+    busyChangeSubscription?.cancel();
+    valueSubscription?.cancel();
+    resultsSubscription?.cancel();
+    busySubscription?.cancel();
+    errorSubscription?.cancel();
+  }
+}

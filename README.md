@@ -220,6 +220,112 @@ The view model publishes two commands
 
 `listview.dart` implements `WeatherListView` which consists again of a StreamBuilder which updates automatically by listening on `TheViewModel.of(context).updateWeatherCommand.results`
 
+
+## Making live easier with RxCommandListeners
+
+If you want to react on more than one Observable of one command the listening and freeing of multiple of subscriptions makes the code less readable and you have to be careful not to forget to cancel all of them.
+
+`RxCommandListener` makes this handling much easier. Its constructor takes a command and direct handler functions for the different state changes:
+
+```Dart
+class RxCommandListener<TParam, TResult> {
+  final RxCommand<TParam, TResult> command;
+
+  // Is called on every emitted value of the command
+  final void Function(TResult value) onValue;
+  // Is called when isExceuting changes 
+  final void Function(bool isBusy) onIsBusyChange;
+  // Is called on exceptions in the wrapped command function
+  final void Function(Exception ex) onError;
+  // Is called when canExecute changes
+  final void Function(bool state) onCanExecuteChange;
+  // is called with the vealue of the .results Observable of the command
+  final void Function(CommandResult<TResult> result) onResult;
+
+  // to make the handling of busy states even easier these are called on their respective states 
+  final void Function() onIsBusy;
+  final void Function() onNotBusy;
+
+  // optional you can directly pass in a debounce duration for the values of the command
+  final Duration debounceDuration;
+
+RxCommandListener(this.command,{    
+  this.onValue,
+  this.onIsBusyChange,
+  this.onIsBusy,
+  this.onNotBusy,
+  this.onError,
+  this.onCanExecuteChange,
+  this.onResult,
+  this.debounceDuration,}
+)
+
+ void dispose(); 
+```  
+
+You don't have to pass all handler functions. they all are optional so you can just pass the ones you need. You only have to `dispose` the `RxCommandListener` in your `dispose` function and it will cancel all internally uses subscriptions.
+
+Let's compare the same code with and without `RxCommandListener` in some real app code. The `selectAndUploadImageCommand` here is used in a chat screen where the user can upload images to the chat. When the command is called an `ImagePicker` dialog is shown and after successful selection of an image the image is uploaded. On completion of the upload the command returns the storage location  of the image so that a new image chat entry can be created.
+
+```Dart
+_selectImageCommandSubscription = sl
+      .get<ImageManager>()
+      .selectAndUploadImageCommand
+      .listen((imageLocation) async {
+    if (imageLocation == null) return;
+    // this calls the execute method of the command
+    sl.get<EventManager>().createChatEntryCommand(new ChatEntry(
+            event: widget.event,
+            isImage: true,
+            content: imageLocation.downloadUrl,
+          ));
+    });
+_selectImageIsExecutingSubscription = sl
+      .get<ImageManager>()
+      .selectAndUploadImageCommand
+      .isExecuting
+      .listen((busy) {
+    if (busy) {
+      MySpinner.show(context);
+    } else {
+      MySpinner.hide();
+    }
+  });
+_selectImageErrorSubscription = sl
+      .get<ImageManager>()
+      .selectAndUploadImageCommand
+      .thrownExceptions
+      .listen((ex) => showMessageDialog(context, 'Upload problem',
+          "We cannot upload your selected image at the moment. Please check your internet connection"));
+```
+
+to
+
+```Dart
+selectImageListener = RxCommandListener(
+    command: sl.get<ImageManager>().selectAndUploadImageCommand,
+    onValue: (imageLocation) async {
+      if (imageLocation == null) return;
+
+      sl.get<EventManager>().createChatEntryCommand(new ChatEntry(
+            event: widget.event,
+            isImage: true,
+            content: imageLocation.downloadUrl,
+          ));
+    },
+    onIsBusy: () => MySpinner.show(context),
+    onNotBusy: MySpinner.hide,
+    onError: (ex) => showMessageDialog(context, 'Upload problem',
+        "We cannot upload your selected image at the moment. Please check your internet connection"));
+```
+
+As a rule of thumb I would only use an RxCommandListener if I want to listen to more than one observable.
+
+
+
+
+
+
 ## Mocking RxCommands
 
 When writing UI Tests with Flutter its often better not to work with the real commands in the ViewModel but to use a `MockCommand` to have better control over the data a command receives and emits.

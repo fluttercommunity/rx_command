@@ -74,7 +74,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTime.html">bufferTime</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferWhen.html">bufferWhen</a></li>
-      <li class="inherited"><a class="deprecated" href="rx_command/RxCommand/bufferWithCount.html">bufferWithCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/cast.html">cast</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/concatMap.html">concatMap</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/concatWith.html">concatWith</a></li>
@@ -101,7 +100,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/firstWhere.html">firstWhere</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/flatMap.html">flatMap</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/flatMapIterable.html">flatMapIterable</a></li>
-      <li class="inherited"><a class="deprecated" href="rx_command/RxCommand/flatMapLatest.html">flatMapLatest</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/fold.html">fold</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/forEach.html">forEach</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/handleError.html">handleError</a></li>
@@ -111,6 +109,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/lastWhere.html">lastWhere</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/listen.html">listen</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/map.html">map</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/mapTo.html">mapTo</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/materialize.html">materialize</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/max.html">max</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/mergeWith.html">mergeWith</a></li>
@@ -121,11 +120,17 @@
       <li class="inherited"><a href="rx_command/RxCommand/onErrorResumeNext.html">onErrorResumeNext</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/onErrorReturn.html">onErrorReturn</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/onErrorReturnWith.html">onErrorReturnWith</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/pairwise.html">pairwise</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/pipe.html">pipe</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/publish.html">publish</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/publishReplay.html">publishReplay</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/publishValue.html">publishValue</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/reduce.html">reduce</a></li>
-      <li class="inherited"><a href="rx_command/RxCommand/repeat.html">repeat</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/sample.html">sample</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/scan.html">scan</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/share.html">share</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/shareReplay.html">shareReplay</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/shareValue.html">shareValue</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/singleWhere.html">singleWhere</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/skip.html">skip</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/skipUntil.html">skipUntil</a></li>
@@ -152,7 +157,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/windowTest.html">windowTest</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/windowTime.html">windowTime</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/windowWhen.html">windowWhen</a></li>
-      <li class="inherited"><a class="deprecated" href="rx_command/RxCommand/windowWithCount.html">windowWithCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/withLatestFrom.html">withLatestFrom</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/zipWith.html">zipWith</a></li>
     
@@ -181,13 +185,14 @@
       <span class="returntype">Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
       <span class="name ">sample</span>
 (<wbr><span class="parameter" id="sample-param-sampleStream"><span class="type-annotation">Stream</span> <span class="parameter-name">sampleStream</span></span>)
+      <div class="features">inherited</div>
     </section>
     <section class="desc markdown">
       <p>Returns an Observable that, when the specified sample stream emits
 an item or completes, emits the most recently emitted item (if any)
 emitted by the source stream since the previous emission from
 the sample stream.</p>
-<h3>Example</h3>
+<h3 id="example">Example</h3>
 <pre class="language-dart"><code>new Observable.fromIterable([1, 2, 3])
   .sample(new Observable.timer(1, new Duration(seconds: 1))
   .listen(print); // prints 3
@@ -209,7 +214,7 @@ the sample stream.</p>
 
 <footer>
   <span class="no-break">
-    rx_command 4.0.0
+    rx_command 4.1.0
   </span>
 
 </footer>

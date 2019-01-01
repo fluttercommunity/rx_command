@@ -5,6 +5,8 @@ import 'dart:async';
 import 'package:quiver_hashcode/hashcode.dart';
 import 'package:rxdart/rxdart.dart';
 
+export 'rx_command_listener.dart';
+
 typedef Action = void Function();
 typedef Action1<TParam> = void Function(TParam param);
 

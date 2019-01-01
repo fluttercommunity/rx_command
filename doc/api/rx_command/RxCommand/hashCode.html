@@ -74,7 +74,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferTime.html">bufferTime</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/bufferWhen.html">bufferWhen</a></li>
-      <li class="inherited"><a class="deprecated" href="rx_command/RxCommand/bufferWithCount.html">bufferWithCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/cast.html">cast</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/concatMap.html">concatMap</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/concatWith.html">concatWith</a></li>
@@ -101,7 +100,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/firstWhere.html">firstWhere</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/flatMap.html">flatMap</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/flatMapIterable.html">flatMapIterable</a></li>
-      <li class="inherited"><a class="deprecated" href="rx_command/RxCommand/flatMapLatest.html">flatMapLatest</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/fold.html">fold</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/forEach.html">forEach</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/handleError.html">handleError</a></li>
@@ -111,6 +109,7 @@
       <li class="inherited"><a href="rx_command/RxCommand/lastWhere.html">lastWhere</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/listen.html">listen</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/map.html">map</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/mapTo.html">mapTo</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/materialize.html">materialize</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/max.html">max</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/mergeWith.html">mergeWith</a></li>
@@ -121,11 +120,17 @@
       <li class="inherited"><a href="rx_command/RxCommand/onErrorResumeNext.html">onErrorResumeNext</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/onErrorReturn.html">onErrorReturn</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/onErrorReturnWith.html">onErrorReturnWith</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/pairwise.html">pairwise</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/pipe.html">pipe</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/publish.html">publish</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/publishReplay.html">publishReplay</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/publishValue.html">publishValue</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/reduce.html">reduce</a></li>
-      <li class="inherited"><a href="rx_command/RxCommand/repeat.html">repeat</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/sample.html">sample</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/scan.html">scan</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/share.html">share</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/shareReplay.html">shareReplay</a></li>
+      <li class="inherited"><a href="rx_command/RxCommand/shareValue.html">shareValue</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/singleWhere.html">singleWhere</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/skip.html">skip</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/skipUntil.html">skipUntil</a></li>
@@ -152,7 +157,6 @@
       <li class="inherited"><a href="rx_command/RxCommand/windowTest.html">windowTest</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/windowTime.html">windowTime</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/windowWhen.html">windowWhen</a></li>
-      <li class="inherited"><a class="deprecated" href="rx_command/RxCommand/windowWithCount.html">windowWithCount</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/withLatestFrom.html">withLatestFrom</a></li>
       <li class="inherited"><a href="rx_command/RxCommand/zipWith.html">zipWith</a></li>
     
@@ -189,15 +193,15 @@
         <section class="desc markdown">
   <p>The hash code for this object.</p>
 <p>A hash code is a single integer which represents the state of the object
-that affects <a href="rx_command/RxCommand/operator_equals.html">operator ==</a> comparisons.</p>
+that affects <a href="rx_command_listener/RxCommandListener/operator_equals.html">operator ==</a> comparisons.</p>
 <p>All objects have hash codes.
 The default hash code represents only the identity of the object,
-the same way as the default <a href="rx_command/RxCommand/operator_equals.html">operator ==</a> implementation only considers objects
+the same way as the default <a href="rx_command_listener/RxCommandListener/operator_equals.html">operator ==</a> implementation only considers objects
 equal if they are identical (see <code>identityHashCode</code>).</p>
-<p>If <a href="rx_command/RxCommand/operator_equals.html">operator ==</a> is overridden to use the object state instead,
+<p>If <a href="rx_command_listener/RxCommandListener/operator_equals.html">operator ==</a> is overridden to use the object state instead,
 the hash code must also be changed to represent that state.</p>
 <p>Hash codes must be the same for objects that are equal to each other
-according to <a href="rx_command/RxCommand/operator_equals.html">operator ==</a>.
+according to <a href="rx_command_listener/RxCommandListener/operator_equals.html">operator ==</a>.
 The hash code of an object should only change if the object changes
 in a way that affects equality.
 There are no further requirements for the hash codes.
@@ -207,8 +211,8 @@ and there are no distribution guarantees.</p>
 it is even technically allowed that all instances have the same hash code,
 but if clashes happen too often, it may reduce the efficiency of hash-based
 data structures like <code>HashSet</code> or <code>HashMap</code>.</p>
-<p>If a subclass overrides <a href="rx_command/RxCommand/hashCode.html">hashCode</a>, it should override the
-<a href="rx_command/RxCommand/operator_equals.html">operator ==</a> operator as well to maintain consistency.</p>
+<p>If a subclass overrides <a href="rx_command_listener/RxCommandListener/hashCode.html">hashCode</a>, it should override the
+<a href="rx_command_listener/RxCommandListener/operator_equals.html">operator ==</a> operator as well to maintain consistency.</p>
 </section>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span> </h2>
@@ -225,7 +229,7 @@ data structures like <code>HashSet</code> or <code>HashMap</code>.</p>
 
 <footer>
   <span class="no-break">
-    rx_command 4.0.0
+    rx_command 4.1.0
   </span>
 
 </footer>

@@ -39,11 +39,12 @@
     <ol>
           <li class="section-title">Libraries</li>
           <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
+          <li><a href="rx_command_listener/rx_command_listener-library.html">rx_command_listener</a></li>
     </ol>
   </div>
 
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
-    <h1>rx_command library</h1>
+    <h1>rx_command library </h1>
 
     
     <section class="summary offset-anchor" id="classes">
@@ -51,7 +52,7 @@
 
       <dl>
         <dt id="CommandResult">
-          <span class="name "><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span>
+          <span class="name "><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
         </dt>
         <dd>
           Combined execution state of an <code>RxCommand</code>
@@ -59,14 +60,14 @@ Will be issued for any statechange of any of the fields
 During normal command execution you will get this items listening at the command's <code>.results</code> observable. <a href="rx_command/CommandResult-class.html">[...]</a>
         </dd>
         <dt id="MockCommand">
-          <span class="name "><a href="rx_command/MockCommand-class.html">MockCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="name "><a href="rx_command/MockCommand-class.html">MockCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> 
         </dt>
         <dd>
           <code>MockCommand</code> allows you to easily moch an RxCommand for your Unit and UI tests
-Mocking a command with <code>mockito</code> https://pub.dartlang.org/packages/mockito has its limitations.
+Mocking a command with <code>mockito</code> <a href="https://pub.dartlang.org/packages/mockito">https://pub.dartlang.org/packages/mockito</a> has its limitations.
         </dd>
         <dt id="RxCommand">
-          <span class="name "><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="name "><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> 
         </dt>
         <dd>
           <a href="rx_command/RxCommand-class.html">RxCommand</a> capsules a given handler function that can then be executed by its <a href="rx_command/RxCommand/execute.html">execute</a> method.
@@ -75,19 +76,25 @@ Additionally it offers Observables for it's current execution state, if the comm
 all possibly thrown exceptions during command execution. <a href="rx_command/RxCommand-class.html">[...]</a>
         </dd>
         <dt id="RxCommandAsync">
-          <span class="name "><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="name "><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> 
+        </dt>
+        <dd>
+          
+        </dd>
+        <dt id="RxCommandListener">
+          <span class="name "><a href="rx_command_listener/RxCommandListener-class.html">RxCommandListener</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> 
         </dt>
         <dd>
           
         </dd>
         <dt id="RxCommandStream">
-          <span class="name "><a href="rx_command/RxCommandStream-class.html">RxCommandStream</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="name "><a href="rx_command/RxCommandStream-class.html">RxCommandStream</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> 
         </dt>
         <dd>
           
         </dd>
         <dt id="RxCommandSync">
-          <span class="name "><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="name "><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> 
         </dt>
         <dd>
           Implementation of RxCommand to handle async handler functions. Normally you will not instanciate this directly but use one of the factory
@@ -95,6 +102,7 @@ methods of RxCommand.
         </dd>
       </dl>
     </section>
+
 
 
 
@@ -108,7 +116,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/Action.html">Action</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; void</span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -117,7 +125,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/Action1.html">Action1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="Action1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
             <span class="returntype parameter">&#8594; void</span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -126,7 +134,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/AsyncAction.html">AsyncAction</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Future</span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -135,7 +143,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/AsyncAction1.html">AsyncAction1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncAction1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
             <span class="returntype parameter">&#8594; Future</span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -144,7 +152,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/AsyncFunc.html">AsyncFunc</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Future<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -153,7 +161,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncFunc1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
             <span class="returntype parameter">&#8594; Future<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -162,7 +170,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/Func.html">Func</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; TResult</span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -171,7 +179,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/Func1.html">Func1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="Func1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
             <span class="returntype parameter">&#8594; TResult</span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -180,7 +188,7 @@ methods of RxCommand.
           <span class="name"><a href="rx_command/StreamProvider.html">StreamProvider</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="StreamProvider-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
             <span class="returntype parameter">&#8594; Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-        </dt>
+          </dt>
         <dd>
           
           
@@ -199,8 +207,10 @@ methods of RxCommand.
       <li><a href="rx_command/MockCommand-class.html">MockCommand</a></li>
       <li><a href="rx_command/RxCommand-class.html">RxCommand</a></li>
       <li><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a></li>
+      <li><a href="rx_command_listener/RxCommandListener-class.html">RxCommandListener</a></li>
       <li><a href="rx_command/RxCommandStream-class.html">RxCommandStream</a></li>
       <li><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a></li>
+    
     
     
     
@@ -224,7 +234,7 @@ methods of RxCommand.
 
 <footer>
   <span class="no-break">
-    rx_command 4.0.0
+    rx_command 4.1.0
   </span>
 
 </footer>
