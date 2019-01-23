@@ -1,3 +1,7 @@
+## [4.1.1] - 01.101.2019
+
+* bugfix https://github.com/fluttercommunity/rx_command/issues/9
+
 ## [4.1.0] - 01.101.2019
 
 * added RxCommandListener

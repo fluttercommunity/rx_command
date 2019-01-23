@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting) {
   return new StreamMatcher((x) async {
-    final CommandResult<T> event = await x.next;
+    final CommandResult<T> event = await x.next as CommandResult<T>;
     if (event.data != data) return "Wong data $data != ${event.data}";
 
     if (!hasError && event.error != null) return "Had error while not expected";

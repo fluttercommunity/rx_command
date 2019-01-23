@@ -14,7 +14,7 @@ class RxCommandListener<TParam, TResult> {
 
   // Is called on every emitted value of the command
   final void Function(TResult value) onValue;
-  // Is called when isExceuting changes 
+  // Is called when isExceuting changes
   final void Function(bool isBusy) onIsBusyChange;
   // Is called on exceptions in the wrapped command function
   final void Function(Exception ex) onError;
@@ -23,15 +23,15 @@ class RxCommandListener<TParam, TResult> {
   // is called with the vealue of the .results Observable of the command
   final void Function(CommandResult<TResult> result) onResult;
 
-  // to make the handling of busy states even easier these are called on their respective states 
+  // to make the handling of busy states even easier these are called on their respective states
   final void Function() onIsBusy;
   final void Function() onNotBusy;
 
   // optional you can directly pass in a debounce duration for the values of the command
   final Duration debounceDuration;
 
-
-  RxCommandListener(this.command,{    
+  RxCommandListener(
+    this.command, {
     this.onValue,
     this.onIsBusyChange,
     this.onIsBusy,
@@ -39,8 +39,8 @@ class RxCommandListener<TParam, TResult> {
     this.onError,
     this.onCanExecuteChange,
     this.onResult,
-    this.debounceDuration,}
-  ) {
+    this.debounceDuration,
+  }) {
     if (debounceDuration == null) {
       if (onValue != null) {
         valueSubscription = command.listen(onValue);
@@ -54,10 +54,9 @@ class RxCommandListener<TParam, TResult> {
         busyChangeSubscription = command.isExecuting.listen(onIsBusyChange);
       }
       if (onIsBusy != null || onNotBusy != null) {
-        busySubscription =
-            command.isExecuting.listen((isBusy) {
-              return isBusy ? this?.onIsBusy() : this.onNotBusy();
-            });
+        busySubscription = command.isExecuting.listen((isBusy) {
+          return isBusy ? this?.onIsBusy() : this.onNotBusy();
+        });
       }
     } else {
       if (onValue != null) {
@@ -67,8 +66,7 @@ class RxCommandListener<TParam, TResult> {
         }
 
         if (onIsBusyChange != null) {
-          busyChangeSubscription =
-              command.isExecuting.debounce(debounceDuration).listen(onIsBusyChange);
+          busyChangeSubscription = command.isExecuting.debounce(debounceDuration).listen(onIsBusyChange);
         }
 
         if (onIsBusy != null && onNotBusy != null) {
@@ -77,14 +75,13 @@ class RxCommandListener<TParam, TResult> {
               .listen((isBusy) => isBusy ? this?.onIsBusy : this.onNotBusy);
         }
       }
+    }
+    if (onError != null) {
+      errorSubscription = command.thrownExceptions.listen(onError);
+    }
 
-      if (onError != null) {
-        errorSubscription = command.thrownExceptions.listen(onError);
-      }
-
-      if (onCanExecuteChange != null) {
-        canExecuteStateSubscription = command.canExecute.listen(onCanExecuteChange);
-      }
+    if (onCanExecuteChange != null) {
+      canExecuteStateSubscription = command.canExecute.listen(onCanExecuteChange);
     }
   }
 
