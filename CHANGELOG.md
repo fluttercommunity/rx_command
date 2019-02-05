@@ -1,8 +1,12 @@
-## [4.1.1] - 01.101.2019
+## [4.1.2] - 05.02.2019
+
+* bugfix: If you created a command with `RxCommand.createFromStream` the isExecuting state was not set correctly
+
+## [4.1.1] - 04.02.2019
 
 * bugfix https://github.com/fluttercommunity/rx_command/issues/9
 
-## [4.1.0] - 01.101.2019
+## [4.1.0] - 01.01.2019
 
 * added RxCommandListener
 
