@@ -214,12 +214,7 @@ void execute([TParam param]) {
       return;
     }
 
-    if (error is Exception) {
       _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, error, false));
-    } else {
-      _commandResultsSubject.add(
-          new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, new Exception(error.toString()), false));
-    }
   } finally {
     _isRunning = false;
     _canExecuteSubject.add(!_executionLocked);
@@ -236,7 +231,7 @@ void execute([TParam param]) {
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

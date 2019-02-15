@@ -151,7 +151,7 @@ If you want to force RxCommand not to catch Exceptions set <code>throwExceptions
 <pre class="language-Dart"><code class="language-Dart">class CommandResult&lt;T&gt;
 {
   final T         data;
-  final Exception error;
+  final dynamic error;
   final bool      isExecuting;
 
   const CommandResult(this.data, this.error, this.isExecuting);
@@ -194,7 +194,7 @@ If you want to get an initial Result with <code>data==null, error==null, isExceu
   // Is called when isExceuting changes 
   final void Function(bool isBusy) onIsBusyChange;
   // Is called on exceptions in the wrapped command function
-  final void Function(Exception ex) onError;
+  final void Function(dynamic ex) onError;
   // Is called when canExecute changes
   final void Function(bool state) onCanExecuteChange;
   // is called with the vealue of the .results Observable of the command
@@ -426,7 +426,7 @@ void endExecutionNoData()
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

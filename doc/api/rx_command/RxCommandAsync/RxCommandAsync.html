@@ -180,14 +180,17 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">factory RxCommandAsync(AsyncFunc1&lt;TParam, TResult&gt; func, Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult,
-    bool emitLastResult, bool emitsLastValueToNewSubscriptions,TResult initialLastResult) {
+    bool emitLastResult, bool emitsLastValueToNewSubscriptions, TResult initialLastResult) {
   return new RxCommandAsync._(
       func,
       emitsLastValueToNewSubscriptions || emitInitialCommandResult
           ? new BehaviorSubject&lt;TResult&gt;()
           : new PublishSubject&lt;TResult&gt;(),
       canExecute,
-      emitLastResult, emitsLastValueToNewSubscriptions || emitInitialCommandResult, emitInitialCommandResult,initialLastResult);
+      emitLastResult,
+      emitsLastValueToNewSubscriptions || emitInitialCommandResult,
+      emitInitialCommandResult,
+      initialLastResult);
 }</code></pre>
     </section>
 
@@ -200,7 +203,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

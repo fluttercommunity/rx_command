@@ -189,10 +189,12 @@
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">RxCommand(this._resultsSubject, Observable&lt;bool&gt; canExecuteRestriction, this._emitLastResult, this._resultSubjectIsBehaviourSubject, this.lastResult)
+      <pre class="language-dart"><code class="language-dart">RxCommand(this._resultsSubject, Observable&lt;bool&gt; canExecuteRestriction, this._emitLastResult,
+    this._resultSubjectIsBehaviourSubject, this.lastResult)
     : super(_resultsSubject) {
-
-  _commandResultsSubject = _resultSubjectIsBehaviourSubject ?  new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;() : new PublishSubject&lt;CommandResult&lt;TResult&gt;&gt;();
+  _commandResultsSubject = _resultSubjectIsBehaviourSubject
+      ? new BehaviorSubject&lt;CommandResult&lt;TResult&gt;&gt;()
+      : new PublishSubject&lt;CommandResult&lt;TResult&gt;&gt;();
 
   _commandResultsSubject.where((x) =&gt; x.hasError).listen((x) =&gt; _thrownExceptionsSubject.add(x.error));
 
@@ -223,7 +225,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

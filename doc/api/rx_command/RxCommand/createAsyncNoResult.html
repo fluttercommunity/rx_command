@@ -210,7 +210,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
   return new RxCommandAsync&lt;TParam, void&gt;((x) async {
     await action(x);
     return null;
-  }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions,null);
+  }, canExecute, emitInitialCommandResult, false, emitsLastValueToNewSubscriptions, null);
 }</code></pre>
     </section>
 
@@ -223,7 +223,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

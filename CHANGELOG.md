@@ -1,3 +1,7 @@
+## [4.2.0] - 15.02.2019
+
+* Thrown exceptions that are no descendants of the type Exceptions are no longer wrapped in an Exception object
+
 ## [4.1.2] - 05.02.2019
 
 * bugfix: If you created a command with `RxCommand.createFromStream` the isExecuting state was not set correctly

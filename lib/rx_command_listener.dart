@@ -17,7 +17,7 @@ class RxCommandListener<TParam, TResult> {
   // Is called when isExceuting changes
   final void Function(bool isBusy) onIsBusyChange;
   // Is called on exceptions in the wrapped command function
-  final void Function(Exception ex) onError;
+  final void Function(dynamic ex) onError;
   // Is called when canExecute changes
   final void Function(bool state) onCanExecuteChange;
   // is called with the vealue of the .results Observable of the command

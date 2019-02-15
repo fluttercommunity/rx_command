@@ -200,7 +200,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 <code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code></p>
     </section>
     
@@ -212,8 +212,8 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
     bool emitLastResult = false,
     bool emitsLastValueToNewSubscriptions = false,
     TResult initialLastResult}) {
-  return new RxCommandSync&lt;TParam, TResult&gt;(
-      (x) =&gt; func(x), canExecute, emitInitialCommandResult, emitLastResult, emitsLastValueToNewSubscriptions, initialLastResult);
+  return new RxCommandSync&lt;TParam, TResult&gt;((x) =&gt; func(x), canExecute, emitInitialCommandResult, emitLastResult,
+      emitsLastValueToNewSubscriptions, initialLastResult);
 }</code></pre>
     </section>
 
@@ -226,7 +226,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

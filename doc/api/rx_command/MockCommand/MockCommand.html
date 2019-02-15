@@ -191,14 +191,18 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">factory MockCommand(
-    {Observable&lt;bool&gt; canExecute, bool emitInitialCommandResult = false, bool emitLastResult = false, bool emitsLastValueToNewSubscriptions = false,TResult initialLastResult}) {
+    {Observable&lt;bool&gt; canExecute,
+    bool emitInitialCommandResult = false,
+    bool emitLastResult = false,
+    bool emitsLastValueToNewSubscriptions = false,
+    TResult initialLastResult}) {
   return new MockCommand._(
-              emitsLastValueToNewSubscriptions
-          ? new BehaviorSubject&lt;TResult&gt;()
-          : new PublishSubject&lt;TResult&gt;(),
-
+      emitsLastValueToNewSubscriptions ? new BehaviorSubject&lt;TResult&gt;() : new PublishSubject&lt;TResult&gt;(),
       canExecute,
-      emitLastResult, false ,emitInitialCommandResult,initialLastResult);
+      emitLastResult,
+      false,
+      emitInitialCommandResult,
+      initialLastResult);
 }</code></pre>
     </section>
 
@@ -211,7 +215,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

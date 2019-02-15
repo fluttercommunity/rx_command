@@ -206,7 +206,8 @@ execute([TParam param]) {
   lastPassedValueToExecute = param;
   print(&quot;Called Execute&quot;);
   if (returnValuesForNextExecute != null) {
-    _commandResultsSubject.addStream(new Observable&lt;CommandResult&lt;TResult&gt;&gt;.fromIterable(returnValuesForNextExecute).map((data) {
+    _commandResultsSubject
+        .addStream(new Observable&lt;CommandResult&lt;TResult&gt;&gt;.fromIterable(returnValuesForNextExecute).map((data) {
       if ((data.isExecuting || data.hasError) &amp;&amp; _emitLastResult) {
         return new CommandResult&lt;TResult&gt;(lastResult, data.error, data.isExecuting);
       }
@@ -228,7 +229,7 @@ execute([TParam param]) {
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

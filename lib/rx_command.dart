@@ -30,7 +30,7 @@ typedef StreamProvider<TParam, TResult> = Stream<TResult> Function(TParam param)
 
 class CommandResult<T> {
   final T data;
-  final Exception error;
+  final dynamic error;
   final bool isExecuting;
 
   // ignore: avoid_positional_boolean_parameters
@@ -330,13 +330,13 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// When subribing to `thrownExceptions`you will every excetpion that was thrown in your handler function as an event on this Observable.
   /// If no subscription exists the Exception will be rethrown
-  Observable<Exception> get thrownExceptions => _thrownExceptionsSubject;
+  Observable<dynamic> get thrownExceptions => _thrownExceptionsSubject;
 
   Subject<CommandResult<TResult>> _commandResultsSubject;
   Subject<TResult> _resultsSubject;
   final BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>();
   final BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>();
-  final PublishSubject<Exception> _thrownExceptionsSubject = new PublishSubject<Exception>();
+  final PublishSubject<dynamic> _thrownExceptionsSubject = new PublishSubject<dynamic>();
 
   /// By default `RxCommand` will catch all exceptions during exceution of the command. And publish them on `.thrownExceptions`
   /// and in the `CommandResult`. If don't want this and have exceptions thrown, set this to true.
@@ -407,12 +407,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
         return;
       }
 
-      if (error is Exception) {
         _commandResultsSubject.add(new CommandResult<TResult>(_emitLastResult ? lastResult : null, error, false));
-      } else {
-        _commandResultsSubject.add(
-            new CommandResult<TResult>(_emitLastResult ? lastResult : null, new Exception(error.toString()), false));
-      }
     } finally {
       _isRunning = false;
       _canExecuteSubject.add(!_executionLocked);
@@ -469,12 +464,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
         return;
       }
 
-      if (error is Exception) {
         _commandResultsSubject.add(new CommandResult<TResult>(_emitLastResult ? lastResult : null, error, false));
-      } else {
-        _commandResultsSubject.add(
-            new CommandResult<TResult>(_emitLastResult ? lastResult : null, new Exception(error.toString()), false));
-      }
       _isRunning = false;
       _isExecutingSubject.add(false);
       _canExecuteSubject.add(true);
@@ -536,15 +526,11 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
     _isExecutingSubject.add(true);
     _commandResultsSubject.add(new CommandResult<TResult>(_emitLastResult ? lastResult : null, null, true));
 
-    Exception thrownException;
+    dynamic thrownException;
 
     var inputObservable = new Observable(_observableProvider(param))
         .handleError((error) {
-          if (error is Exception) {
             thrownException = error;
-          } else {
-            thrownException = new Exception(error.toString());
-          }
         })
         .doOnData((result) => _resultsSubject.add(result))
         .map((result) {

@@ -74,10 +74,10 @@
 The result of this method is then published through its Observable (Observable wrap Dart Streams)
 Additionally it offers Observables for it's current execution state, if the command can be executed and for
 all possibly thrown exceptions during command execution.</p>
-<p><a href="rx_command/RxCommand-class.html">RxCommand</a> implements the <code>Observable</code> interface so you can listen directly to the <a href="rx_command/RxCommand-class.html">RxCommand</a> which emits the 
-results of the wrapped function. If this function has a <code>void</code> return type 
+<p><a href="rx_command/RxCommand-class.html">RxCommand</a> implements the <code>Observable</code> interface so you can listen directly to the <a href="rx_command/RxCommand-class.html">RxCommand</a> which emits the
+results of the wrapped function. If this function has a <code>void</code> return type
 it will still output one <code>void</code> item so that you can listen for the end of the execution.</p>
-<p>The <a href="rx_command/RxCommand/results.html">results</a> Observable emits <a href="rx_command/CommandResult-class.html">CommandResult&lt;TRESULT&gt;</a> which is often easier in combaination with Flutter <code>StreamBuilder</code> 
+<p>The <a href="rx_command/RxCommand/results.html">results</a> Observable emits <a href="rx_command/CommandResult-class.html">CommandResult&lt;TRESULT&gt;</a> which is often easier in combaination with Flutter <code>StreamBuilder</code>
 because you have all state information at one place.</p>
 <p>An <a href="rx_command/RxCommand-class.html">RxCommand</a> is a generic class of type <code>RxCommand&lt;TParam, TRESULT&gt;</code>
 where <code>TParam</code> is the type of data that is passed when calling <a href="rx_command/RxCommand/execute.html">execute</a> and
@@ -149,7 +149,7 @@ but also if the command receives a false from the canExecute Observable that you
           <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span> 
         </dt>
         <dd>
-          emits <a href="rx_command/CommandResult-class.html">CommandResult&lt;TRESULT&gt;</a> the combined state of the commane, which is often easier in combination with Flutter <code>StreamBuilder</code> 
+          emits <a href="rx_command/CommandResult-class.html">CommandResult&lt;TRESULT&gt;</a> the combined state of the commane, which is often easier in combination with Flutter <code>StreamBuilder</code>
 because you have all state information at one place.
           <div class="features">read-only</div>
 </dd>
@@ -164,7 +164,7 @@ and in the <code>CommandResult</code>. If don't want this and have exceptions th
 </dd>
         <dt id="thrownExceptions" class="property">
           <span class="name"><a href="rx_command/RxCommand/thrownExceptions.html">thrownExceptions</a></span>
-          <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Exception</span>&gt;</span></span> 
+          <span class="signature">&#8594; Observable</span> 
         </dt>
         <dd>
           When subribing to <code>thrownExceptions</code>you will every excetpion that was thrown in your handler function as an event on this Observable.
@@ -1261,7 +1261,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 <code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
@@ -1283,7 +1283,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 <code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
@@ -1343,7 +1343,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 <code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
@@ -1365,7 +1365,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 <code>emitLastResult</code> will include the value of the last successful execution in all <a href="rx_command/CommandResult-class.html">CommandResult</a> events unless there is no new result.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
@@ -1387,7 +1387,7 @@ if you want to get an initial Result with <code>data==null, error==null, isExceu
 <code>emitInitialCommandResult=true</code>.
 By default the <a href="rx_command/RxCommand/results.html">results</a> Observable and the <a href="rx_command/RxCommand-class.html">RxCommand</a> itself behave like a PublishSubject. If you want that it acts like
 a BehaviourSubject, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code>.
-<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use 
+<code>initialLastResult</code> sets the value of the <a href="rx_command/RxCommand/lastResult.html">lastResult</a> property before the first item was received. This is helpful if you use
 <a href="rx_command/RxCommand/lastResult.html">lastResult</a> as <code>initialData</code> of a <code>StreamBuilder</code>
           
 </dd>
@@ -1580,7 +1580,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

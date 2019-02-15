@@ -81,13 +81,14 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">RxCommandListener&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span>(<wbr><span class="parameter" id="-param-command"><span class="type-annotation"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">command</span>, {</span> <span class="parameter" id="-param-onValue"><span class="type-annotation">void</span> <span class="parameter-name">onValue</span>(<span class="parameter" id="onValue-param-value"><span class="type-annotation">TResult</span> <span class="parameter-name">value</span></span>), </span> <span class="parameter" id="-param-onIsBusyChange"><span class="type-annotation">void</span> <span class="parameter-name">onIsBusyChange</span>(<span class="parameter" id="onIsBusyChange-param-isBusy"><span class="type-annotation">bool</span> <span class="parameter-name">isBusy</span></span>), </span> <span class="parameter" id="-param-onIsBusy"><span class="type-annotation">void</span> <span class="parameter-name">onIsBusy</span>(), </span> <span class="parameter" id="-param-onNotBusy"><span class="type-annotation">void</span> <span class="parameter-name">onNotBusy</span>(), </span> <span class="parameter" id="-param-onError"><span class="type-annotation">void</span> <span class="parameter-name">onError</span>(<span class="parameter" id="onError-param-ex"><span class="type-annotation">Exception</span> <span class="parameter-name">ex</span></span>), </span> <span class="parameter" id="-param-onCanExecuteChange"><span class="type-annotation">void</span> <span class="parameter-name">onCanExecuteChange</span>(<span class="parameter" id="onCanExecuteChange-param-state"><span class="type-annotation">bool</span> <span class="parameter-name">state</span></span>), </span> <span class="parameter" id="-param-onResult"><span class="type-annotation">void</span> <span class="parameter-name">onResult</span>(<span class="parameter" id="onResult-param-result"><span class="type-annotation"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">result</span></span>), </span> <span class="parameter" id="-param-debounceDuration"><span class="type-annotation">Duration</span> <span class="parameter-name">debounceDuration</span></span> })
+      <span class="name ">RxCommandListener&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span>(<wbr><span class="parameter" id="-param-command"><span class="type-annotation"><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">command</span>, {</span> <span class="parameter" id="-param-onValue"><span class="type-annotation">void</span> <span class="parameter-name">onValue</span>(<span class="parameter" id="onValue-param-value"><span class="type-annotation">TResult</span> <span class="parameter-name">value</span></span>), </span> <span class="parameter" id="-param-onIsBusyChange"><span class="type-annotation">void</span> <span class="parameter-name">onIsBusyChange</span>(<span class="parameter" id="onIsBusyChange-param-isBusy"><span class="type-annotation">bool</span> <span class="parameter-name">isBusy</span></span>), </span> <span class="parameter" id="-param-onIsBusy"><span class="type-annotation">void</span> <span class="parameter-name">onIsBusy</span>(), </span> <span class="parameter" id="-param-onNotBusy"><span class="type-annotation">void</span> <span class="parameter-name">onNotBusy</span>(), </span> <span class="parameter" id="-param-onError"><span class="type-annotation">void</span> <span class="parameter-name">onError</span>(<span class="parameter" id="onError-param-ex"><span class="type-annotation">dynamic</span> <span class="parameter-name">ex</span></span>), </span> <span class="parameter" id="-param-onCanExecuteChange"><span class="type-annotation">void</span> <span class="parameter-name">onCanExecuteChange</span>(<span class="parameter" id="onCanExecuteChange-param-state"><span class="type-annotation">bool</span> <span class="parameter-name">state</span></span>), </span> <span class="parameter" id="-param-onResult"><span class="type-annotation">void</span> <span class="parameter-name">onResult</span>(<span class="parameter" id="onResult-param-result"><span class="type-annotation"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">result</span></span>), </span> <span class="parameter" id="-param-debounceDuration"><span class="type-annotation">Duration</span> <span class="parameter-name">debounceDuration</span></span> })
     </section>
 
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">RxCommandListener(this.command,{
+      <pre class="language-dart"><code class="language-dart">RxCommandListener(
+  this.command, {
   this.onValue,
   this.onIsBusyChange,
   this.onIsBusy,
@@ -95,8 +96,8 @@
   this.onError,
   this.onCanExecuteChange,
   this.onResult,
-  this.debounceDuration,}
-) {
+  this.debounceDuration,
+}) {
   if (debounceDuration == null) {
     if (onValue != null) {
       valueSubscription = command.listen(onValue);
@@ -110,10 +111,9 @@
       busyChangeSubscription = command.isExecuting.listen(onIsBusyChange);
     }
     if (onIsBusy != null || onNotBusy != null) {
-      busySubscription =
-          command.isExecuting.listen((isBusy) {
-            return isBusy ? this?.onIsBusy() : this.onNotBusy();
-          });
+      busySubscription = command.isExecuting.listen((isBusy) {
+        return isBusy ? this?.onIsBusy() : this.onNotBusy();
+      });
     }
   } else {
     if (onValue != null) {
@@ -123,8 +123,7 @@
       }
 
       if (onIsBusyChange != null) {
-        busyChangeSubscription =
-            command.isExecuting.debounce(debounceDuration).listen(onIsBusyChange);
+        busyChangeSubscription = command.isExecuting.debounce(debounceDuration).listen(onIsBusyChange);
       }
 
       if (onIsBusy != null &amp;&amp; onNotBusy != null) {
@@ -133,14 +132,13 @@
             .listen((isBusy) =&gt; isBusy ? this?.onIsBusy : this.onNotBusy);
       }
     }
+  }
+  if (onError != null) {
+    errorSubscription = command.thrownExceptions.listen(onError);
+  }
 
-    if (onError != null) {
-      errorSubscription = command.thrownExceptions.listen(onError);
-    }
-
-    if (onCanExecuteChange != null) {
-      canExecuteStateSubscription = command.canExecute.listen(onCanExecuteChange);
-    }
+  if (onCanExecuteChange != null) {
+    canExecuteStateSubscription = command.canExecute.listen(onCanExecuteChange);
   }
 }</code></pre>
     </section>
@@ -154,7 +152,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

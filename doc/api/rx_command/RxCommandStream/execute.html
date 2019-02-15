@@ -204,20 +204,16 @@ execute([TParam param]) {
   _isExecutingSubject.add(true);
   _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(_emitLastResult ? lastResult : null, null, true));
 
-  Exception thrownException;
+  dynamic thrownException;
 
   var inputObservable = new Observable(_observableProvider(param))
       .handleError((error) {
-        if (error is Exception) {
           thrownException = error;
-        } else {
-          thrownException = new Exception(error.toString());
-        }
       })
       .doOnData((result) =&gt; _resultsSubject.add(result))
       .map((result) {
         lastResult = result;
-        return new CommandResult(result, null, false);
+        return new CommandResult(result, null, true);
       });
 
   _commandResultsSubject.addStream(inputObservable).then((_) {
@@ -229,7 +225,10 @@ execute([TParam param]) {
         _thrownExceptionsSubject.add(thrownException);
         _commandResultsSubject.add(new CommandResult&lt;TResult&gt;(null, thrownException, false));
       }
+    } else {
+      _commandResultsSubject.add(CommandResult(lastResult, null, false));
     }
+
     _isRunning = false;
     _canExecuteSubject.add(!_executionLocked);
   }, onError: (error) {
@@ -247,7 +246,7 @@ execute([TParam param]) {
 
 <footer>
   <span class="no-break">
-    rx_command 4.1.0
+    rx_command 4.2.0
   </span>
 
 </footer>

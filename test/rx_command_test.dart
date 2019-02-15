@@ -439,7 +439,7 @@ void main() {
     expect(command.isExecuting, emits(false), reason: "IsExecuting before true");
 
     expect(command.results,
-        emitsInOrder([crm(null, false, true), crm(1, false, false), crm(2, false, false), crm(3, false, false)]));
+        emitsInOrder([crm(null, false, true), crm(1, false, true), crm(2, false, true), crm(3, false, true),crm(3, false, false)]));
     expect(command,
         emitsInOrder([1,2,3]));
 
