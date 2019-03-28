@@ -415,6 +415,35 @@ void main() {
     expect(command.isExecuting, emits(false));
   });
 
+  test("async function should be next'able", () async {
+    final cmd = RxCommand.createAsync((_) async {
+      await Future.delayed(Duration(milliseconds: 1));
+      return 42;
+    });
+
+    cmd.execute();
+    final result = await cmd.next;
+
+    expect(result, 42);
+  });
+
+  test("async functions that throw should be next'able", () async {
+    final cmd = RxCommand.createAsync((_) async {
+      await Future.delayed(Duration(milliseconds: 1));
+      throw Exception("oh no");
+    });
+
+    cmd.execute();
+    var didntThrow = true;
+    try {
+      await cmd.next;
+    } catch (e) {
+      didntThrow = false;
+    }
+
+    expect(didntThrow, false);
+  });
+
   Stream<int> testProvider(int i) async* {
     yield i;
     yield i + 1;
