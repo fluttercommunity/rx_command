@@ -55,7 +55,7 @@ class RxCommandListener<TParam, TResult> {
       }
       if (onIsBusy != null || onNotBusy != null) {
         busySubscription = command.isExecuting.listen((isBusy) {
-          return isBusy ? this?.onIsBusy() : this.onNotBusy();
+          return isBusy ? this?.onIsBusy() : this?.onNotBusy();
         });
       }
     } else {
