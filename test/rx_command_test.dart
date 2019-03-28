@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting) {
   return new StreamMatcher((x) async {
-    final CommandResult<T> event = await x.next as CommandResult<T>;
+    final event = await x.next as CommandResult<T>;
     if (event.data != data) return "Wong data $data != ${event.data}";
 
     if (!hasError && event.error != null) return "Had error while not expected";
@@ -22,7 +22,7 @@ StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting) {
 
 void main() {
   test('Execute simple sync action', () {
-    var command = RxCommand.createSyncNoParamNoResult(() => print("action"));
+    var command = RxCommand.createSync((_) => print("action"));
 
 
     expect(command.canExecute, emits(true));
@@ -38,7 +38,7 @@ void main() {
   });
 
   test('Execute simple sync action with emitInitialCommandResult: true', () {
-    final command = RxCommand.createSyncNoParamNoResult(() => print("action"), emitInitialCommandResult: true);
+    final command = RxCommand.createSync((_) => print("action"), emitInitialCommandResult: true);
 
     command.results.listen((result) => print(result.toString()));
 
@@ -62,7 +62,7 @@ void main() {
 
     var executionCount = 0;
 
-    final command = RxCommand.createSyncNoParamNoResult(() => executionCount++, canExecute: restriction);
+    final command = RxCommand.createSync((_) => executionCount++, canExecute: restriction);
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -93,7 +93,7 @@ void main() {
   });
 
   test('Execute simple sync action with exception  throwExceptions==true', () {
-    final command = RxCommand.createSyncNoParamNoResult(() => throw new Exception("Intentional"))..throwExceptions = true;
+    final command = RxCommand.createSync((_) => throw new Exception("Intentional"))..throwExceptions = true;
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -107,7 +107,7 @@ void main() {
   });
 
   test('Execute simple sync action with exception and throwExceptions==false', () {
-    final command = RxCommand.createSyncNoParamNoResult(() => throw new Exception("Intentional"));
+    final command = RxCommand.createSync((_) => throw new Exception("Intentional"));
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -120,7 +120,7 @@ void main() {
   });
 
   test('Execute simple sync action with parameter', () {
-    final command = RxCommand.createSyncNoResult<String>((x) {
+    final command = RxCommand.createSync((String x) {
       print("action: " + x.toString());
       return null;
     });
@@ -137,7 +137,7 @@ void main() {
   });
 
   test('Execute simple sync function without parameter', () {
-    final command = RxCommand.createSyncNoParam<String>(() {
+    final command = RxCommand.createSync((_) {
       print("action: ");
       return "4711";
     });
@@ -156,7 +156,7 @@ void main() {
   });
 
   test('Execute simple sync function without parameter with lastResult=true', () {
-    final command = RxCommand.createSyncNoParam<String>(() {
+    final command = RxCommand.createSync((_) {
       print("action: ");
       return "4711";
     }, emitLastResult: true);
@@ -208,7 +208,7 @@ void main() {
   test('Execute simple async function with parameter', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsyncNoResult<String>((s) async {
+    final command = RxCommand.createAsync((String s) async {
       executionCount++;
       await slowAsyncFunction(s);
     });
