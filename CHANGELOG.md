@@ -1,3 +1,14 @@
+
+## [4.3.0] - 29.03.2019
+
+* Bug fix in RxCommandListener
+* Adding `next`property:
+
+```  	
+  /// This property is a utility which allows us to chain RxCommands together.
+  Future<TResult> get next => Observable.merge([this, this.thrownExceptions.cast<TResult>()]).take(1).last;
+```
+
 ## [4.2.0] - 15.02.2019
 
 * Thrown exceptions that are no descendants of the type Exceptions are no longer wrapped in an Exception object

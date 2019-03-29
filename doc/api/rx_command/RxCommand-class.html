@@ -144,6 +144,14 @@ but also if the command receives a false from the canExecute Observable that you
           The result of the last sucessful call to execute. This is especialls handy to use as <code>initialData</code> of Flutter <code>Streambuilder</code>
           <div class="features">read / write</div>
 </dd>
+        <dt id="next" class="property">
+          <span class="name"><a href="rx_command/RxCommand/next.html">next</a></span>
+          <span class="signature">&#8594; Future<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> 
+        </dt>
+        <dd>
+          This property is a utility which allows us to chain RxCommands together.
+          <div class="features">read-only</div>
+</dd>
         <dt id="results" class="property">
           <span class="name"><a href="rx_command/RxCommand/results.html">results</a></span>
           <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span> 
@@ -1446,6 +1454,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
       <li><a href="rx_command/RxCommand/canExecute.html">canExecute</a></li>
       <li><a href="rx_command/RxCommand/isExecuting.html">isExecuting</a></li>
       <li><a href="rx_command/RxCommand/lastResult.html">lastResult</a></li>
+      <li><a href="rx_command/RxCommand/next.html">next</a></li>
       <li><a href="rx_command/RxCommand/results.html">results</a></li>
       <li><a href="rx_command/RxCommand/throwExceptions.html">throwExceptions</a></li>
       <li><a href="rx_command/RxCommand/thrownExceptions.html">thrownExceptions</a></li>
@@ -1580,7 +1589,7 @@ a BehaviourSubject, meaning every new listener gets the last received value, you
 
 <footer>
   <span class="no-break">
-    rx_command 4.2.0
+    rx_command 4.3.0
   </span>
 
 </footer>

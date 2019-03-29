@@ -112,7 +112,7 @@
     }
     if (onIsBusy != null || onNotBusy != null) {
       busySubscription = command.isExecuting.listen((isBusy) {
-        return isBusy ? this?.onIsBusy() : this.onNotBusy();
+        return isBusy ? this?.onIsBusy() : this?.onNotBusy();
       });
     }
   } else {
@@ -152,7 +152,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 4.2.0
+    rx_command 4.3.0
   </span>
 
 </footer>
