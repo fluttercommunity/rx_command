@@ -332,6 +332,9 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// If no subscription exists the Exception will be rethrown
   Observable<dynamic> get thrownExceptions => _thrownExceptionsSubject;
 
+  /// This property is a utility which allows us to chain RxCommands together.
+  Future<TResult> get next => Observable.merge([this, this.thrownExceptions.cast<TResult>()]).take(1).last;
+
   Subject<CommandResult<TResult>> _commandResultsSubject;
   Subject<TResult> _resultsSubject;
   final BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>();
