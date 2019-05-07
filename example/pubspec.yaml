@@ -9,8 +9,8 @@ dependencies:
   json_annotation: ^1.1.0
   http: "^0.11.3+16"
   rxdart: ^0.20.0
-  rx_command:
-    path: ..\
+  rx_command: any
+#    path: ..\
 
 dev_dependencies:
   build_runner: ^0.10.1+1

@@ -60,18 +60,18 @@ class RxCommandListener<TParam, TResult> {
       }
     } else {
       if (onValue != null) {
-        valueSubscription = command.debounce(debounceDuration).listen(onValue);
+        valueSubscription = command.debounceTime(debounceDuration).listen(onValue);
         if (onResult != null && debounceDuration != null) {
-          resultsSubscription = command.results.debounce(debounceDuration).listen(onResult);
+          resultsSubscription = command.results.debounceTime(debounceDuration).listen(onResult);
         }
 
         if (onIsBusyChange != null) {
-          busyChangeSubscription = command.isExecuting.debounce(debounceDuration).listen(onIsBusyChange);
+          busyChangeSubscription = command.isExecuting.debounceTime(debounceDuration).listen(onIsBusyChange);
         }
 
         if (onIsBusy != null && onNotBusy != null) {
           busySubscription = command.isExecuting
-              .debounce(debounceDuration)
+              .debounceTime(debounceDuration)
               .listen((isBusy) => isBusy ? this?.onIsBusy : this.onNotBusy);
         }
       }

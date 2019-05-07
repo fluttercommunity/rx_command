@@ -56,7 +56,7 @@ void main() {
   });
 
   test('Execute simple sync action with canExceute restriction', () async {
-    final restriction = new BehaviorSubject<bool>(seedValue: true);
+    final restriction = new BehaviorSubject<bool>()..add(true);
 
     restriction.listen((b) => print("Restriction issued: $b"));
 
