@@ -1,3 +1,7 @@
+## [4.3.1+1] - 26.06.2019
+
+ * updated logo in readme
+
 ## [4.3.1] - 07.05.2019
 
  * Version bump to rxdart: ^0.22.0

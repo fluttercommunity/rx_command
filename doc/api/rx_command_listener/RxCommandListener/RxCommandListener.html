@@ -117,18 +117,18 @@
     }
   } else {
     if (onValue != null) {
-      valueSubscription = command.debounce(debounceDuration).listen(onValue);
+      valueSubscription = command.debounceTime(debounceDuration).listen(onValue);
       if (onResult != null &amp;&amp; debounceDuration != null) {
-        resultsSubscription = command.results.debounce(debounceDuration).listen(onResult);
+        resultsSubscription = command.results.debounceTime(debounceDuration).listen(onResult);
       }
 
       if (onIsBusyChange != null) {
-        busyChangeSubscription = command.isExecuting.debounce(debounceDuration).listen(onIsBusyChange);
+        busyChangeSubscription = command.isExecuting.debounceTime(debounceDuration).listen(onIsBusyChange);
       }
 
       if (onIsBusy != null &amp;&amp; onNotBusy != null) {
         busySubscription = command.isExecuting
-            .debounce(debounceDuration)
+            .debounceTime(debounceDuration)
             .listen((isBusy) =&gt; isBusy ? this?.onIsBusy : this.onNotBusy);
       }
     }
@@ -152,7 +152,7 @@
 
 <footer>
   <span class="no-break">
-    rx_command 4.3.0
+    rx_command 4.3.1+1
   </span>
 
 </footer>
