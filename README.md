@@ -1,5 +1,4 @@
-[![Flutter Community: RX_COMMAND](https://fluttercommunity.dev/_github/header/RX_COMMAND)](https://github.com/fluttercommunity/community)
-
+[![Flutter Community: rx_command](https://fluttercommunity.dev/_github/header/rx_command)](https://github.com/fluttercommunity/community)
 
 # RxCommand
 
