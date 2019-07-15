@@ -193,7 +193,7 @@
     <section class="desc markdown">
       <p>Creates  a RxCommand from an "one time" observable. This is handy if used together with a streame generator function.
 <code>provider</code>: provider function that returns a new Observable that will be subscribed on the call of <a href="rx_command/RxCommand/execute.html">execute</a>
-<code>canExecute</code> : observable that can bve used to enable/diable the command based on some other state change
+<code>canExecute</code> : observable that can be used to enable/disable the command based on some other state change
 if omitted the command can be executed always except it's already executing
 <a href="rx_command/RxCommand/isExecuting.html">isExecuting</a> will issue a <code>bool</code> value on each state change. Even if you
 subscribe to a newly created command it will issue <code>false</code>
