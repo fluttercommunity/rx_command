@@ -1,3 +1,7 @@
+## [4.3.1+2] - 16.07.2019
+
+ * PR with spelling corrections
+
 ## [4.3.1+1] - 26.06.2019
 
  * updated logo in readme

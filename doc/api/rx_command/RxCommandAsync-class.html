@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
   <meta name="description" content="API docs for the RxCommandAsync class from the rx_command library, for the Dart programming language.">
   <title>RxCommandAsync class - rx_command library - Dart API</title>
   <!-- required because all the links are pseudo-absolute -->
   <base href="..">
 
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="static-assets/github.css">
   <link rel="stylesheet" href="static-assets/styles.css">
   <link rel="icon" href="static-assets/favicon.png">
-
+  
 </head>
 
 <body>
@@ -35,7 +36,19 @@
 
 <main>
 
-  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="index.html">rx_command</a></li>
+      <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
+      <li class="self-crumb">RxCommandAsync<span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span> class</li>
+    </ol>
+    
     <h5>rx_command library</h5>
     <ol>
       <li class="section-title"><a href="rx_command/rx_command-library.html#classes">Classes</a></li>
@@ -66,8 +79,8 @@
     </ol>
   </div>
 
-  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
-      <h1>RxCommandAsync&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt; class </h1>
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-class">RxCommandAsync&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span> class </h1></div>
 
     
     <section>
@@ -105,128 +118,128 @@
       <dl class="properties">
         <dt id="canExecute" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/canExecute.html">canExecute</a></span>
-          <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> 
+          <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           Observable stream that issues a bool on any change of the current executable state of the command.
 Meaning if the command cann be executed or not. This will issue <code>false</code> while the command executes
 but also if the command receives a false from the canExecute Observable that you can pass when creating the Command
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="first" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/first.html">first</a></span>
-          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> 
+          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           The first element of this stream. <a href="rx_command/RxCommand/first.html">[...]</a>
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="hashCode" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/hashCode.html">hashCode</a></span>
-          <span class="signature">&#8594; int</span> 
+          <span class="signature">&#8594; int</span>         
         </dt>
         <dd class="inherited">
           The hash code for this object. <a href="rx_command/RxCommand/hashCode.html">[...]</a>
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="isBroadcast" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/isBroadcast.html">isBroadcast</a></span>
-          <span class="signature">&#8594; bool</span> 
+          <span class="signature">&#8594; bool</span>         
         </dt>
         <dd class="inherited">
           Whether this stream is a broadcast stream.
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="isEmpty" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/isEmpty.html">isEmpty</a></span>
-          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> 
+          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           Whether this stream contains any elements. <a href="rx_command/RxCommand/isEmpty.html">[...]</a>
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="isExecuting" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/isExecuting.html">isExecuting</a></span>
-          <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> 
+          <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           Observable stream that issues a bool on any execution state change of the command
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="last" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/last.html">last</a></span>
-          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> 
+          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           The last element of this stream. <a href="rx_command/RxCommand/last.html">[...]</a>
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="lastResult" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/lastResult.html">lastResult</a></span>
-          <span class="signature">&#8596; TResult</span> 
+          <span class="signature">&#8596; TResult</span>         
         </dt>
         <dd class="inherited">
           The result of the last sucessful call to execute. This is especialls handy to use as <code>initialData</code> of Flutter <code>Streambuilder</code>
-          <div class="features">read / write, inherited</div>
+                  <div class="features">read / write, inherited</div>
 </dd>
         <dt id="length" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/length.html">length</a></span>
-          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">int</span>&gt;</span></span> 
+          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">int</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           The number of elements in this stream. <a href="rx_command/RxCommand/length.html">[...]</a>
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="next" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/next.html">next</a></span>
-          <span class="signature">&#8594; Future<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> 
+          <span class="signature">&#8594; Future<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           This property is a utility which allows us to chain RxCommands together.
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="results" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/results.html">results</a></span>
-          <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span> 
+          <span class="signature">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter"><a href="rx_command/CommandResult-class.html">CommandResult</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           emits <a href="rx_command/CommandResult-class.html">CommandResult&lt;TRESULT&gt;</a> the combined state of the command, which is often easier in combination with Flutter <code>StreamBuilder</code>
 because you have all state information at one place.
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="runtimeType" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/runtimeType.html">runtimeType</a></span>
-          <span class="signature">&#8594; Type</span> 
+          <span class="signature">&#8594; Type</span>         
         </dt>
         <dd class="inherited">
           A representation of the runtime type of the object.
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="single" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/single.html">single</a></span>
-          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> 
+          <span class="signature">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd class="inherited">
           The single element of this stream. <a href="rx_command/RxCommand/single.html">[...]</a>
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
         <dt id="throwExceptions" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/throwExceptions.html">throwExceptions</a></span>
-          <span class="signature">&#8596; bool</span> 
+          <span class="signature">&#8596; bool</span>         
         </dt>
         <dd class="inherited">
           By default <code>RxCommand</code> will catch all exceptions during exceution of the command. And publish them on <code>.thrownExceptions</code>
 and in the <code>CommandResult</code>. If don't want this and have exceptions thrown, set this to true.
-          <div class="features">read / write, inherited</div>
+                  <div class="features">read / write, inherited</div>
 </dd>
         <dt id="thrownExceptions" class="property inherited">
           <span class="name"><a href="rx_command/RxCommand/thrownExceptions.html">thrownExceptions</a></span>
-          <span class="signature">&#8594; Observable</span> 
+          <span class="signature">&#8594; Observable</span>         
         </dt>
         <dd class="inherited">
           When subribing to <code>thrownExceptions</code>you will every excetpion that was thrown in your handler function as an event on this Observable.
 If no subscription exists the Exception will be rethrown
-          <div class="features">read-only, inherited</div>
+                  <div class="features">read-only, inherited</div>
 </dd>
       </dl>
     </section>
@@ -238,1006 +251,1006 @@ If no subscription exists the Exception will be rethrown
           <span class="name"><a href="rx_command/RxCommandAsync/execute.html">execute</a></span><span class="signature">(<wbr>[<span class="parameter" id="execute-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span> ])
             <span class="returntype parameter">&#8594; void</span>
           </span>
-          </dt>
+                  </dt>
         <dd>
           Calls the wrapped handler function with an option input parameter
-          <div class="features">override</div>
+                  <div class="features">override</div>
 </dd>
         <dt id="any" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/any.html">any</a></span><span class="signature">(<wbr><span class="parameter" id="any-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Checks whether <code>test</code> accepts any element provided by this stream. <a href="rx_command/RxCommand/any.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="asBroadcastStream" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/asBroadcastStream.html">asBroadcastStream</a></span><span class="signature">(<wbr>{<span class="parameter" id="asBroadcastStream-param-onListen"><span class="type-annotation">void</span> <span class="parameter-name">onListen</span>(<span class="parameter" id="onListen-param-subscription"><span class="type-annotation">StreamSubscription<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">subscription</span></span>), </span> <span class="parameter" id="asBroadcastStream-param-onCancel"><span class="type-annotation">void</span> <span class="parameter-name">onCancel</span>(<span class="parameter" id="onCancel-param-subscription"><span class="type-annotation">StreamSubscription<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">subscription</span></span>)</span> })
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Returns a multi-subscription stream that produces the same events as this. <a href="rx_command/RxCommand/asBroadcastStream.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="asyncExpand" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/asyncExpand.html">asyncExpand</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="asyncExpand-param-mapper"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">mapper</span>(<span class="parameter" id="mapper-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Maps each emitted item to a new <code>Stream</code> using the given mapper, then
 subscribes to each new stream one after the next until all values are
 emitted. <a href="rx_command/RxCommand/asyncExpand.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="asyncMap" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/asyncMap.html">asyncMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="asyncMap-param-convert"><span class="type-annotation">FutureOr<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">convert</span>(<span class="parameter" id="convert-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable with each data event of this stream asynchronously
 mapped to a new event. <a href="rx_command/RxCommand/asyncMap.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="buffer" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/buffer.html">buffer</a></span><span class="signature">(<wbr><span class="parameter" id="buffer-param-window"><span class="type-annotation">Stream</span> <span class="parameter-name">window</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable where each item is a <code>List</code> containing the items
 from the source sequence. <a href="rx_command/RxCommand/buffer.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="bufferCount" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/bufferCount.html">bufferCount</a></span><span class="signature">(<wbr><span class="parameter" id="bufferCount-param-count"><span class="type-annotation">int</span> <span class="parameter-name">count</span>, [</span> <span class="parameter" id="bufferCount-param-startBufferEvery"><span class="type-annotation">int</span> <span class="parameter-name">startBufferEvery</span> = <span class="default-value">0</span></span> ])
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Buffers a number of values from the source Observable by <code>count</code> then
 emits the buffer and clears it, and starts a new buffer each
 <code>startBufferEvery</code> values. If <code>startBufferEvery</code> is not provided,
 then new buffers are started immediately at the start of the source
 and when each buffer closes and is emitted. <a href="rx_command/RxCommand/bufferCount.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="bufferTest" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/bufferTest.html">bufferTest</a></span><span class="signature">(<wbr><span class="parameter" id="bufferTest-param-onTestHandler"><span class="type-annotation">bool</span> <span class="parameter-name">onTestHandler</span>(<span class="parameter" id="onTestHandler-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable where each item is a <code>List</code> containing the items
 from the source sequence, batched whenever test passes. <a href="rx_command/RxCommand/bufferTest.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="bufferTime" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/bufferTime.html">bufferTime</a></span><span class="signature">(<wbr><span class="parameter" id="bufferTime-param-duration"><span class="type-annotation">Duration</span> <span class="parameter-name">duration</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable where each item is a <code>List</code> containing the items
 from the source sequence, sampled on a time frame with <code>duration</code>. <a href="rx_command/RxCommand/bufferTime.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="call" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/call.html">call</a></span><span class="signature">(<wbr>[<span class="parameter" id="call-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span> ])
             <span class="returntype parameter">&#8594; void</span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           This makes RxCommand a callable class, so instead of <code>myCommand.exceute()</code> you can write <code>myCommand()</code>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="cast" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/cast.html">cast</a></span><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Adapt this stream to be a <code>Stream&lt;R&gt;</code>. <a href="rx_command/RxCommand/cast.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="concatMap" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/concatMap.html">concatMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="concatMap-param-mapper"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">mapper</span>(<span class="parameter" id="mapper-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Maps each emitted item to a new <code>Stream</code> using the given mapper, then
 subscribes to each new stream one after the next until all values are
 emitted. <a href="rx_command/RxCommand/concatMap.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="concatWith" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/concatWith.html">concatWith</a></span><span class="signature">(<wbr><span class="parameter" id="concatWith-param-other"><span class="type-annotation">Iterable<span class="signature">&lt;<wbr><span class="type-parameter">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">other</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Returns an Observable that emits all items from the current Observable,
 then emits all items from the given observable, one after the next. <a href="rx_command/RxCommand/concatWith.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="contains" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/contains.html">contains</a></span><span class="signature">(<wbr><span class="parameter" id="contains-param-needle"><span class="type-annotation">Object</span> <span class="parameter-name">needle</span></span>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Returns whether <code>needle</code> occurs in the elements provided by this stream. <a href="rx_command/RxCommand/contains.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="debounce" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/debounce.html">debounce</a></span><span class="signature">(<wbr><span class="parameter" id="debounce-param-window"><span class="type-annotation">Stream</span> <span class="parameter-name">window</span>(<span class="parameter" id="window-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Transforms a <code>Stream</code> so that will only emit items from the source sequence
 if a <code>window</code> has completed, without the source sequence emitting
 another item. <a href="rx_command/RxCommand/debounce.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="debounceTime" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/debounceTime.html">debounceTime</a></span><span class="signature">(<wbr><span class="parameter" id="debounceTime-param-duration"><span class="type-annotation">Duration</span> <span class="parameter-name">duration</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Transforms a <code>Stream</code> so that will only emit items from the source sequence
 whenever the time span defined by <code>duration</code> passes,
 without the source sequence emitting another item. <a href="rx_command/RxCommand/debounceTime.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="defaultIfEmpty" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/defaultIfEmpty.html">defaultIfEmpty</a></span><span class="signature">(<wbr><span class="parameter" id="defaultIfEmpty-param-defaultValue"><span class="type-annotation">TResult</span> <span class="parameter-name">defaultValue</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Emit items from the source Stream, or a single default item if the source
 Stream emits nothing. <a href="rx_command/RxCommand/defaultIfEmpty.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="delay" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/delay.html">delay</a></span><span class="signature">(<wbr><span class="parameter" id="delay-param-duration"><span class="type-annotation">Duration</span> <span class="parameter-name">duration</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           The Delay operator modifies its source Observable by pausing for
 a particular increment of time (that you specify) before emitting
 each of the source Observable’s items.
 This has the effect of shifting the entire sequence of items emitted
 by the Observable forward in time by that specified increment. <a href="rx_command/RxCommand/delay.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="dematerialize" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/dematerialize.html">dematerialize</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts the onData, onDone, and onError <code>Notification</code> objects from a
 materialized stream into normal onData, onDone, and onError events. <a href="rx_command/RxCommand/dematerialize.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="dispose" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/dispose.html">dispose</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; void</span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           If you don't need a command any longer it is a good practise to
 dispose it to make sure all stream subsriptions are cancelled to prevent memory leaks
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="distinct" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/distinct.html">distinct</a></span><span class="signature">(<wbr>[<span class="parameter" id="distinct-param-equals"><span class="type-annotation">bool</span> <span class="parameter-name">equals</span>(<span class="parameter" id="equals-param-previous"><span class="type-annotation">T</span> <span class="parameter-name">previous</span>, </span> <span class="parameter" id="equals-param-next"><span class="type-annotation">T</span> <span class="parameter-name">next</span></span>)</span> ])
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           WARNING: More commonly known as distinctUntilChanged in other Rx
 implementations. Creates an Observable where data events are skipped if
 they are equal to the previous data event. <a href="rx_command/RxCommand/distinct.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="distinctUnique" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/distinctUnique.html">distinctUnique</a></span><span class="signature">(<wbr>{<span class="parameter" id="distinctUnique-param-equals"><span class="type-annotation">bool</span> <span class="parameter-name">equals</span>(<span class="parameter" id="equals-param-e1"><span class="type-annotation">T</span> <span class="parameter-name">e1</span>, </span> <span class="parameter" id="equals-param-e2"><span class="type-annotation">T</span> <span class="parameter-name">e2</span></span>), </span> <span class="parameter" id="distinctUnique-param-hashCode"><span class="type-annotation">int</span> <span class="parameter-name">hashCode</span>(<span class="parameter" id="hashCode-param-e"><span class="type-annotation">T</span> <span class="parameter-name">e</span></span>)</span> })
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           WARNING: More commonly known as distinct in other Rx implementations.
 Creates an Observable where data events are skipped if they have already
 been emitted before. <a href="rx_command/RxCommand/distinctUnique.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnCancel" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnCancel.html">doOnCancel</a></span><span class="signature">(<wbr><span class="parameter" id="doOnCancel-param-onCancel"><span class="type-annotation">void</span> <span class="parameter-name">onCancel</span>()</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream subscription is
 cancelled. Often called doOnUnsubscribe or doOnDispose in other
 implementations. <a href="rx_command/RxCommand/doOnCancel.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnData" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnData.html">doOnData</a></span><span class="signature">(<wbr><span class="parameter" id="doOnData-param-onData"><span class="type-annotation">void</span> <span class="parameter-name">onData</span>(<span class="parameter" id="onData-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream emits an item. In
 other implementations, this is called doOnNext. <a href="rx_command/RxCommand/doOnData.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnDone" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnDone.html">doOnDone</a></span><span class="signature">(<wbr><span class="parameter" id="doOnDone-param-onDone"><span class="type-annotation">void</span> <span class="parameter-name">onDone</span>()</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream finishes emitting
 items. In other implementations, this is called doOnComplete(d). <a href="rx_command/RxCommand/doOnDone.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnEach" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnEach.html">doOnEach</a></span><span class="signature">(<wbr><span class="parameter" id="doOnEach-param-onEach"><span class="type-annotation">void</span> <span class="parameter-name">onEach</span>(<span class="parameter" id="onEach-param-notification"><span class="type-annotation">Notification<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">notification</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream emits data, emits
 an error, or emits done. The callback receives a <code>Notification</code> object. <a href="rx_command/RxCommand/doOnEach.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnError" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnError.html">doOnError</a></span><span class="signature">(<wbr><span class="parameter" id="doOnError-param-onError"><span class="type-annotation">Function</span> <span class="parameter-name">onError</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream emits an error. <a href="rx_command/RxCommand/doOnError.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnListen" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnListen.html">doOnListen</a></span><span class="signature">(<wbr><span class="parameter" id="doOnListen-param-onListen"><span class="type-annotation">void</span> <span class="parameter-name">onListen</span>()</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream is first listened to. <a href="rx_command/RxCommand/doOnListen.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnPause" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnPause.html">doOnPause</a></span><span class="signature">(<wbr><span class="parameter" id="doOnPause-param-onPause"><span class="type-annotation">void</span> <span class="parameter-name">onPause</span>(<span class="parameter" id="onPause-param-resumeSignal"><span class="type-annotation">Future</span> <span class="parameter-name">resumeSignal</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream subscription is
 paused. <a href="rx_command/RxCommand/doOnPause.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="doOnResume" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/doOnResume.html">doOnResume</a></span><span class="signature">(<wbr><span class="parameter" id="doOnResume-param-onResume"><span class="type-annotation">void</span> <span class="parameter-name">onResume</span>()</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invokes the given callback function when the stream subscription
 resumes receiving items. <a href="rx_command/RxCommand/doOnResume.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="drain" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/drain.html">drain</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr>[<span class="parameter" id="drain-param-futureValue"><span class="type-annotation">S</span> <span class="parameter-name">futureValue</span></span> ])
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Discards all data on this stream, but signals when it is done or an error
 occurred. <a href="rx_command/RxCommand/drain.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="elementAt" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/elementAt.html">elementAt</a></span><span class="signature">(<wbr><span class="parameter" id="elementAt-param-index"><span class="type-annotation">int</span> <span class="parameter-name">index</span></span>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Returns the value of the <code>index</code>th data event of this stream. <a href="rx_command/RxCommand/elementAt.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="every" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/every.html">every</a></span><span class="signature">(<wbr><span class="parameter" id="every-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Checks whether <code>test</code> accepts all elements provided by this stream. <a href="rx_command/RxCommand/every.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="exhaustMap" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/exhaustMap.html">exhaustMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="exhaustMap-param-mapper"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">mapper</span>(<span class="parameter" id="mapper-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts items from the source stream into a new Stream using a given
 mapper. It ignores all items from the source stream until the new stream
 completes. <a href="rx_command/RxCommand/exhaustMap.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="expand" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/expand.html">expand</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="expand-param-convert"><span class="type-annotation">Iterable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">convert</span>(<span class="parameter" id="convert-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable from this stream that converts each element into
 zero or more events. <a href="rx_command/RxCommand/expand.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="firstWhere" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/firstWhere.html">firstWhere</a></span><span class="signature">(<wbr><span class="parameter" id="firstWhere-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>), {</span> <span class="parameter" id="firstWhere-param-defaultValue"><span class="type-annotation">dynamic</span> <span class="parameter-name">defaultValue</span>(), </span> <span class="parameter" id="firstWhere-param-orElse"><span class="type-annotation">TResult</span> <span class="parameter-name">orElse</span>()</span> })
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Finds the first element of this stream matching <code>test</code>. <a href="rx_command/RxCommand/firstWhere.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="flatMap" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/flatMap.html">flatMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="flatMap-param-mapper"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">mapper</span>(<span class="parameter" id="mapper-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts each emitted item into a new Stream using the given mapper
 function. The newly created Stream will be be listened to and begin
 emitting items downstream. <a href="rx_command/RxCommand/flatMap.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="flatMapIterable" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/flatMapIterable.html">flatMapIterable</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="flatMapIterable-param-mapper"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">Iterable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">mapper</span>(<span class="parameter" id="mapper-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts each item into a new Stream. The Stream must return an
 Iterable. Then, each item from the Iterable will be emitted one by one. <a href="rx_command/RxCommand/flatMapIterable.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="fold" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/fold.html">fold</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="fold-param-initialValue"><span class="type-annotation">S</span> <span class="parameter-name">initialValue</span>, </span> <span class="parameter" id="fold-param-combine"><span class="type-annotation">S</span> <span class="parameter-name">combine</span>(<span class="parameter" id="combine-param-previous"><span class="type-annotation">S</span> <span class="parameter-name">previous</span>, </span> <span class="parameter" id="combine-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Combines a sequence of values by repeatedly applying <code>combine</code>. <a href="rx_command/RxCommand/fold.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="forEach" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/forEach.html">forEach</a></span><span class="signature">(<wbr><span class="parameter" id="forEach-param-action"><span class="type-annotation">void</span> <span class="parameter-name">action</span>(<span class="parameter" id="action-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
             <span class="returntype parameter">&#8594; AsObservableFuture</span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Executes <code>action</code> on each element of this stream. <a href="rx_command/RxCommand/forEach.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="groupBy" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/groupBy.html">groupBy</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="groupBy-param-grouper"><span class="type-annotation">S</span> <span class="parameter-name">grouper</span>(<span class="parameter" id="grouper-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">GroupByObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>, <span class="type-parameter">S</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           The GroupBy operator divides an <code>Observable</code> that emits items into
 an <code>Observable</code> that emits <code>GroupByObservable</code>,
 each one of which emits some subset of the items
 from the original source <code>Observable</code>. <a href="rx_command/RxCommand/groupBy.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="handleError" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/handleError.html">handleError</a></span><span class="signature">(<wbr><span class="parameter" id="handleError-param-onError"><span class="type-annotation">Function</span> <span class="parameter-name">onError</span>, {</span> <span class="parameter" id="handleError-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-error"><span class="type-annotation">dynamic</span> <span class="parameter-name">error</span></span>)</span> })
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates a wrapper Stream that intercepts some errors from this stream. <a href="rx_command/RxCommand/handleError.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="ignoreElements" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/ignoreElements.html">ignoreElements</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable where all emitted items are ignored, only the
 error / completed notifications are passed <a href="rx_command/RxCommand/ignoreElements.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="interval" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/interval.html">interval</a></span><span class="signature">(<wbr><span class="parameter" id="interval-param-duration"><span class="type-annotation">Duration</span> <span class="parameter-name">duration</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable that emits each item in the Stream after a given
 duration. <a href="rx_command/RxCommand/interval.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="join" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/join.html">join</a></span><span class="signature">(<wbr>[<span class="parameter" id="join-param-separator"><span class="type-annotation">String</span> <span class="parameter-name">separator</span> = <span class="default-value">""</span></span> ])
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Combines the string representation of elements into a single string. <a href="rx_command/RxCommand/join.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="lastWhere" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/lastWhere.html">lastWhere</a></span><span class="signature">(<wbr><span class="parameter" id="lastWhere-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>), {</span> <span class="parameter" id="lastWhere-param-defaultValue"><span class="type-annotation">Object</span> <span class="parameter-name">defaultValue</span>(), </span> <span class="parameter" id="lastWhere-param-orElse"><span class="type-annotation">TResult</span> <span class="parameter-name">orElse</span>()</span> })
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Finds the last element in this stream matching <code>test</code>. <a href="rx_command/RxCommand/lastWhere.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="listen" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/listen.html">listen</a></span><span class="signature">(<wbr><span class="parameter" id="listen-param-onData"><span class="type-annotation">void</span> <span class="parameter-name">onData</span>(<span class="parameter" id="onData-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>), {</span> <span class="parameter" id="listen-param-onError"><span class="type-annotation">Function</span> <span class="parameter-name">onError</span>, </span> <span class="parameter" id="listen-param-onDone"><span class="type-annotation">void</span> <span class="parameter-name">onDone</span>(), </span> <span class="parameter" id="listen-param-cancelOnError"><span class="type-annotation">bool</span> <span class="parameter-name">cancelOnError</span></span> })
             <span class="returntype parameter">&#8594; StreamSubscription<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Adds a subscription to this stream. Returns a <code>StreamSubscription</code> which
 handles events from the stream using the provided <code>onData</code>, <code>onError</code> and
 <code>onDone</code> handlers. <a href="rx_command/RxCommand/listen.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="map" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/map.html">map</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="map-param-convert"><span class="type-annotation">S</span> <span class="parameter-name">convert</span>(<span class="parameter" id="convert-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Maps values from a source sequence through a function and emits the
 returned values. <a href="rx_command/RxCommand/map.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="mapTo" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/mapTo.html">mapTo</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="mapTo-param-value"><span class="type-annotation">S</span> <span class="parameter-name">value</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Emits the given constant value on the output Observable every time the source Observable emits a value. <a href="rx_command/RxCommand/mapTo.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="materialize" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/materialize.html">materialize</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Notification<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts the onData, on Done, and onError events into <code>Notification</code>
 objects that are passed into the downstream onData listener. <a href="rx_command/RxCommand/materialize.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="max" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/max.html">max</a></span><span class="signature">(<wbr>[<span class="parameter" id="max-param-comparator"><span class="type-annotation">Comparator<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">comparator</span></span> ])
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts a Stream into a Future that completes with the largest item emitted
 by the Stream. <a href="rx_command/RxCommand/max.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="mergeWith" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/mergeWith.html">mergeWith</a></span><span class="signature">(<wbr><span class="parameter" id="mergeWith-param-streams"><span class="type-annotation">Iterable<span class="signature">&lt;<wbr><span class="type-parameter">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">streams</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Combines the items emitted by multiple streams into a single stream of
 items. The items are emitted in the order they are emitted by their
 sources. <a href="rx_command/RxCommand/mergeWith.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="min" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/min.html">min</a></span><span class="signature">(<wbr>[<span class="parameter" id="min-param-comparator"><span class="type-annotation">Comparator<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">comparator</span></span> ])
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts a Stream into a Future that completes with the smallest item
 emitted by the Stream. <a href="rx_command/RxCommand/min.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="noSuchMethod" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation">Invocation</span> <span class="parameter-name">invocation</span></span>)
             <span class="returntype parameter">&#8594; dynamic</span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Invoked when a non-existent method or property is accessed. <a href="rx_command/RxCommand/noSuchMethod.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="ofType" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/ofType.html">ofType</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="ofType-param-typeToken"><span class="type-annotation">TypeToken<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">typeToken</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Filters a sequence so that only events of a given type pass <a href="rx_command/RxCommand/ofType.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="onErrorResume" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/onErrorResume.html">onErrorResume</a></span><span class="signature">(<wbr><span class="parameter" id="onErrorResume-param-recoveryFn"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">recoveryFn</span>(<span class="parameter" id="recoveryFn-param-error"><span class="type-annotation">dynamic</span> <span class="parameter-name">error</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Intercepts error events and switches to a recovery stream created by the
 provided <code>recoveryFn</code>. <a href="rx_command/RxCommand/onErrorResume.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="onErrorResumeNext" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/onErrorResumeNext.html">onErrorResumeNext</a></span><span class="signature">(<wbr><span class="parameter" id="onErrorResumeNext-param-recoveryStream"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">recoveryStream</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Intercepts error events and switches to the given recovery stream in
 that case <a href="rx_command/RxCommand/onErrorResumeNext.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="onErrorReturn" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/onErrorReturn.html">onErrorReturn</a></span><span class="signature">(<wbr><span class="parameter" id="onErrorReturn-param-returnValue"><span class="type-annotation">TResult</span> <span class="parameter-name">returnValue</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           instructs an Observable to emit a particular item when it encounters an
 error, and then terminate normally <a href="rx_command/RxCommand/onErrorReturn.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="onErrorReturnWith" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/onErrorReturnWith.html">onErrorReturnWith</a></span><span class="signature">(<wbr><span class="parameter" id="onErrorReturnWith-param-returnFn"><span class="type-annotation">TResult</span> <span class="parameter-name">returnFn</span>(<span class="parameter" id="returnFn-param-error"><span class="type-annotation">dynamic</span> <span class="parameter-name">error</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           instructs an Observable to emit a particular item created by the
 <code>returnFn</code> when it encounters an error, and then terminate normally. <a href="rx_command/RxCommand/onErrorReturnWith.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="pairwise" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/pairwise.html">pairwise</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Iterable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Emits the n-th and n-1th events as a pair.. <a href="rx_command/RxCommand/pairwise.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="pipe" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/pipe.html">pipe</a></span><span class="signature">(<wbr><span class="parameter" id="pipe-param-streamConsumer"><span class="type-annotation">StreamConsumer<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">streamConsumer</span></span>)
             <span class="returntype parameter">&#8594; AsObservableFuture</span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Pipes the events of this stream into <code>streamConsumer</code>. <a href="rx_command/RxCommand/pipe.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="publish" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/publish.html">publish</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; ConnectableObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a <code>ConnectableObservable</code>
 that can be listened to multiple times. It will not begin emitting items
 from the original Observable until the <code>connect</code> method is invoked. <a href="rx_command/RxCommand/publish.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="publishReplay" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/publishReplay.html">publishReplay</a></span><span class="signature">(<wbr>{<span class="parameter" id="publishReplay-param-maxSize"><span class="type-annotation">int</span> <span class="parameter-name">maxSize</span></span> })
             <span class="returntype parameter">&#8594; ReplayConnectableObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a <code>ReplayConnectableObservable</code>
 that can be listened to multiple times. It will not begin emitting items
 from the original Observable until the <code>connect</code> method is invoked. <a href="rx_command/RxCommand/publishReplay.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="publishValue" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/publishValue.html">publishValue</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; ValueConnectableObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a <code>ValueConnectableObservable</code>
 that can be listened to multiple times. It will not begin emitting items
 from the original Observable until the <code>connect</code> method is invoked. <a href="rx_command/RxCommand/publishValue.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="publishValueSeeded" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/publishValueSeeded.html">publishValueSeeded</a></span><span class="signature">(<wbr><span class="parameter" id="publishValueSeeded-param-seedValue"><span class="type-annotation">TResult</span> <span class="parameter-name">seedValue</span></span>)
             <span class="returntype parameter">&#8594; ValueConnectableObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a <code>ValueConnectableObservable</code>
 that can be listened to multiple times, providing an initial seeded value.
 It will not begin emitting items from the original Observable
 until the <code>connect</code> method is invoked. <a href="rx_command/RxCommand/publishValueSeeded.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="reduce" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/reduce.html">reduce</a></span><span class="signature">(<wbr><span class="parameter" id="reduce-param-combine"><span class="type-annotation">TResult</span> <span class="parameter-name">combine</span>(<span class="parameter" id="combine-param-previous"><span class="type-annotation">T</span> <span class="parameter-name">previous</span>, </span> <span class="parameter" id="combine-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Combines a sequence of values by repeatedly applying <code>combine</code>. <a href="rx_command/RxCommand/reduce.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="sample" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/sample.html">sample</a></span><span class="signature">(<wbr><span class="parameter" id="sample-param-sampleStream"><span class="type-annotation">Stream</span> <span class="parameter-name">sampleStream</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Emits the most recently emitted item (if any)
 emitted by the source <code>Stream</code> since the previous emission from
 the <code>sampleStream</code>. <a href="rx_command/RxCommand/sample.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="sampleTime" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/sampleTime.html">sampleTime</a></span><span class="signature">(<wbr><span class="parameter" id="sampleTime-param-duration"><span class="type-annotation">Duration</span> <span class="parameter-name">duration</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Emits the most recently emitted item (if any)
 emitted by the source <code>Stream</code> since the previous emission within
 the recurring time span, defined by <code>duration</code> <a href="rx_command/RxCommand/sampleTime.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="scan" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/scan.html">scan</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="scan-param-accumulator"><span class="type-annotation">S</span> <span class="parameter-name">accumulator</span>(<span class="parameter" id="accumulator-param-accumulated"><span class="type-annotation">S</span> <span class="parameter-name">accumulated</span>, </span> <span class="parameter" id="accumulator-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span>, </span> <span class="parameter" id="accumulator-param-index"><span class="type-annotation">int</span> <span class="parameter-name">index</span></span>), [</span> <span class="parameter" id="scan-param-seed"><span class="type-annotation">S</span> <span class="parameter-name">seed</span></span> ])
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Applies an accumulator function over an observable sequence and returns
 each intermediate result. The optional seed value is used as the initial
 accumulator value. <a href="rx_command/RxCommand/scan.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="share" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/share.html">share</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a new Observable that can be listened
 to multiple times. It will automatically begin emitting items when first
 listened to, and shut down when no listeners remain. <a href="rx_command/RxCommand/share.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="shareReplay" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/shareReplay.html">shareReplay</a></span><span class="signature">(<wbr>{<span class="parameter" id="shareReplay-param-maxSize"><span class="type-annotation">int</span> <span class="parameter-name">maxSize</span></span> })
             <span class="returntype parameter">&#8594; ReplayObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a new <code>ReplayObservable</code> that can
 be listened to multiple times. It will automatically begin emitting items
 when first listened to, and shut down when no listeners remain. <a href="rx_command/RxCommand/shareReplay.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="shareValue" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/shareValue.html">shareValue</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; ValueObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a new <code>ValueObservable</code> that can
 be listened to multiple times. It will automatically begin emitting items
 when first listened to, and shut down when no listeners remain. <a href="rx_command/RxCommand/shareValue.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="shareValueSeeded" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/shareValueSeeded.html">shareValueSeeded</a></span><span class="signature">(<wbr><span class="parameter" id="shareValueSeeded-param-seedValue"><span class="type-annotation">TResult</span> <span class="parameter-name">seedValue</span></span>)
             <span class="returntype parameter">&#8594; ValueObservable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Convert the current Observable into a new <code>ValueObservable</code> that can
 be listened to multiple times, providing an initial value.
 It will automatically begin emitting items when first listened to,
 and shut down when no listeners remain. <a href="rx_command/RxCommand/shareValueSeeded.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="singleWhere" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/singleWhere.html">singleWhere</a></span><span class="signature">(<wbr><span class="parameter" id="singleWhere-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>), {</span> <span class="parameter" id="singleWhere-param-orElse"><span class="type-annotation">TResult</span> <span class="parameter-name">orElse</span>()</span> })
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Finds the single element in this stream matching <code>test</code>. <a href="rx_command/RxCommand/singleWhere.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="skip" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/skip.html">skip</a></span><span class="signature">(<wbr><span class="parameter" id="skip-param-count"><span class="type-annotation">int</span> <span class="parameter-name">count</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Skips the first count data events from this stream. <a href="rx_command/RxCommand/skip.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="skipUntil" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/skipUntil.html">skipUntil</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="skipUntil-param-otherStream"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">otherStream</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Starts emitting items only after the given stream emits an item. <a href="rx_command/RxCommand/skipUntil.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="skipWhile" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/skipWhile.html">skipWhile</a></span><span class="signature">(<wbr><span class="parameter" id="skipWhile-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Skip data events from this stream while they are matched by test. <a href="rx_command/RxCommand/skipWhile.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="startWith" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/startWith.html">startWith</a></span><span class="signature">(<wbr><span class="parameter" id="startWith-param-startValue"><span class="type-annotation">TResult</span> <span class="parameter-name">startValue</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Prepends a value to the source Observable. <a href="rx_command/RxCommand/startWith.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="startWithMany" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/startWithMany.html">startWithMany</a></span><span class="signature">(<wbr><span class="parameter" id="startWithMany-param-startValues"><span class="type-annotation">List<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">startValues</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Prepends a sequence of values to the source Observable. <a href="rx_command/RxCommand/startWithMany.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="switchIfEmpty" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/switchIfEmpty.html">switchIfEmpty</a></span><span class="signature">(<wbr><span class="parameter" id="switchIfEmpty-param-fallbackStream"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span> <span class="parameter-name">fallbackStream</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           When the original observable emits no items, this operator subscribes to
 the given fallback stream and emits items from that observable instead. <a href="rx_command/RxCommand/switchIfEmpty.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="switchMap" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/switchMap.html">switchMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="switchMap-param-mapper"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">mapper</span>(<span class="parameter" id="mapper-param-value"><span class="type-annotation">T</span> <span class="parameter-name">value</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Converts each emitted item into a new Stream using the given mapper
 function. The newly created Stream will be be listened to and begin
 emitting items, and any previously created Stream will stop emitting. <a href="rx_command/RxCommand/switchMap.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="take" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/take.html">take</a></span><span class="signature">(<wbr><span class="parameter" id="take-param-count"><span class="type-annotation">int</span> <span class="parameter-name">count</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Provides at most the first <code>n</code> values of this stream.
 Forwards the first n data events of this stream, and all error events, to
 the returned stream, and ends with a done event. <a href="rx_command/RxCommand/take.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="takeUntil" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/takeUntil.html">takeUntil</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="takeUntil-param-otherStream"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">otherStream</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Returns the values from the source observable sequence until the other
 observable sequence produces a value. <a href="rx_command/RxCommand/takeUntil.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="takeWhile" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/takeWhile.html">takeWhile</a></span><span class="signature">(<wbr><span class="parameter" id="takeWhile-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-element"><span class="type-annotation">T</span> <span class="parameter-name">element</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Forwards data events while test is successful. <a href="rx_command/RxCommand/takeWhile.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="throttle" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/throttle.html">throttle</a></span><span class="signature">(<wbr><span class="parameter" id="throttle-param-window"><span class="type-annotation">Stream</span> <span class="parameter-name">window</span>(<span class="parameter" id="window-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>), {</span> <span class="parameter" id="throttle-param-trailing"><span class="type-annotation">bool</span> <span class="parameter-name">trailing</span>: <span class="default-value">false</span></span> })
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Emits only the first item emitted by the source <code>Stream</code>
 while <code>window</code> is open. <a href="rx_command/RxCommand/throttle.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="throttleTime" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/throttleTime.html">throttleTime</a></span><span class="signature">(<wbr><span class="parameter" id="throttleTime-param-duration"><span class="type-annotation">Duration</span> <span class="parameter-name">duration</span>, {</span> <span class="parameter" id="throttleTime-param-trailing"><span class="type-annotation">bool</span> <span class="parameter-name">trailing</span>: <span class="default-value">false</span></span> })
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Emits only the first item emitted by the source <code>Stream</code>
 within a time span of <code>duration</code>. <a href="rx_command/RxCommand/throttleTime.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="timeInterval" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/timeInterval.html">timeInterval</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TimeInterval<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Records the time interval between consecutive values in an observable
 sequence. <a href="rx_command/RxCommand/timeInterval.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="timeout" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/timeout.html">timeout</a></span><span class="signature">(<wbr><span class="parameter" id="timeout-param-timeLimit"><span class="type-annotation">Duration</span> <span class="parameter-name">timeLimit</span>, {</span> <span class="parameter" id="timeout-param-onTimeout"><span class="type-annotation">void</span> <span class="parameter-name">onTimeout</span>(<span class="parameter" id="onTimeout-param-sink"><span class="type-annotation">EventSink<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">sink</span></span>)</span> })
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           The Timeout operator allows you to abort an Observable with an onError
 termination if that Observable fails to emit any items during a specified
 duration.  You may optionally provide a callback function to execute on
 timeout.
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="timestamp" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/timestamp.html">timestamp</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Timestamped<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Wraps each item emitted by the source Observable in a <code>Timestamped</code> object
 that includes the emitted item and the time when the item was emitted. <a href="rx_command/RxCommand/timestamp.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="toList" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/toList.html">toList</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">List<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Collects all elements of this stream in a <code>List</code>. <a href="rx_command/RxCommand/toList.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="toSet" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/toSet.html">toSet</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; AsObservableFuture<span class="signature">&lt;<wbr><span class="type-parameter">Set<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Collects the data of this stream in a <code>Set</code>. <a href="rx_command/RxCommand/toSet.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="toString" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/toString.html">toString</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; String</span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Returns a string representation of this object.
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="transform" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/transform.html">transform</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="transform-param-streamTransformer"><span class="type-annotation">StreamTransformer<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>, <span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">streamTransformer</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Applies  <code>streamTransformer</code> to this stream. <a href="rx_command/RxCommand/transform.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="where" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/where.html">where</a></span><span class="signature">(<wbr><span class="parameter" id="where-param-test"><span class="type-annotation">bool</span> <span class="parameter-name">test</span>(<span class="parameter" id="test-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Filters the elements of an observable sequence based on the test.
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="window" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/window.html">window</a></span><span class="signature">(<wbr><span class="parameter" id="window-param-window"><span class="type-annotation">Stream</span> <span class="parameter-name">window</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable where each item is a <code>Stream</code> containing the items
 from the source sequence. <a href="rx_command/RxCommand/window.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="windowCount" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/windowCount.html">windowCount</a></span><span class="signature">(<wbr><span class="parameter" id="windowCount-param-count"><span class="type-annotation">int</span> <span class="parameter-name">count</span>, [</span> <span class="parameter" id="windowCount-param-startBufferEvery"><span class="type-annotation">int</span> <span class="parameter-name">startBufferEvery</span> = <span class="default-value">0</span></span> ])
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Buffers a number of values from the source Observable by <code>count</code> then
 emits the buffer as a <code>Stream</code> and clears it, and starts a new buffer each
 <code>startBufferEvery</code> values. If <code>startBufferEvery</code> is not provided,
 then new buffers are started immediately at the start of the source
 and when each buffer closes and is emitted. <a href="rx_command/RxCommand/windowCount.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="windowTest" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/windowTest.html">windowTest</a></span><span class="signature">(<wbr><span class="parameter" id="windowTest-param-onTestHandler"><span class="type-annotation">bool</span> <span class="parameter-name">onTestHandler</span>(<span class="parameter" id="onTestHandler-param-event"><span class="type-annotation">T</span> <span class="parameter-name">event</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable where each item is a <code>Stream</code> containing the items
 from the source sequence, batched whenever test passes. <a href="rx_command/RxCommand/windowTest.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="windowTime" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/windowTime.html">windowTime</a></span><span class="signature">(<wbr><span class="parameter" id="windowTime-param-duration"><span class="type-annotation">Duration</span> <span class="parameter-name">duration</span></span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable where each item is a <code>Stream</code> containing the items
 from the source sequence, sampled on a time frame with <code>duration</code>. <a href="rx_command/RxCommand/windowTime.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="withLatestFrom" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/withLatestFrom.html">withLatestFrom</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">R</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="withLatestFrom-param-latestFromStream"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">latestFromStream</span>, </span> <span class="parameter" id="withLatestFrom-param-fn"><span class="type-annotation">R</span> <span class="parameter-name">fn</span>(<span class="parameter" id="fn-param-t"><span class="type-annotation">T</span> <span class="parameter-name">t</span>, </span> <span class="parameter" id="fn-param-s"><span class="type-annotation">S</span> <span class="parameter-name">s</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Creates an Observable that emits when the source stream emits, combining
 the latest values from the two streams using the provided function. <a href="rx_command/RxCommand/withLatestFrom.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
         <dt id="zipWith" class="callable inherited">
           <span class="name"><a href="rx_command/RxCommand/zipWith.html">zipWith</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">R</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="zipWith-param-other"><span class="type-annotation">Stream<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">other</span>, </span> <span class="parameter" id="zipWith-param-zipper"><span class="type-annotation">R</span> <span class="parameter-name">zipper</span>(<span class="parameter" id="zipper-param-t"><span class="type-annotation">T</span> <span class="parameter-name">t</span>, </span> <span class="parameter" id="zipper-param-s"><span class="type-annotation">S</span> <span class="parameter-name">s</span></span>)</span>)
             <span class="returntype parameter">&#8594; Observable<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           Returns an Observable that combines the current stream together with
 another stream using a given zipper function. <a href="rx_command/RxCommand/zipWith.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
       </dl>
     </section>
@@ -1249,10 +1262,10 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
           <span class="name"><a href="rx_command/RxCommand/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">dynamic</span> <span class="parameter-name">other</span></span>)
             <span class="returntype parameter">&#8594; bool</span>
           </span>
-          </dt>
+                  </dt>
         <dd class="inherited">
           The equality operator. <a href="rx_command/RxCommand/operator_equals.html">[...]</a>
-          <div class="features">inherited</div>
+                  <div class="features">inherited</div>
 </dd>
       </dl>
     </section>
@@ -1262,7 +1275,7 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
 
   </div> <!-- /.main-content -->
 
-  <div class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
     <ol>
       <li class="section-title"><a href="rx_command/RxCommandAsync-class.html#constructors">Constructors</a></li>
       <li><a href="rx_command/RxCommandAsync/RxCommandAsync.html">RxCommandAsync</a></li>
@@ -1400,9 +1413,10 @@ another stream using a given zipper function. <a href="rx_command/RxCommand/zipW
 
 <footer>
   <span class="no-break">
-    rx_command 4.3.1+1
+    rx_command 4.3.1+2
   </span>
 
+  
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
