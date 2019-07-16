@@ -102,7 +102,7 @@ RxCommand&lt;bool,bool&gt;  switchChangedCommand;
 <p> For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. They look like this.</p>
 <pre class="language-Dart"><code class="language-Dart">  /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
   /// `action`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   static RxCommand&lt;void, void&gt; createSyncNoParamNoResult(Action action,[Observable&lt;bool&gt; canExecute])
 </code></pre>

@@ -84,7 +84,7 @@ RxCommand<bool,bool>  switchChangedCommand;
 ```Dart
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
   /// `action`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   static RxCommand<void, void> createSyncNoParamNoResult(Action action,[Observable<bool> canExecute])
 ```

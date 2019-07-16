@@ -103,7 +103,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type
   /// [action]: handler function
-  /// [canExecute] : observable that can bve used to enable/diable the command based on some other state change
+  /// [canExecute] : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -124,7 +124,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for a synchronous handler function with one parameter and no return type
   /// `action`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -145,7 +145,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -169,7 +169,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for a synchronous handler function with parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -195,7 +195,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with no parameter and no return type
   /// `action`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -216,7 +216,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with one parameter and no return type
   /// `action`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -237,7 +237,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with no parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -261,7 +261,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can bve used to enable/diable the command based on some other state change
+  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -285,7 +285,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   /// Creates  a RxCommand from an "one time" observable. This is handy if used together with a streame generator function.
   /// [provider]: provider function that returns a new Observable that will be subscribed on the call of [execute]
-  /// [canExecute] : observable that can bve used to enable/diable the command based on some other state change
+  /// [canExecute] : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
@@ -316,7 +316,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// The result of the last sucessful call to execute. This is especialls handy to use as `initialData` of Flutter `Streambuilder`
   TResult lastResult;
 
-  /// emits [CommandResult<TRESULT>] the combined state of the commane, which is often easier in combination with Flutter `StreamBuilder`
+  /// emits [CommandResult<TRESULT>] the combined state of the command, which is often easier in combination with Flutter `StreamBuilder`
   /// because you have all state information at one place.
   Observable<CommandResult<TResult>> get results => _commandResultsSubject;
 
