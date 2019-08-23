@@ -91,5 +91,6 @@ class RxCommandListener<TParam, TResult> {
     resultsSubscription?.cancel();
     busySubscription?.cancel();
     errorSubscription?.cancel();
+    canExecuteStateSubscription?.cancel();
   }
 }
