@@ -82,9 +82,9 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
         ? new BehaviorSubject<CommandResult<TResult>>()
         : new PublishSubject<CommandResult<TResult>>();
 
-    _commandResultsSubject.where((x) => x.hasError).listen((x) => _thrownExceptionsSubject.add(x.error));
+    _commandResultsSubject.where((x) => x.hasError).listen((x) => _thrownExceptionsSubject.add(x.error),onError: (x) {});
 
-    _commandResultsSubject.listen((x) => _isExecutingSubject.add(x.isExecuting));
+    _commandResultsSubject.listen((x) => _isExecutingSubject.add(x.isExecuting),onError: (x) {});
 
     final _canExecuteParam = canExecuteRestriction == null
         ? new Observable<bool>.just(true)
@@ -407,6 +407,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
     } catch (error) {
       if (throwExceptions) {
         _resultsSubject.addError(error);
+        _commandResultsSubject.addError(error);
         return;
       }
 
@@ -464,6 +465,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
     _func(param).asStream().handleError((error) {
       if (throwExceptions) {
         _resultsSubject.addError(error);
+        _commandResultsSubject.addError(error);
         return;
       }
 

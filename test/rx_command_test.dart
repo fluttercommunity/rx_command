@@ -383,19 +383,36 @@ void main() {
     throw new Exception("Intentionally");
   }
 
-  test('async function with exception and throwExceptions==true', () {
+  test('async function with exception and throwExceptions==true', () async {
     final command = RxCommand.createAsync<String, String>(slowAsyncFunctionFail);
     command.throwExceptions = true;
+
+    command.listen((s) => print('Listen: $s'),onError: (e) => print('OnError:$e'));
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
     expect(command.results, emitsInOrder([crm(null, false, true)]));
 
+   expect(command, emitsError(isException));
+
+
     command.execute("Done");
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
+
+
+    command.execute("Done2");
+
+    expect(command, emitsError(isException));
+
+    expect(command.canExecute, emits(true));
+    expect(command.isExecuting, emits(false));
+
+    await new Future.delayed(new Duration(milliseconds: 50));
+
+
   });
 
   test('async function with exception with and throwExceptions==false', () {
