@@ -1,3 +1,9 @@
+## [4.3.2] - 23.08.2019
+
+ * fix for https://github.com/fluttercommunity/rx_command/issues/26
+
+ If you encounter any problems please file an issue.
+
 ## [4.3.1+2] - 16.07.2019
 
  * PR with spelling corrections
