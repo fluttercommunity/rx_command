@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting) {
   return new StreamMatcher((x) async {
-    final CommandResult<T> event = await x.next as CommandResult<T>;
+    final event = await x.next as CommandResult<T>;
     if (event.data != data) return "Wong data $data != ${event.data}";
 
     if (!hasError && event.error != null) return "Had error while not expected";
@@ -394,7 +394,8 @@ void main() {
 
     expect(command.results, emitsInOrder([crm(null, false, true)]));
 
-   expect(command, emitsError(isException));
+    expect(command, emitsError(isException));
+    expect(command, emitsError(isException));
 
 
     command.execute("Done");
@@ -402,6 +403,7 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
+    await new Future.delayed(new Duration(milliseconds: 100));
 
     command.execute("Done2");
 
@@ -410,7 +412,7 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    await new Future.delayed(new Duration(milliseconds: 50));
+    await new Future.delayed(new Duration(milliseconds: 100));
 
 
   });

@@ -71,9 +71,9 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   bool _isRunning = false;
   bool _canExecute = true;
   bool _executionLocked = false;
-  bool _resultSubjectIsBehaviourSubject;
+  final bool _resultSubjectIsBehaviourSubject;
 
-  bool _emitLastResult;
+  final bool _emitLastResult;
 
   RxCommand(this._resultsSubject, Observable<bool> canExecuteRestriction, this._emitLastResult,
       this._resultSubjectIsBehaviourSubject, this.lastResult)
@@ -336,7 +336,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   Future<TResult> get next => Observable.merge([this, this.thrownExceptions.cast<TResult>()]).take(1).last;
 
   Subject<CommandResult<TResult>> _commandResultsSubject;
-  Subject<TResult> _resultsSubject;
+  final Subject<TResult> _resultsSubject;
   final BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>();
   final BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>();
   final PublishSubject<dynamic> _thrownExceptionsSubject = new PublishSubject<dynamic>();
@@ -408,12 +408,14 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
       if (throwExceptions) {
         _resultsSubject.addError(error);
         _commandResultsSubject.addError(error);
+        _isExecutingSubject.add(false); // Has to be done because in this case no command result is queued
         return;
       }
 
         _commandResultsSubject.add(new CommandResult<TResult>(_emitLastResult ? lastResult : null, error, false));
     } finally {
       _isRunning = false;
+      _canExecute = !_executionLocked;
       _canExecuteSubject.add(!_executionLocked);
     }
   }
@@ -447,7 +449,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
 
   @override
   execute([TParam param]) {
-    // print("************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning");
+    //print("************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning");
 
     if (!_canExecute) {
       return;
@@ -466,13 +468,17 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
       if (throwExceptions) {
         _resultsSubject.addError(error);
         _commandResultsSubject.addError(error);
+      _isRunning = false;
+      _isExecutingSubject.add(false); // Has to be done because in this case no command result is queued
+      _canExecute = !_executionLocked;
+      _canExecuteSubject.add(!_executionLocked);
         return;
       }
-
-        _commandResultsSubject.add(new CommandResult<TResult>(_emitLastResult ? lastResult : null, error, false));
+      
+      _commandResultsSubject.add(new CommandResult<TResult>(_emitLastResult ? lastResult : null, error, false));
       _isRunning = false;
-      _isExecutingSubject.add(false);
-      _canExecuteSubject.add(true);
+      _canExecute = !_executionLocked;
+      _canExecuteSubject.add(!_executionLocked);
     }).listen((result) {
       _commandResultsSubject.add(new CommandResult<TResult>(result, null, false));
       lastResult = result;
@@ -528,7 +534,6 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
       _canExecuteSubject.add(false);
     }
 
-    _isExecutingSubject.add(true);
     _commandResultsSubject.add(new CommandResult<TResult>(_emitLastResult ? lastResult : null, null, true));
 
     dynamic thrownException;
