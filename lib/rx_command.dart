@@ -88,8 +88,8 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
       this.lastResult)
       : super(_resultsSubject) {
     _commandResultsSubject = _resultSubjectIsBehaviourSubject
-        ? new BehaviorSubject<CommandResult<TResult>>()
-        : new PublishSubject<CommandResult<TResult>>();
+        ? BehaviorSubject<CommandResult<TResult>>()
+        : PublishSubject<CommandResult<TResult>>();
 
     _commandResultsSubject
         .where((x) => x.hasError)
@@ -99,7 +99,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
         onError: (x) {});
 
     final _canExecuteParam = canExecuteRestriction == null
-        ? new Observable<bool>.just(true)
+        ? Observable<bool>.just(true)
         : canExecuteRestriction.handleError((error) {
             if (error is Exception) {
               _thrownExceptionsSubject.add(error);
@@ -123,12 +123,12 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<void, void> createSyncNoParamNoResult(Action action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
-    return new RxCommandSync<void, void>((_) {
+    return RxCommandSync<void, void>((_) {
       action();
       return null;
     }, canExecute, emitInitialCommandResult, false,
@@ -145,13 +145,13 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<TParam, void> createSyncNoResult<TParam>(
       Action1<TParam> action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
-    return new RxCommandSync<TParam, void>((x) {
+    return RxCommandSync<TParam, void>((x) {
       action(x);
       return null;
     }, canExecute, emitInitialCommandResult, false,
@@ -164,12 +164,12 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no new result.
+  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
   /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results]  this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
   static RxCommand<void, TResult> createSyncNoParam<TResult>(Func<TResult> func,
@@ -178,7 +178,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
       TResult initialLastResult}) {
-    return new RxCommandSync<void, TResult>(
+    return RxCommandSync<void, TResult>(
         (_) => func(),
         canExecute,
         emitInitialCommandResult,
@@ -196,9 +196,9 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no new result.
+  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
   static RxCommand<TParam, TResult> createSync<TParam, TResult>(
@@ -208,7 +208,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
       TResult initialLastResult}) {
-    return new RxCommandSync<TParam, TResult>(
+    return RxCommandSync<TParam, TResult>(
         (x) => func(x),
         canExecute,
         emitInitialCommandResult,
@@ -229,12 +229,12 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<void, void> createAsyncNoParamNoResult(AsyncAction action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
-    return new RxCommandAsync<void, void>((_) async {
+    return RxCommandAsync<void, void>((_) async {
       await action();
       return null;
     }, canExecute, emitInitialCommandResult, false,
@@ -251,13 +251,13 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<TParam, void> createAsyncNoResult<TParam>(
       AsyncAction1<TParam> action,
       {Observable<bool> canExecute,
       bool emitInitialCommandResult = false,
       bool emitsLastValueToNewSubscriptions = false}) {
-    return new RxCommandAsync<TParam, void>((x) async {
+    return RxCommandAsync<TParam, void>((x) async {
       await action(x);
       return null;
     }, canExecute, emitInitialCommandResult, false,
@@ -273,9 +273,9 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// for the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no new result.
+  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
   static RxCommand<void, TResult> createAsyncNoParam<TResult>(
@@ -285,7 +285,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
       TResult initialLastResult}) {
-    return new RxCommandAsync<void, TResult>(
+    return RxCommandAsync<void, TResult>(
         (_) async => func(),
         canExecute,
         emitInitialCommandResult,
@@ -303,9 +303,9 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no new result.
+  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
   static RxCommand<TParam, TResult> createAsync<TParam, TResult>(
@@ -315,7 +315,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
       TResult initialLastResult}) {
-    return new RxCommandAsync<TParam, TResult>(
+    return RxCommandAsync<TParam, TResult>(
         (x) async => func(x),
         canExecute,
         emitInitialCommandResult,
@@ -325,7 +325,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   }
 
   /// Creates  a RxCommand from an "one time" observable. This is handy if used together with a streame generator function.
-  /// [provider]: provider function that returns a new Observable that will be subscribed on the call of [execute]
+  /// [provider]: provider function that returns a Observable that will be subscribed on the call of [execute]
   /// [canExecute] : observable that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
@@ -333,9 +333,9 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no new result.
+  /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
-  /// a BehaviourSubject, meaning every new listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
+  /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
   static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(
@@ -345,7 +345,7 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
       TResult initialLastResult}) {
-    return new RxCommandStream<TParam, TResult>(
+    return RxCommandStream<TParam, TResult>(
         provider,
         canExecute,
         emitInitialCommandResult,
@@ -389,10 +389,10 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
 
   Subject<CommandResult<TResult>> _commandResultsSubject;
   final Subject<TResult> _resultsSubject;
-  final BehaviorSubject<bool> _isExecutingSubject = new BehaviorSubject<bool>();
-  final BehaviorSubject<bool> _canExecuteSubject = new BehaviorSubject<bool>();
+  final BehaviorSubject<bool> _isExecutingSubject = BehaviorSubject<bool>();
+  final BehaviorSubject<bool> _canExecuteSubject = BehaviorSubject<bool>();
   final PublishSubject<dynamic> _thrownExceptionsSubject =
-      new PublishSubject<dynamic>();
+      PublishSubject<dynamic>();
 
   /// By default `RxCommand` will catch all exceptions during exceution of the command. And publish them on `.thrownExceptions`
   /// and in the `CommandResult`. If don't want this and have exceptions thrown, set this to true.
@@ -401,11 +401,11 @@ abstract class RxCommand<TParam, TResult> extends Observable<TResult> {
   /// If you don't need a command any longer it is a good practise to
   /// dispose it to make sure all stream subsriptions are cancelled to prevent memory leaks
   void dispose() {
+    _commandResultsSubject.close();
     _isExecutingSubject.close();
     _canExecuteSubject.close();
     _thrownExceptionsSubject.close();
     _resultsSubject.close();
-    _commandResultsSubject.close();
   }
 }
 
@@ -421,11 +421,11 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool emitLastResult,
       bool emitsLastValueToNewSubscriptions,
       TResult initialLastResult) {
-    return new RxCommandSync._(
+    return RxCommandSync._(
         func,
         emitsLastValueToNewSubscriptions || emitInitialCommandResult
-            ? new BehaviorSubject<TResult>()
-            : new PublishSubject<TResult>(),
+            ? BehaviorSubject<TResult>()
+            : PublishSubject<TResult>(),
         canExecute,
         emitLastResult,
         emitsLastValueToNewSubscriptions || emitInitialCommandResult,
@@ -445,7 +445,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
         super(subject, canExecute, buffer, isBehaviourSubject,
             initialLastResult) {
     if (emitInitialCommandResult) {
-      _commandResultsSubject.add(new CommandResult<TResult>(null, null, false));
+      _commandResultsSubject.add(CommandResult<TResult>(null, null, false));
     }
   }
 
@@ -462,14 +462,14 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
       _canExecuteSubject.add(false);
     }
 
-    _commandResultsSubject.add(new CommandResult<TResult>(
+    _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
 
     try {
       final result = _func(param);
       lastResult = result;
       _commandResultsSubject
-          .add(new CommandResult<TResult>(result, null, false));
+          .add(CommandResult<TResult>(result, null, false));
       _resultsSubject.add(result);
     } catch (error) {
       if (throwExceptions) {
@@ -480,7 +480,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
         return;
       }
 
-      _commandResultsSubject.add(new CommandResult<TResult>(
+      _commandResultsSubject.add(CommandResult<TResult>(
           _emitLastResult ? lastResult : null, error, false));
     } finally {
       _isRunning = false;
@@ -505,7 +505,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
         super(subject, canExecute, emitLastResult, isBehaviourSubject,
             initialLastResult) {
     if (emitInitialCommandResult) {
-      _commandResultsSubject.add(new CommandResult<TResult>(null, null, false));
+      _commandResultsSubject.add(CommandResult<TResult>(null, null, false));
     }
   }
 
@@ -516,11 +516,11 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool emitLastResult,
       bool emitsLastValueToNewSubscriptions,
       TResult initialLastResult) {
-    return new RxCommandAsync._(
+    return RxCommandAsync._(
         func,
         emitsLastValueToNewSubscriptions || emitInitialCommandResult
-            ? new BehaviorSubject<TResult>()
-            : new PublishSubject<TResult>(),
+            ? BehaviorSubject<TResult>()
+            : PublishSubject<TResult>(),
         canExecute,
         emitLastResult,
         emitsLastValueToNewSubscriptions || emitInitialCommandResult,
@@ -543,7 +543,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
       _canExecuteSubject.add(false);
     }
 
-    _commandResultsSubject.add(new CommandResult<TResult>(
+    _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
 
     _func(param).asStream().handleError((error) {
@@ -558,14 +558,14 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
         return;
       }
 
-      _commandResultsSubject.add(new CommandResult<TResult>(
+      _commandResultsSubject.add(CommandResult<TResult>(
           _emitLastResult ? lastResult : null, error, false));
       _isRunning = false;
       _canExecute = !_executionLocked;
       _canExecuteSubject.add(!_executionLocked);
     }).listen((result) {
       _commandResultsSubject
-          .add(new CommandResult<TResult>(result, null, false));
+          .add(CommandResult<TResult>(result, null, false));
       lastResult = result;
       _resultsSubject.add(result);
       _isRunning = false;
@@ -590,7 +590,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
         super(subject, canExecute, emitLastResult, isBehaviourSubject,
             initialLastResult) {
     if (emitInitialCommandResult) {
-      _commandResultsSubject.add(new CommandResult<TResult>(null, null, false));
+      _commandResultsSubject.add(CommandResult<TResult>(null, null, false));
     }
   }
 
@@ -601,11 +601,11 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool emitLastResult,
       bool emitsLastValueToNewSubscriptions,
       TResult initialLastResult) {
-    return new RxCommandStream._(
+    return RxCommandStream._(
         provider,
         emitsLastValueToNewSubscriptions || emitInitialCommandResult
-            ? new BehaviorSubject<TResult>()
-            : new PublishSubject<TResult>(),
+            ? BehaviorSubject<TResult>()
+            : PublishSubject<TResult>(),
         canExecute,
         emitLastResult,
         emitsLastValueToNewSubscriptions || emitInitialCommandResult,
@@ -626,19 +626,19 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
       _canExecuteSubject.add(false);
     }
 
-    _commandResultsSubject.add(new CommandResult<TResult>(
+    _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
 
     dynamic thrownException;
 
-    var inputObservable = new Observable(_observableProvider(param))
+    var inputObservable = Observable(_observableProvider(param))
         .handleError((error) {
           thrownException = error;
         })
         .doOnData((result) => _resultsSubject.add(result))
         .map((result) {
           lastResult = result;
-          return new CommandResult(result, null, true);
+          return CommandResult(result, null, true);
         });
 
     _commandResultsSubject.addStream(inputObservable).then((_) {
@@ -649,7 +649,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
         } else {
           _thrownExceptionsSubject.add(thrownException);
           _commandResultsSubject
-              .add(new CommandResult<TResult>(null, thrownException, false));
+              .add(CommandResult<TResult>(null, thrownException, false));
         }
       } else {
         _commandResultsSubject.add(CommandResult(lastResult, null, false));
@@ -681,10 +681,10 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
       TResult initialLastResult}) {
-    return new MockCommand._(
+    return MockCommand._(
         emitsLastValueToNewSubscriptions
-            ? new BehaviorSubject<TResult>()
-            : new PublishSubject<TResult>(),
+            ? BehaviorSubject<TResult>()
+            : PublishSubject<TResult>(),
         canExecute,
         emitLastResult,
         false,
@@ -702,7 +702,7 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
       : super(subject, canExecute, emitLastResult, isBehaviourSubject,
             initialLastResult) {
     if (emitInitialCommandResult) {
-      _commandResultsSubject.add(new CommandResult<TResult>(null, null, false));
+      _commandResultsSubject.add(CommandResult<TResult>(null, null, false));
     }
     _commandResultsSubject
         .where((result) => result.hasData)
@@ -726,11 +726,11 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
     print("Called Execute");
     if (returnValuesForNextExecute != null) {
       _commandResultsSubject.addStream(
-          new Observable<CommandResult<TResult>>.fromIterable(
+          Observable<CommandResult<TResult>>.fromIterable(
                   returnValuesForNextExecute)
               .map((data) {
         if ((data.isExecuting || data.hasError) && _emitLastResult) {
-          return new CommandResult<TResult>(
+          return CommandResult<TResult>(
               lastResult, data.error, data.isExecuting);
         }
         return data;
@@ -749,7 +749,7 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
   /// isExecuting : true
   void startExecution() {
     _commandResultsSubject.add(
-        new CommandResult(_emitLastResult ? lastResult : null, null, true));
+        CommandResult(_emitLastResult ? lastResult : null, null, true));
     _canExecuteSubject.add(false);
   }
 
@@ -759,7 +759,7 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
   /// isExecuting : false
   void endExecutionWithData(TResult data) {
     lastResult = data;
-    _commandResultsSubject.add(new CommandResult<TResult>(data, null, false));
+    _commandResultsSubject.add(CommandResult<TResult>(data, null, false));
     _canExecuteSubject.add(true);
   }
 
@@ -768,8 +768,8 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
   /// error: Exeption([message])
   /// isExecuting : false
   void endExecutionWithError(String message) {
-    _commandResultsSubject.add(new CommandResult<TResult>(
-        _emitLastResult ? lastResult : null, new Exception(message), false));
+    _commandResultsSubject.add(CommandResult<TResult>(
+        _emitLastResult ? lastResult : null, Exception(message), false));
     _canExecuteSubject.add(true);
   }
 
@@ -778,7 +778,7 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
   /// error: null
   /// isExecuting : false
   void endExecutionNoData() {
-    _commandResultsSubject.add(new CommandResult<TResult>(
+    _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
     _canExecuteSubject.add(true);
   }
