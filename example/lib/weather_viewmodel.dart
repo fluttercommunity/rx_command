@@ -25,7 +25,7 @@ class WeatherViewModel {
 
     // handler for results
     textChangedCommand
-        .debounce(new Duration(
+        .debounceTime(new Duration(
             milliseconds:
                 500)) // make sure we start processing only if the user make a short pause typing
         .listen((filterText) {
