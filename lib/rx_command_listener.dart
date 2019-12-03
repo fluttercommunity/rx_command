@@ -55,7 +55,7 @@ class RxCommandListener<TParam, TResult> {
       }
       if (onIsBusy != null || onNotBusy != null) {
         busySubscription = command.isExecuting.listen((isBusy) {
-          return isBusy ? this?.onIsBusy() : this?.onNotBusy();
+          return isBusy ? this.onIsBusy?.call() : this.onNotBusy?.call();
         });
       }
     } else {
@@ -69,10 +69,10 @@ class RxCommandListener<TParam, TResult> {
           busyChangeSubscription = command.isExecuting.debounceTime(debounceDuration).listen(onIsBusyChange);
         }
 
-        if (onIsBusy != null && onNotBusy != null) {
+        if (onIsBusy != null || onNotBusy != null) {
           busySubscription = command.isExecuting
               .debounceTime(debounceDuration)
-              .listen((isBusy) => isBusy ? this?.onIsBusy : this.onNotBusy);
+              .listen((isBusy) => isBusy ? this.onIsBusy?.call() : this.onNotBusy?.call());
         }
       }
     }
