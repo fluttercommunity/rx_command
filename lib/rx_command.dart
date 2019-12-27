@@ -641,7 +641,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
           return CommandResult(result, null, true);
         });
 
-    _commandResultsSubject.addStream(inputObservable).then((_) {
+    _commandResultsSubject.addStream(inputObservable, cancelOnError: false).then((_) {
       if (thrownException != null) {
         if (throwExceptions) {
           _resultsSubject.addError(thrownException);
@@ -659,7 +659,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
       _canExecuteSubject.add(!_executionLocked);
     }, onError: (error) {
       print(error);
-    });
+    },);
   }
 }
 

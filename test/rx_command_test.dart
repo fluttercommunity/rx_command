@@ -6,7 +6,7 @@ import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
 
 StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting) {
-  return new StreamMatcher((x) async {
+  return  StreamMatcher((x) async {
     final event = await x.next as CommandResult<T>;
     if (event.data != data) return "Wong data $data != ${event.data}";
 
@@ -56,7 +56,7 @@ void main() {
   });
 
   test('Execute simple sync action with canExceute restriction', () async {
-    final restriction = new BehaviorSubject<bool>()..add(true);
+    final restriction =  BehaviorSubject<bool>()..add(true);
 
     restriction.listen((b) => print("Restriction issued: $b"));
 
@@ -79,8 +79,8 @@ void main() {
 
     restriction.add(false);
 
-    await new Future.delayed(
-        new Duration(milliseconds: 10)); // make sure the restriction Observable has time to emit a new value
+    await  Future.delayed(
+         Duration(milliseconds: 10)); // make sure the restriction Observable has time to emit a new value
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -93,7 +93,7 @@ void main() {
   });
 
   test('Execute simple sync action with exception  throwExceptions==true', () {
-    final command = RxCommand.createSyncNoParamNoResult(() => throw new Exception("Intentional"))..throwExceptions = true;
+    final command = RxCommand.createSyncNoParamNoResult(() => throw  Exception("Intentional"))..throwExceptions = true;
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -107,7 +107,7 @@ void main() {
   });
 
   test('Execute simple sync action with exception and throwExceptions==false', () {
-    final command = RxCommand.createSyncNoParamNoResult(() => throw new Exception("Intentional"));
+    final command = RxCommand.createSyncNoParamNoResult(() => throw  Exception("Intentional"));
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -200,7 +200,7 @@ void main() {
   Future<String> slowAsyncFunction(String s) async {
     print("___Start____Action__________");
 
-    await new Future.delayed(const Duration(milliseconds: 10));
+    await  Future.delayed(const Duration(milliseconds: 10));
     print("___End____Action__________");
     return s;
   }
@@ -228,7 +228,7 @@ void main() {
 
 
     command.execute("Done");
-    await new Future.delayed(new Duration(milliseconds: 50));
+    await  Future.delayed( Duration(milliseconds: 50));
 
     expect(command.isExecuting, emits(false));
     expect(executionCount, 1);
@@ -261,7 +261,7 @@ void main() {
 
 
     command.execute("Done");
-    await new Future.delayed(new Duration(milliseconds: 50));
+    await  Future.delayed( Duration(milliseconds: 50));
 
     expect(command.isExecuting, emits(false));
     expect(executionCount, 1);
@@ -295,7 +295,7 @@ void main() {
     command.execute("Done");
     command.execute("Done"); // should not execute
 
-    await new Future.delayed(new Duration(milliseconds: 1000));
+    await  Future.delayed( Duration(milliseconds: 1000));
 
     expect(command.isExecuting, emits(false));
     expect(executionCount, 1);
@@ -331,10 +331,10 @@ void main() {
 
 
     command.execute("Done");
-    await new Future.delayed(new Duration(milliseconds: 50));
+    await  Future.delayed( Duration(milliseconds: 50));
     command.execute("Done"); // should not execute
 
-    await new Future.delayed(new Duration(milliseconds: 50));
+    await  Future.delayed( Duration(milliseconds: 50));
 
     expect(command.isExecuting, emits(false));
     expect(executionCount, 2);
@@ -368,10 +368,10 @@ void main() {
             [crm(null, false, true), crm("Done", false, false), crm("Done", false, true), crm("Done", false, false)]));
 
     command.execute("Done");
-    await new Future.delayed(new Duration(milliseconds: 50));
+    await  Future.delayed( Duration(milliseconds: 50));
     command.execute("Done"); // should not execute
 
-    await new Future.delayed(new Duration(milliseconds: 50));
+    await  Future.delayed( Duration(milliseconds: 50));
 
     expect(command.isExecuting, emits(false));
     expect(executionCount, 2);
@@ -380,7 +380,7 @@ void main() {
   Future<String> slowAsyncFunctionFail(String s) async {
     print("___Start____Action___Will throw_______");
 
-    throw new Exception("Intentionally");
+    throw  Exception("Intentionally");
   }
 
   test('async function with exception and throwExceptions==true', () async {
@@ -403,7 +403,7 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    await new Future.delayed(new Duration(milliseconds: 100));
+    await  Future.delayed( Duration(milliseconds: 100));
 
     command.execute("Done2");
 
@@ -412,7 +412,7 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    await new Future.delayed(new Duration(milliseconds: 100));
+    await  Future.delayed( Duration(milliseconds: 100));
 
 
   });
@@ -499,7 +499,7 @@ void main() {
   });
 
   Stream<int> testProviderError(int i) async* {
-    throw new Exception();
+    throw  Exception();
   }
 
   test('RxCommand.createFromStreamWithException', () {
@@ -521,10 +521,39 @@ void main() {
 
     expect(command.results, emitsInOrder([crm(null, false, true), crm(null, true, false)]));
 
+    expect(command.thrownExceptions, emits(TypeMatcher<Exception>()));
+
     command.execute(1);
 
     expect(command.canExecute, emits(true), reason: "Canexecute after false");
     expect(command.isExecuting, emits(false));
+  });
+
+  test('RxCommand.createFromStreamWithException2', () async {
+var streamController =
+        StreamController<String>.broadcast();
+
+    var command = RxCommand.createFromStream((_) {
+      return streamController.stream.map((rideMap) {
+        throw Exception();
+      });
+    });
+
+    command.results.listen((r) {
+      print(r.toString());
+    });
+
+    command.thrownExceptions.listen((e) {
+      print(e.toString());
+    });
+
+    expect(command.thrownExceptions, emits(TypeMatcher<Exception>()));
+
+    command.execute();
+
+    streamController.add('test');
+
+    print('Finished');
   });
 
 // No idea why it's not posible to catch the exception with     expect(command.results, emitsError(isException));
