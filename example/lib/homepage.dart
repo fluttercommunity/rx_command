@@ -6,47 +6,47 @@ import 'main.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(title: new Text("WeatherDemo")),
-      body: new Column(
+    return  Scaffold(
+      appBar:  AppBar(title:  Text("WeatherDemo")),
+      body:  Column(
         children: <Widget>[
-          new Padding(
+           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: new TextField(
+            child:  TextField(
               autocorrect: false,
-              decoration: new InputDecoration(
+              decoration:  InputDecoration(
                 hintText: "Filter cities",
-                hintStyle: new TextStyle(color: new Color.fromARGB(150, 0, 0, 0)),
+                hintStyle:  TextStyle(color: Color.fromARGB(150, 0, 0, 0)),
               ),
-              style: new TextStyle(fontSize: 20.0, color: new Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)),
               onChanged: TheViewModel.of(context).textChangedCommand,
             ),
           ),
-          new Expanded(
+          Expanded(
               child:
                   // Handle events to show / hide spinner
-                  new StreamBuilder<bool>(
+                  StreamBuilder<bool>(
                       stream: TheViewModel.of(context).updateWeatherCommand.isExecuting,
                       builder: (BuildContext context, AsyncSnapshot<bool> isRunning) {
                         // if true we show a buys Spinner otherwise the ListView
                         if (isRunning.hasData && isRunning.data == true) {
-                          return new Center(
-                              child: new Container(
+                          return Center(
+                              child: Container(
                                   width: 50.0,
                                   height: 50.0,
-                                  child: new CircularProgressIndicator()));
+                                  child: CircularProgressIndicator()));
                         } else {
-                          return new WeatherListView();
+                          return WeatherListView();
                         }
                       })),
-          new Padding(
+          Padding(
               padding: const EdgeInsets.all(8.0),
               child:
                   // We use a stream builder to toggle the enabled state of the button
-                  new Row(
+                  Row(
                 children: <Widget>[
-                  new Expanded(
-                    child: new StreamBuilder<bool>(
+                  Expanded(
+                    child: StreamBuilder<bool>(
                         // Streambuilder rebuilds its subtree on every item the stream issues
                         stream: TheViewModel.of(context)
                             .updateWeatherCommand
@@ -59,15 +59,15 @@ class HomePage extends StatelessWidget {
                                 ? TheViewModel.of(context).updateWeatherCommand
                                 : null;
                           }
-                          return new RaisedButton(
-                            child: new Text("Update"),
-                            color: new Color.fromARGB(255, 33, 150, 243),
-                            textColor: new Color.fromARGB(255, 255, 255, 255),
+                          return RaisedButton(
+                            child: Text("Update"),
+                            color: Color.fromARGB(255, 33, 150, 243),
+                            textColor: Color.fromARGB(255, 255, 255, 255),
                             onPressed: handler,
                           );
                         }),
                   ),
-                  new StateFullSwitch(
+                  StateFullSwitch(
                       state: true, onChanged: TheViewModel.of(context).switchChangedCommand)
                 ],
               )),
@@ -87,7 +87,7 @@ class StateFullSwitch extends StatefulWidget {
 
   @override
   StateFullSwitchState createState() {
-    return new StateFullSwitchState(state, onChanged);
+    return StateFullSwitchState(state, onChanged);
   }
 }
 
@@ -99,7 +99,7 @@ class StateFullSwitchState extends State<StateFullSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return new Switch(
+    return Switch(
         value: state,
         onChanged: (b) {
           setState(() => state = b);

@@ -80,7 +80,7 @@ void main() {
     restriction.add(false);
 
     await  Future.delayed(
-         Duration(milliseconds: 10)); // make sure the restriction Observable has time to emit a new value
+         Duration(milliseconds: 10)); // make sure the restriction Stream has time to emit a new value
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));

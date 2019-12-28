@@ -9,14 +9,14 @@ class WeatherListView extends StatelessWidget {
   WeatherListView();
     @override
     Widget build(BuildContext context) {
-      return new StreamBuilder<List<WeatherEntry>>(   // Streambuilder rebuilds its subtree on every item the stream issues
+      return  StreamBuilder<List<WeatherEntry>>(   // Streambuilder rebuilds its subtree on every item the stream issues
               stream: TheViewModel.of(context).updateWeatherCommand,   //We access our ViewModel through the inherited Widget
               builder: (BuildContext context, AsyncSnapshot<List<WeatherEntry>> snapshot)  // in Dart Lambdas with body don't use =>
                   {
                     // only if we get data
                     if (snapshot.hasData && snapshot.data.isNotEmpty)
                     {
-                        return new ListView.builder(
+                        return  ListView.builder(
                                     itemCount: snapshot.data.length,
                                     itemBuilder : (BuildContext context, int index) => 
                                                       buildRow(context,index,snapshot.data)                                            
@@ -24,7 +24,7 @@ class WeatherListView extends StatelessWidget {
                     }
                     else
                     {
-                      return new Text("No items");
+                      return  Text("No items");
                     }
                 }                                              
               );
@@ -33,14 +33,14 @@ class WeatherListView extends StatelessWidget {
                   
     Widget buildRow(BuildContext context, int index, List<WeatherEntry> listData) {
       return 
-        new GestureDetector(
+         GestureDetector(
             child: 
-              new Wrap(spacing: 40.0,
+               Wrap(spacing: 40.0,
                     children: <Widget>
                     [
-                      new Image(image: new NetworkImage(listData[index].iconURL)),
+                       Image(image:  NetworkImage(listData[index].iconURL)),
                       
-                      new Text(listData[index].cityName, style: new TextStyle(fontSize: 20.0))
+                       Text(listData[index].cityName, style:  TextStyle(fontSize: 20.0))
                     ],
                   ),
         );
