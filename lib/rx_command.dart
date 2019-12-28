@@ -468,8 +468,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
     try {
       final result = _func(param);
       lastResult = result;
-      _commandResultsSubject
-          .add(CommandResult<TResult>(result, null, false));
+      _commandResultsSubject.add(CommandResult<TResult>(result, null, false));
       _resultsSubject.add(result);
     } catch (error) {
       if (throwExceptions) {
@@ -564,8 +563,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
       _canExecute = !_executionLocked;
       _canExecuteSubject.add(!_executionLocked);
     }).listen((result) {
-      _commandResultsSubject
-          .add(CommandResult<TResult>(result, null, false));
+      _commandResultsSubject.add(CommandResult<TResult>(result, null, false));
       lastResult = result;
       _resultsSubject.add(result);
       _isRunning = false;
@@ -629,37 +627,33 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
     _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
 
-    dynamic thrownException;
+    var inputObservable = Observable(_observableProvider(param));
 
-    var inputObservable = Observable(_observableProvider(param))
-        .handleError((error) {
-          thrownException = error;
-        })
-        .doOnData((result) => _resultsSubject.add(result))
-        .map((result) {
-          lastResult = result;
-          return CommandResult(result, null, true);
-        });
-
-    _commandResultsSubject.addStream(inputObservable, cancelOnError: false).then((_) {
-      if (thrownException != null) {
-        if (throwExceptions) {
-          _resultsSubject.addError(thrownException);
-          _commandResultsSubject.addError(thrownException);
-        } else {
-          _thrownExceptionsSubject.add(thrownException);
+    inputObservable.materialize().listen(
+      (notification) {
+        if (notification.isOnData) {
+          _resultsSubject.add(notification.value);
           _commandResultsSubject
-              .add(CommandResult<TResult>(null, thrownException, false));
+              .add(CommandResult(notification.value, null, true));
+          lastResult = notification.value;
+        } else if (notification.isOnError) {
+          if (throwExceptions) {
+            _resultsSubject.addError(notification.error);
+            _commandResultsSubject.addError(notification.error);
+          } else {
+            _commandResultsSubject
+                .add(CommandResult<TResult>(null, notification.error, false));
+          }
+        } else if (notification.isOnDone) {
+          _commandResultsSubject.add(CommandResult(lastResult, null, false));
+          _isRunning = false;
+          _canExecuteSubject.add(!_executionLocked);
         }
-      } else {
-        _commandResultsSubject.add(CommandResult(lastResult, null, false));
-      }
-
-      _isRunning = false;
-      _canExecuteSubject.add(!_executionLocked);
-    }, onError: (error) {
-      print(error);
-    },);
+      },
+      onError: (error) {
+        print(error);
+      },
+    );
   }
 }
 
@@ -748,8 +742,8 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
   /// error: null
   /// isExecuting : true
   void startExecution() {
-    _commandResultsSubject.add(
-        CommandResult(_emitLastResult ? lastResult : null, null, true));
+    _commandResultsSubject
+        .add(CommandResult(_emitLastResult ? lastResult : null, null, true));
     _canExecuteSubject.add(false);
   }
 

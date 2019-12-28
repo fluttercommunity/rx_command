@@ -1,3 +1,9 @@
+## [4.3.4] - 28.12.2019
+
+ * Fix for https://github.com/fluttercommunity/rx_command/issues/32
+
+ * Fix for https://github.com/fluttercommunity/rx_command/issues/33
+
 ## [4.3.3] - 03.12.2019
 
  * fix for https://github.com/fluttercommunity/rx_command/issues/31
