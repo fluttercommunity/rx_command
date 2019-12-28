@@ -608,7 +608,7 @@ void main() {
 
   test('RxCommand.createFromStreamWithExceptionOnlyThrown once', () async{
     var command = RxCommand.createFromStream((_) {
-      return Observable.just('test').map((rideMap) {
+      return Stream.value('test').map((rideMap) {
         throw Exception('TestException');
       });
     });

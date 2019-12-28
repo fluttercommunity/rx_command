@@ -626,7 +626,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
     _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
 
-    var inputObservable = Observable(_observableProvider(param));
+    var inputObservable = _observableProvider(param);
 
     inputObservable.materialize().listen(
       (notification) {
