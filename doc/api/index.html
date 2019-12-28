@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="generator" content="made with love by dartdoc 0.28.2">
+  <meta name="generator" content="made with love by dartdoc 0.29.3">
   <meta name="description" content="rx_command API docs, for the Dart programming language.">
   <title>rx_command - Dart API docs</title>
 
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="static-assets/github.css">
   <link rel="stylesheet" href="static-assets/styles.css">
   <link rel="icon" href="static-assets/favicon.png">
-  
+  <!-- header placeholder -->
 </head>
 
 <body>
@@ -49,6 +49,10 @@
           <li class="section-title">Libraries</li>
           <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
           <li><a href="rx_command_listener/rx_command_listener-library.html">rx_command_listener</a></li>
+          <li class="section-title">Dart</li>
+          <li><a href="dart-ui/dart-ui-library.html">dart:ui</a></li>
+          <li class="section-subtitle">Core</li>
+            <li class="section-subitem"><a href="dart-async/dart-async-library.html">dart:async</a></li>
     </ol>
   </div>
 
@@ -57,7 +61,8 @@
         <p><a href="https://github.com/fluttercommunity/community"><img src="https://fluttercommunity.dev/_github/header/rx_command" alt="Flutter Community: rx_command"></a></p>
 <h1 id="rxcommand">RxCommand</h1>
 <blockquote>
-<p><strong>BREAKING CHANGE with V4.0</strong> All creation functions got renamed to be more descriptive than the numbered ones. The new variants are:</p></blockquote>
+<p><strong>BREAKING CHANGE with V5.0</strong> RxCommand no longer works with Observables but with plain Dart Streams because the latest RxDart version now uses extension methods on Streams instead of Observables:</p>
+</blockquote>
 <pre class="language-Dart"><code class="language-Dart">static RxCommand&lt;TParam, TResult&gt; createSync&lt;TParam, TResult&gt;(Func1&lt;TParam, TResult&gt; func,...
 static RxCommand&lt;void, TResult&gt; createSyncNoParam&lt;TResult&gt;(Func&lt;TResult&gt; func,...
 static RxCommand&lt;TParam, void&gt; createSyncNoResult&lt;TParam&gt;(Action1&lt;TParam&gt; action,...
@@ -69,15 +74,18 @@ static RxCommand&lt;TParam, void&gt; createAsyncNoResult&lt;TParam&gt;(AsyncActi
 static RxCommand&lt;void, void&gt; createAsyncNoParamNoResult(AsyncAction action,...
 </code></pre>
 <blockquote>
-<p>IMPORTANT: As of V3.0 <code>CommandResult</code> objects are now emitted on the <code>.results</code> property and the pure results of the wrapped function on the RxCommand itself. So I switched the two because while working on RxVMS it turned out that I use the pure result much more often. Also the name of <code>.results</code> matches much better with <code>CommandResult</code>. If you don't want to change your code you can just stay on 2.06 if you don't need any of V 3.0 features. </p></blockquote>
+<p>IMPORTANT: As of V3.0 <code>CommandResult</code> objects are now emitted on the <code>.results</code> property and the pure results of the wrapped function on the RxCommand itself. So I switched the two because while working on RxVMS it turned out that I use the pure result much more often. Also the name of <code>.results</code> matches much better with <code>CommandResult</code>. If you don't want to change your code you can just stay on 2.06 if you don't need any of V 3.0 features. </p>
+</blockquote>
 <p>You can find a tutorial on how to use <code>RxCommands</code> in this blog post <a href="https://www.burkharts.net/apps/blog/making-flutter-more-reactive/">Making Flutter more Reactive</a></p>
 <p><code>RxCommand</code> is an <a href="http://reactivex.io/"><em>Reactive Extensions</em> (Rx)</a> based abstraction for event handlers. It is based on <code>ReactiveCommand</code> for the <a href="https://reactiveui.net/">ReactiveUI</a> framework. It makes heavy use of the <a href="https://github.com/ReactiveX/rxdart">RxDart</a> package.</p>
 <blockquote>
-<p>PRs are always welcome ;-)</p></blockquote>
+<p>PRs are always welcome ;-)</p>
+</blockquote>
 <blockquote>
-<p>MAYBE BREAKING CHANGE in 2.0.0: Till now the <code>results</code> Observable and the <code>RxCommand</code> itself behaved like a <code>BehaviourSubjects</code>. This can lead to problems when using with Flutter.
-From now on the default is <code>PublishSubject</code>. If you need <code>BehaviourSubject</code> behaviour, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code> when creating <code>RxCommand</code>.</p></blockquote>
-<p>If you don't know Rx think of it as Dart <code>Streams</code> on steroids. <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its Observable interface (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.</p>
+<p>MAYBE BREAKING CHANGE in 2.0.0: Till now the <code>results</code> Stream and the <code>RxCommand</code> itself behaved like a <code>BehaviourSubjects</code>. This can lead to problems when using with Flutter.
+From now on the default is <code>PublishSubject</code>. If you need <code>BehaviourSubject</code> behaviour, meaning every new listener gets the last received value, you can set <code>emitsLastValueToNewSubscriptions = true</code> when creating <code>RxCommand</code>.</p>
+</blockquote>
+<p>If you don't know Rx think of it as Dart <code>Streams</code> on steroids. <code>RxCommand</code> capsules a given handler function that can then be executed by its <code>execute</code> method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its Stream interface. Additionally it offers Streams for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.</p>
 <p>A very simple example</p>
 <pre class="language-Dart"><code class="language-Dart">final command = RxCommand.createSync&lt;int, String&gt;((myInt) =&gt; "$myInt");
 
@@ -111,12 +119,12 @@ RxCommand&lt;bool,bool&gt;  switchChangedCommand;
 </code></pre>
 <p><code>updateWeatherCommand</code> expects a handler that takes a <code>String</code> as parameter and returns a <code>List&lt;WeatherEntry&gt;</code>. <code>switchChangedCommand</code> expects and returns a <code>bool</code> value </p>
 <h3 id="creating-rxcommands">Creating RxCommands</h3>
-<p> For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. They look like this.</p>
+<p>For the different variations of possible handler methods RxCommand offers several factory methods for synchronous and asynchronous handlers. They look like this.</p>
 <pre class="language-Dart"><code class="language-Dart">  /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
   /// `action`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand&lt;void, void&gt; createSyncNoParamNoResult(Action action,[Observable&lt;bool&gt; canExecute])
+  static RxCommand&lt;void, void&gt; createSyncNoParamNoResult(Action action,[Stream&lt;bool&gt; canExecute])
 </code></pre>
 <p>There are these variants:</p>
 <pre class="language-Dart"><code class="language-Dart">static RxCommand&lt;TParam, TResult&gt; createSync&lt;TParam, TResult&gt;(Func1&lt;TParam, TResult&gt; func,...
@@ -131,21 +139,21 @@ static RxCommand&lt;void, void&gt; createAsyncNoParamNoResult(AsyncAction action
 </code></pre>
 <p>Please check the API docs for detailed description of all parameters</p>
 <h4 id="createfromstream">createFromStream</h4>
-<p>  Creates  a RxCommand from an "one time" observable. This is handy if used together with a Stream generator function.<br>
+<p>Creates  a RxCommand from an "one time" Stream. This is handy if used together with a Stream generator function.<br>
   <code>provider</code>: provider function that returns a new <code>Stream</code> that will be subscribed on the call of <code>execute</code>
-  <code>canExecute</code> : observable that can be used to enable/disable the command based on some other state change
+  <code>canExecute</code> : Stream that can be used to enable/disable the command based on some other state change
   If omitted the command can be executed always except it's already executing</p>
-<pre class="language-Dart"><code class="language-Dart">  static RxCommand&lt;TParam, TResult&gt; createFromStream&lt;TParam, TResult&gt;(StreamProvider&lt;TParam, TResult&gt; provider, [Observable&lt;bool&gt; canExecute])
+<pre class="language-Dart"><code class="language-Dart">  static RxCommand&lt;TParam, TResult&gt; createFromStream&lt;TParam, TResult&gt;(StreamProvider&lt;TParam, TResult&gt; provider, [Stream&lt;bool&gt; canExecute])
 </code></pre>
-<p>You can pass in an additional <code>Observable&lt;bool&gt;</code> as <code>canExceute</code> that determines if command can be executed. </p>
+<p>You can pass in an additional <code>Stream&lt;bool&gt;</code> as <code>canExceute</code> that determines if command can be executed. </p>
 <h4 id="example-for-canexceute">Example for <code>canExceute</code></h4>
 <p>The sample App contains a <code>Switch</code> widget that enables/disables the update command. The switch itself is bound to the <code>switchChangedCommand</code> that's result is then used as <code>canExcecute</code> of the <code>updateWeatherCommand</code>:</p>
 <pre class="language-Dart"><code class="language-Dart">switchChangedCommand = RxCommand.createSync&lt;bool,bool&gt;((b)=&gt;b);
 
-// We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
+// We pass the result of switchChangedCommand as canExecute Stream to the upDateWeatherCommand
 updateWeatherCommand = RxCommand.createAsync&lt;String,List&lt;WeatherEntry&gt;&gt;(update,switchChangedCommand.results);
 </code></pre>
-<p>As the <em>Update</em> <code>Button</code>'s building is based on a <code>StreamBuilder</code>that listens on the <code>canExecute</code> Observable of the <code>updateWeatherCommand</code> the buttons enabled/disabled state gets automatically updated when the <code>Switch's</code> state changes</p>
+<p>As the <em>Update</em> <code>Button</code>'s building is based on a <code>StreamBuilder</code>that listens on the <code>canExecute</code> Stream of the <code>updateWeatherCommand</code> the buttons enabled/disabled state gets automatically updated when the <code>Switch's</code> state changes</p>
 <h4 id="error-handling-with-rxcommands">Error handling with RxCommands</h4>
 <p>By default all exceptions thrown by the wrapped function will be caught and swallowed. If you want to react on the, you can listen on the <code>thrownException</code> property.
 If you want to force RxCommand not to catch Exceptions set <code>throwExceptions=true</code>.</p>
@@ -158,7 +166,7 @@ If you want to force RxCommand not to catch Exceptions set <code>throwExceptions
 <pre class="language-Dart"><code class="language-Dart">new TextField(onChanged: TheViewModel.of(context).textChangedCommand,)
 </code></pre>
 <h4 id="listening-for-commandresults">Listening for CommandResults</h4>
-<p>The original <code>ReactiveCommand</code> from <em>ReactiveUI</em> separates the state information of the command into four Observables (<code>result, thrownExceptions, isExecuting, canExecute</code>) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a <code>StreamBuilder</code> to have all this information at one place so that you can decide what to display depending on the returned state. Therefore <code>RxCommand</code> offer the <code>.results</code> Observable emitting <code>CommandResult</code>objects:</p>
+<p>The original <code>ReactiveCommand</code> from <em>ReactiveUI</em> separates the state information of the command into four Streams (<code>result, thrownExceptions, isExecuting, canExecute</code>) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a <code>StreamBuilder</code> to have all this information at one place so that you can decide what to display depending on the returned state. Therefore <code>RxCommand</code> offer the <code>.results</code> Stream emitting <code>CommandResult</code>objects:</p>
 <pre class="language-Dart"><code class="language-Dart">class CommandResult&lt;T&gt;
 {
   final T         data;
@@ -179,23 +187,35 @@ If you want to get an initial Result with <code>data==null, error==null, isExceu
 <p>If you want to get the last result included in the <code>CommandResult</code> events while executing or in case of and error you can pass <code>emitInitialCommandResult=true</code> when creating the command. </p>
 <p>If you want to assign an initialValue to <code>.lastResult</code> e.g. if you use it with a <code>StreamBuilder's</code> <code>initialData</code> you can pass it with the <code>initialLastResult</code> parameter when creating the command.</p>
 <h3 id="disposing-subscriptions-listeners">Disposing subscriptions (listeners)</h3>
-<p>When subscribing to an Observable with <code>.listen</code> you should store the returned <code>StreamSubscription</code> and call <code>.cancel</code> on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
-<code>RxCommand</code> has a <code>dispose</code> function that will cancel all active subscriptions on its observables. Calling <code>dispose</code>before a command gets out of scope is a good practise.</p>
+<p>When subscribing to an Stream with <code>.listen</code> you should store the returned <code>StreamSubscription</code> and call <code>.cancel</code> on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
+<code>RxCommand</code> has a <code>dispose</code> function that will cancel all active subscriptions on its Streams. Calling <code>dispose</code>before a command gets out of scope is a good practise.</p>
 <h2 id="exploring-the-sample-app">Exploring the sample App</h2>
 <p>The best way to understand how <code>RxCommand</code> is used is to look at the supplied sample app which is a simple app that queries a REST API for weather data.</p>
 <h3 id="the-viewmodel">The ViewModel</h3>
 <p>It follow the MVVM design pattern so all business logic is bundled in the <code>WeatherViewModel</code> class in <code>weather_viewmodel.dart</code>.</p>
 <p>It is made accessible to the Widgets by using an <a href="https://docs.flutter.io/flutter/widgets/InheritedWidget-class.html">InheritedWidget</a> which is defined in main.dart and returns and instance of <code>WeatherViewModel</code>when used like <code>TheViewModel.of(context)</code></p>
-<p>The view model publishes two commands </p><ul><li><code>updateWeatherCommand</code> which makes a call to the weather API and filters the result based on a string that is passed to execute. Its result will be bound to a <code>StreamBuilder</code>in your View.</li><li><code>switchChangedCommand</code> which will be bound to a <code>Switch</code> widget to enable/disable the `updateWeatherCommand.</li></ul>
+<p>The view model publishes two commands </p>
+<ul>
+<li><code>updateWeatherCommand</code> which makes a call to the weather API and filters the result based on a string that is passed to execute. Its result will be bound to a <code>StreamBuilder</code>in your View.</li>
+<li><code>switchChangedCommand</code> which will be bound to a <code>Switch</code> widget to enable/disable the `updateWeatherCommand.</li>
+</ul>
 <h3 id="the-view">The View</h3>
 <p><code>main.dart</code> creates the ViewModel and places it at the very base of the app`s widget tree.</p>
-<p><code>homepage.dart</code> creates a <code>Column</code> with a </p><ul><li>
-<p><code>TextField</code> where you can enter a filter text which binds to the ViewModels <code>textChangedCommand</code>.</p></li><li>
-<p>a middle block which can either be a <code>ListView</code> (<code>WeatherListView</code>) or a busy spinner. It is created by a <code>StreamBuilder</code> which listens to &lt;br/&gt; <code>TheViewModel.of(context).updateWeatherCommand.isExecuting</code>&lt;br/&gt;</p></li><li>
-<p>A row with the Update <code>Button</code> and a <code>Switch</code> that toggles if an update should be possible or not by binding to <code>TheViewModel.of(context).switchChangedCommand)</code>. To change the enabled state of the button the button is build by a <code>StreamBuilder</code> that listens to the  <code>TheViewModel.of(context).updateWeatherCommand.canExecute</code> </p></li></ul>
+<p><code>homepage.dart</code> creates a <code>Column</code> with a </p>
+<ul>
+<li>
+<p><code>TextField</code> where you can enter a filter text which binds to the ViewModels <code>textChangedCommand</code>.</p>
+</li>
+<li>
+<p>a middle block which can either be a <code>ListView</code> (<code>WeatherListView</code>) or a busy spinner. It is created by a <code>StreamBuilder</code> which listens to &lt;br/&gt; <code>TheViewModel.of(context).updateWeatherCommand.isExecuting</code>&lt;br/&gt;</p>
+</li>
+<li>
+<p>A row with the Update <code>Button</code> and a <code>Switch</code> that toggles if an update should be possible or not by binding to <code>TheViewModel.of(context).switchChangedCommand)</code>. To change the enabled state of the button the button is build by a <code>StreamBuilder</code> that listens to the  <code>TheViewModel.of(context).updateWeatherCommand.canExecute</code> </p>
+</li>
+</ul>
 <p><code>listview.dart</code> implements <code>WeatherListView</code> which consists again of a StreamBuilder which updates automatically by listening on <code>TheViewModel.of(context).updateWeatherCommand.results</code></p>
 <h2 id="making-live-easier-with-rxcommandlisteners">Making live easier with RxCommandListeners</h2>
-<p>If you want to react on more than one Observable of one command the listening and freeing of multiple of subscriptions makes the code less readable and you have to be careful not to forget to cancel all of them.</p>
+<p>If you want to react on more than one Stream of one command the listening and freeing of multiple of subscriptions makes the code less readable and you have to be careful not to forget to cancel all of them.</p>
 <p><code>RxCommandListener</code> makes this handling much easier. Its constructor takes a command and direct handler functions for the different state changes:</p>
 <pre class="language-Dart"><code class="language-Dart">class RxCommandListener&lt;TParam, TResult&gt; {
   final RxCommand&lt;TParam, TResult&gt; command;
@@ -208,7 +228,7 @@ If you want to get an initial Result with <code>data==null, error==null, isExceu
   final void Function(dynamic ex) onError;
   // Is called when canExecute changes
   final void Function(bool state) onCanExecuteChange;
-  // is called with the vealue of the .results Observable of the command
+  // is called with the vealue of the .results Stream of the command
   final void Function(CommandResult&lt;TResult&gt; result) onResult;
 
   // to make the handling of busy states even easier these are called on their respective states 
@@ -280,13 +300,13 @@ _selectImageErrorSubscription = sl
     onError: (ex) =&gt; showMessageDialog(context, 'Upload problem',
         "We cannot upload your selected image at the moment. Please check your internet connection"));
 </code></pre>
-<p>As a rule of thumb I would only use an RxCommandListener if I want to listen to more than one observable.</p>
+<p>As a rule of thumb I would only use an RxCommandListener if I want to listen to more than one Stream.</p>
 <h2 id="mocking-rxcommands">Mocking RxCommands</h2>
 <p>When writing UI Tests with Flutter its often better not to work with the real commands in the ViewModel but to use a <code>MockCommand</code> to have better control over the data a command receives and emits.</p>
 <p>For this the <code>MockCommand</code> class is for. It behaves almost like a normal <code>RxCommand</code></p>
 <p>It's created by</p>
-<pre class="language-Dart"><code class="language-Dart">/// Factory constructor that can take an optional observable to control if the command can be executet
-factory MockCommand({Observable&lt;bool&gt; canExecute} )
+<pre class="language-Dart"><code class="language-Dart">/// Factory constructor that can take an optional Stream to control if the command can be executet
+factory MockCommand({Stream&lt;bool&gt; canExecute} )
 </code></pre>
 <p>You don't pass a handler function because this should be controlled from the outside.
 To control the outcome of the Command execution you can inspect these properties:</p>
@@ -422,13 +442,34 @@ void endExecutionNoData()
               <span class="name"><a href="rx_command/rx_command-library.html">rx_command</a></span>             
             </dt>
             <dd>
-              
-            </dd>            <dt id="rx_command_listener">
+               
+            </dd>
+            <dt id="rx_command_listener">
               <span class="name"><a href="rx_command_listener/rx_command_listener-library.html">rx_command_listener</a></span>             
             </dt>
             <dd>
-              
-            </dd>          </dl>
+               
+            </dd>
+          </dl>
+        </section>
+        <section class="summary">
+            <h2>Dart</h2>
+          <dl>
+            <dt id="dart:ui">
+              <span class="name"><a href="dart-ui/dart-ui-library.html">dart:ui</a></span>             
+            </dt>
+            <dd>
+              Built-in types and core primitives for a Flutter application. <a href="dart-ui/dart-ui-library.html">[...]</a>
+            </dd>
+            <h3>Core</h3>
+              <dt id="dart:async">
+                <span class="name"><a href="dart-async/dart-async-library.html">dart:async</a></span>               
+              </dt>
+              <dd>
+                Support for asynchronous programming,
+with classes such as Future and Stream. <a href="dart-async/dart-async-library.html">[...]</a>
+              </dd>
+          </dl>
         </section>
 
   </div> <!-- /.main-content -->
@@ -440,10 +481,11 @@ void endExecutionNoData()
 
 <footer>
   <span class="no-break">
-    rx_command 4.3.1+2
+    rx_command
+      5.0.0
   </span>
 
-  
+  <!-- footer-text placeholder -->
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -451,7 +493,7 @@ void endExecutionNoData()
 <script src="static-assets/highlight.pack.js"></script>
 <script src="static-assets/URI.js"></script>
 <script src="static-assets/script.js"></script>
-
+<!-- footer placeholder -->
 
 </body>
 

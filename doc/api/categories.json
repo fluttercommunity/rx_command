@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "name": "dart:async",
+    "qualifiedName": "dart:async",
+    "href": "dart-async/dart-async-library.html",
+    "type": "library",
+    "categories": [
+      "Core"
+    ]
+  }
+]

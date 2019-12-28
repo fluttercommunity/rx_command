@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="static-assets/github.css">
   <link rel="stylesheet" href="static-assets/styles.css">
   <link rel="icon" href="static-assets/favicon.png">
-  
+  <!-- header placeholder -->
 </head>
 
 <body>
@@ -52,6 +52,10 @@
           <li class="section-title">Libraries</li>
           <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
           <li><a href="rx_command_listener/rx_command_listener-library.html">rx_command_listener</a></li>
+          <li class="section-title">Dart</li>
+          <li><a href="dart-ui/dart-ui-library.html">dart:ui</a></li>
+          <li class="section-subtitle">Core</li>
+            <li class="section-subitem"><a href="dart-async/dart-async-library.html">dart:async</a></li>
     </ol>
   </div>
 
@@ -76,7 +80,7 @@ During normal command execution you will get this items listening at the command
         </dt>
         <dd>
           <code>MockCommand</code> allows you to easily moch an RxCommand for your Unit and UI tests
-Mocking a command with <code>mockito</code> <a href="https://pub.dartlang.org/packages/mockito">https://pub.dartlang.org/packages/mockito</a> has its limitations.
+Mocking a command with <code>mockito</code> <a href="https://pub.dartlang.org/packages/mockito">https://pub.dartlang.org/packages/mockito</a> has its limitations. 
         </dd>
         <dt id="RxCommand">
           <span class="name "><a href="rx_command/RxCommand-class.html">RxCommand</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>         
@@ -91,29 +95,30 @@ all possibly thrown exceptions during command execution. <a href="rx_command/RxC
           <span class="name "><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd>
-          
+           
         </dd>
         <dt id="RxCommandListener">
           <span class="name "><a href="rx_command_listener/RxCommandListener-class.html">RxCommandListener</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd>
-          
+           
         </dd>
         <dt id="RxCommandStream">
           <span class="name "><a href="rx_command/RxCommandStream-class.html">RxCommandStream</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd>
-          
+           
         </dd>
         <dt id="RxCommandSync">
           <span class="name "><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span></span>         
         </dt>
         <dd>
           Implementation of RxCommand to handle async handler functions. Normally you will not instanciate this directly but use one of the factory
-methods of RxCommand.
+methods of RxCommand. 
         </dd>
       </dl>
     </section>
+
 
 
 
@@ -130,52 +135,52 @@ methods of RxCommand.
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="Action1" class="callable">
-          <span class="name"><a href="rx_command/Action1.html">Action1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="Action1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
+          <span class="name"><a href="rx_command/Action1.html">Action1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="Action1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span><wbr>)
             <span class="returntype parameter">&#8594; void</span>
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="AsyncAction" class="callable">
           <span class="name"><a href="rx_command/AsyncAction.html">AsyncAction</a></span><span class="signature">(<wbr>)
-            <span class="returntype parameter">&#8594; Future</span>
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a></span>
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="AsyncAction1" class="callable">
-          <span class="name"><a href="rx_command/AsyncAction1.html">AsyncAction1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncAction1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
-            <span class="returntype parameter">&#8594; Future</span>
+          <span class="name"><a href="rx_command/AsyncAction1.html">AsyncAction1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncAction1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span><wbr>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a></span>
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="AsyncFunc" class="callable">
           <span class="name"><a href="rx_command/AsyncFunc.html">AsyncFunc</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr>)
-            <span class="returntype parameter">&#8594; Future<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="AsyncFunc1" class="callable">
-          <span class="name"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncFunc1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
-            <span class="returntype parameter">&#8594; Future<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="name"><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="AsyncFunc1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span><wbr>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="Func" class="callable">
@@ -184,25 +189,25 @@ methods of RxCommand.
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="Func1" class="callable">
-          <span class="name"><a href="rx_command/Func1.html">Func1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="Func1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
+          <span class="name"><a href="rx_command/Func1.html">Func1</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="Func1-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span><wbr>)
             <span class="returntype parameter">&#8594; TResult</span>
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
         <dt id="StreamProvider" class="callable">
-          <span class="name"><a href="rx_command/StreamProvider.html">StreamProvider</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="StreamProvider-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span>)
-            <span class="returntype parameter">&#8594; Stream<span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
+          <span class="name"><a href="rx_command/StreamProvider.html">StreamProvider</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TParam</span>, <span class="type-parameter">TResult</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="StreamProvider-param-param"><span class="type-annotation">TParam</span> <span class="parameter-name">param</span></span><wbr>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">TResult</span>&gt;</span></span>
           </span>
                   </dt>
         <dd>
-          
+           
                   
 </dd>
       </dl>
@@ -228,6 +233,7 @@ methods of RxCommand.
     
     
     
+    
       <li class="section-title"><a href="rx_command/rx_command-library.html#typedefs">Typedefs</a></li>
       <li><a href="rx_command/Action.html">Action</a></li>
       <li><a href="rx_command/Action1.html">Action1</a></li>
@@ -246,10 +252,11 @@ methods of RxCommand.
 
 <footer>
   <span class="no-break">
-    rx_command 4.3.1+2
+    rx_command
+      5.0.0
   </span>
 
-  
+  <!-- footer-text placeholder -->
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -257,7 +264,7 @@ methods of RxCommand.
 <script src="static-assets/highlight.pack.js"></script>
 <script src="static-assets/URI.js"></script>
 <script src="static-assets/script.js"></script>
-
+<!-- footer placeholder -->
 
 </body>
 
