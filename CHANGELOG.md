@@ -1,3 +1,7 @@
+## [5.0.0] - 28.12.2019
+
+ * Adapted to rxdart ^0.23.1 by abandoning Observables and use the new extension methods
+
 ## [4.3.4] - 28.12.2019
 
  * Fix for https://github.com/fluttercommunity/rx_command/issues/32
