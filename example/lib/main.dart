@@ -4,14 +4,14 @@ import 'package:meta/meta.dart';
 import 'homepage.dart';
 import 'weather_viewmodel.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp( MyApp());
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
  
   @override
   MyAppState createState() {
-    return new MyAppState();
+    return  MyAppState();
   }
 }
 
@@ -23,19 +23,19 @@ class MyAppState extends State<MyApp> {
   @override 
   void initState() {
 
-      viewModelData = new WeatherViewModel();
+      viewModelData =  WeatherViewModel();
       super.initState();
     }
 
   @override
   Widget build(BuildContext context) {
     // Place the Inherited Widget at the very base of the Widget tree        
-    return new TheViewModel( 
+    return  TheViewModel( 
                   theModel:  viewModelData,
                   child: 
-                  new MaterialApp(
+                   MaterialApp(
                     title: 'Flutter Demo',
-                    home: new HomePage()
+                    home:  HomePage()
 
  
                   ),

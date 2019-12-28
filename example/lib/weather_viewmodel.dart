@@ -13,10 +13,10 @@ class WeatherViewModel {
   RxCommand<String, String> textChangedCommand;
 
   WeatherViewModel() {
-    // Command expects a bool value when executed and issues the value on it's result Observable (stream)
+    // Command expects a bool value when executed and issues the value on it's result Stream (stream)
     switchChangedCommand = RxCommand.createSync<bool, bool>((b) => b);
 
-    // We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
+    // We pass the result of switchChangedCommand as canExecute Stream to the upDateWeatherCommand
     updateWeatherCommand = RxCommand.createAsync<String, List<WeatherEntry>>(update,
         canExecute: switchChangedCommand, emitsLastValueToNewSubscriptions: true);
 
@@ -25,7 +25,7 @@ class WeatherViewModel {
 
     // handler for results
     textChangedCommand
-        .debounceTime(new Duration(
+        .debounceTime( Duration(
             milliseconds:
                 500)) // make sure we start processing only if the user make a short pause typing
         .listen((filterText) {
@@ -45,12 +45,12 @@ class WeatherViewModel {
     const url =
         "http://api.openweathermap.org/data/2.5/box/city?bbox=5,47,14,54,20&appid=27ac337102cc4931c24ba0b50aca6bbd";
 
-    var httpStream = new Observable(http.get(url).asStream());
+    var httpStream = http.get(url).asStream();
 
     return httpStream.where((data) => data.statusCode == 200) // only continue if valid response
         .map((data) // convert JSON result into a List of WeatherEntries
             {
-      return new WeatherInCities.fromJson(json.decode(data.body) as Map<String, dynamic>)
+      return  WeatherInCities.fromJson(json.decode(data.body) as Map<String, dynamic>)
           .Cities // we are only interested in the Cities part of the response
           .where((weatherInCity) =>
               filtertext == null ||
@@ -58,7 +58,7 @@ class WeatherViewModel {
               weatherInCity.Name.toUpperCase()
                   .startsWith(filtertext.toUpperCase())) // otherwise only matching entries
           .map((weatherInCity) =>
-              new WeatherEntry(weatherInCity)) // Convert City object to WeatherEntry
+               WeatherEntry(weatherInCity)) // Convert City object to WeatherEntry
           .toList(); // aggregate entries to a List
     }).first; // Return result as Future
   }

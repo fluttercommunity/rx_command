@@ -1,14 +1,14 @@
 import 'dart:async';
-
+import 'package:rxdart/rxdart.dart';
 import 'package:rx_command/rx_command.dart';
 
 class RxCommandListener<TParam, TResult> {
-  StreamSubscription valueSubscription;
-  StreamSubscription resultsSubscription;
-  StreamSubscription busyChangeSubscription;
-  StreamSubscription busySubscription;
+  StreamSubscription<TResult> valueSubscription;
+  StreamSubscription<CommandResult> resultsSubscription;
+  StreamSubscription<bool> busyChangeSubscription;
+  StreamSubscription<bool> busySubscription;
   StreamSubscription errorSubscription;
-  StreamSubscription canExecuteStateSubscription;
+  StreamSubscription<bool> canExecuteStateSubscription;
 
   final RxCommand<TParam, TResult> command;
 

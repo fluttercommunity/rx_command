@@ -2,7 +2,7 @@
 
 # RxCommand
 
-> **BREAKING CHANGE with V4.0** All creation functions got renamed to be more descriptive than the numbered ones. The new variants are:
+> **BREAKING CHANGE with V5.0** RxCommand no longer works with Observables but with plain Dart Streams because the latest RxDart version now uses extension methods on Streams instead of Observables:
 >
 ```Dart
 static RxCommand<TParam, TResult> createSync<TParam, TResult>(Func1<TParam, TResult> func,...
@@ -26,10 +26,10 @@ You can find a tutorial on how to use `RxCommands` in this blog post [Making Flu
 
 >PRs are always welcome ;-)
 
-> MAYBE BREAKING CHANGE in 2.0.0: Till now the `results` Observable and the `RxCommand` itself behaved like a `BehaviourSubjects`. This can lead to problems when using with Flutter.
+> MAYBE BREAKING CHANGE in 2.0.0: Till now the `results` Stream and the `RxCommand` itself behaved like a `BehaviourSubjects`. This can lead to problems when using with Flutter.
 From now on the default is `PublishSubject`. If you need `BehaviourSubject` behaviour, meaning every new listener gets the last received value, you can set `emitsLastValueToNewSubscriptions = true` when creating `RxCommand`.
 
-If you don't know Rx think of it as Dart `Streams` on steroids. `RxCommand` capsules a given handler function that can then be executed by its `execute` method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its Observable interface (Observable wrap Dart Streams). Additionally it offers Observables for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.
+If you don't know Rx think of it as Dart `Streams` on steroids. `RxCommand` capsules a given handler function that can then be executed by its `execute` method or directly assigned to a widget's handler because it's a callable class. The result of this method is then published through its Stream interface. Additionally it offers Streams for it's current execution state, if the command can be executed and for all possibly thrown exceptions during command execution.
 
 A very simple example
 
@@ -84,9 +84,9 @@ RxCommand<bool,bool>  switchChangedCommand;
 ```Dart
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type 
   /// `action`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
-  static RxCommand<void, void> createSyncNoParamNoResult(Action action,[Observable<bool> canExecute])
+  static RxCommand<void, void> createSyncNoParamNoResult(Action action,[Stream<bool> canExecute])
 ```
 
 There are these variants:
@@ -107,16 +107,16 @@ Please check the API docs for detailed description of all parameters
 
 #### createFromStream
 
-  Creates  a RxCommand from an "one time" observable. This is handy if used together with a Stream generator function.  
+  Creates  a RxCommand from an "one time" Stream. This is handy if used together with a Stream generator function.  
   `provider`: provider function that returns a new `Stream` that will be subscribed on the call of [execute]
-  `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   If omitted the command can be executed always except it's already executing
 
 ```Dart
-  static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(StreamProvider<TParam, TResult> provider, [Observable<bool> canExecute])
+  static RxCommand<TParam, TResult> createFromStream<TParam, TResult>(StreamProvider<TParam, TResult> provider, [Stream<bool> canExecute])
 ```
 
-You can pass in an additional `Observable<bool>` as `canExceute` that determines if command can be executed. 
+You can pass in an additional `Stream<bool>` as `canExceute` that determines if command can be executed. 
 
 #### Example for `canExceute`
 
@@ -125,11 +125,11 @@ The sample App contains a `Switch` widget that enables/disables the update comma
 ```Dart
 switchChangedCommand = RxCommand.createSync<bool,bool>((b)=>b);
 
-// We pass the result of switchChangedCommand as canExecute Observable to the upDateWeatherCommand
+// We pass the result of switchChangedCommand as canExecute Stream to the upDateWeatherCommand
 updateWeatherCommand = RxCommand.createAsync<String,List<WeatherEntry>>(update,switchChangedCommand.results);
 ```
 
-As the _Update_ `Button`'s building is based on a `StreamBuilder`that listens on the `canExecute` Observable of the `updateWeatherCommand` the buttons enabled/disabled state gets automatically updated when the `Switch's` state changes
+As the _Update_ `Button`'s building is based on a `StreamBuilder`that listens on the `canExecute` Stream of the `updateWeatherCommand` the buttons enabled/disabled state gets automatically updated when the `Switch's` state changes
 
 
 #### Error handling with RxCommands
@@ -155,7 +155,7 @@ new TextField(onChanged: TheViewModel.of(context).textChangedCommand,)
 
 #### Listening for CommandResults
 
-The original `ReactiveCommand` from _ReactiveUI_ separates the state information of the command into four Observables (`result, thrownExceptions, isExecuting, canExecute`) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a `StreamBuilder` to have all this information at one place so that you can decide what to display depending on the returned state. Therefore `RxCommand` offer the `.results` Observable emitting `CommandResult`objects:
+The original `ReactiveCommand` from _ReactiveUI_ separates the state information of the command into four Streams (`result, thrownExceptions, isExecuting, canExecute`) this works great in an environment that doesn't rebuild the whole screen on state change. Flutter it's often desirable when working with a `StreamBuilder` to have all this information at one place so that you can decide what to display depending on the returned state. Therefore `RxCommand` offer the `.results` Stream emitting `CommandResult`objects:
 
 ```Dart
 class CommandResult<T>
@@ -185,8 +185,8 @@ If you want to assign an initialValue to `.lastResult` e.g. if you use it with a
 
 
 ### Disposing subscriptions (listeners)
-When subscribing to an Observable with `.listen` you should store the returned `StreamSubscription` and call `.cancel` on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
-`RxCommand` has a `dispose` function that will cancel all active subscriptions on its observables. Calling `dispose`before a command gets out of scope is a good practise.
+When subscribing to an Stream with `.listen` you should store the returned `StreamSubscription` and call `.cancel` on it if you want to cancel this subscription to a later point or if the object where the subscription is made is getting destroyed to avoid memory leaks.
+`RxCommand` has a `dispose` function that will cancel all active subscriptions on its Streams. Calling `dispose`before a command gets out of scope is a good practise.
 
 ## Exploring the sample App 
 
@@ -220,7 +220,7 @@ The view model publishes two commands
 
 ## Making live easier with RxCommandListeners
 
-If you want to react on more than one Observable of one command the listening and freeing of multiple of subscriptions makes the code less readable and you have to be careful not to forget to cancel all of them.
+If you want to react on more than one Stream of one command the listening and freeing of multiple of subscriptions makes the code less readable and you have to be careful not to forget to cancel all of them.
 
 `RxCommandListener` makes this handling much easier. Its constructor takes a command and direct handler functions for the different state changes:
 
@@ -236,7 +236,7 @@ class RxCommandListener<TParam, TResult> {
   final void Function(dynamic ex) onError;
   // Is called when canExecute changes
   final void Function(bool state) onCanExecuteChange;
-  // is called with the vealue of the .results Observable of the command
+  // is called with the vealue of the .results Stream of the command
   final void Function(CommandResult<TResult> result) onResult;
 
   // to make the handling of busy states even easier these are called on their respective states 
@@ -316,7 +316,7 @@ selectImageListener = RxCommandListener(
         "We cannot upload your selected image at the moment. Please check your internet connection"));
 ```
 
-As a rule of thumb I would only use an RxCommandListener if I want to listen to more than one observable.
+As a rule of thumb I would only use an RxCommandListener if I want to listen to more than one Stream.
 
 
 
@@ -332,8 +332,8 @@ For this the `MockCommand` class is for. It behaves almost like a normal `RxComm
 It's created by
 
 ```Dart
-/// Factory constructor that can take an optional observable to control if the command can be executet
-factory MockCommand({Observable<bool> canExecute} )
+/// Factory constructor that can take an optional Stream to control if the command can be executet
+factory MockCommand({Stream<bool> canExecute} )
 ```
 
 You don't pass a handler function because this should be controlled from the outside.
