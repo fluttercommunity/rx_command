@@ -85,7 +85,8 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
       Stream<bool> canExecuteRestriction,
       this._emitLastResult,
       this._resultSubjectIsBehaviourSubject,
-      this.lastResult):super(_resultsSubject){
+      this.lastResult)
+      : super(_resultsSubject) {
     _commandResultsSubject = _resultSubjectIsBehaviourSubject
         ? BehaviorSubject<CommandResult<TResult>>()
         : PublishSubject<CommandResult<TResult>>();
@@ -373,8 +374,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
   /// Observable stream that issues a bool on any change of the current executable state of the command.
   /// Meaning if the command cann be executed or not. This will issue `false` while the command executes
   /// but also if the command receives a false from the canExecute Observable that you can pass when creating the Command
-  Stream<bool> get canExecute =>
-      _canExecuteSubject.startWith(true).distinct();
+  Stream<bool> get canExecute => _canExecuteSubject.startWith(true).distinct();
 
   /// When subribing to `thrownExceptions`you will every excetpion that was thrown in your handler function as an event on this Observable.
   /// If no subscription exists the Exception will be rethrown
@@ -382,9 +382,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// This property is a utility which allows us to chain RxCommands together.
   Future<TResult> get next =>
-      Rx.merge([this, this.thrownExceptions.cast<TResult>()])
-          .take(1)
-          .last;
+      Rx.merge([this, this.thrownExceptions.cast<TResult>()]).take(1).last;
 
   Subject<CommandResult<TResult>> _commandResultsSubject;
   final Subject<TResult> _resultsSubject;

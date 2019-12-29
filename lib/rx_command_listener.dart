@@ -60,19 +60,24 @@ class RxCommandListener<TParam, TResult> {
       }
     } else {
       if (onValue != null) {
-        valueSubscription = command.debounceTime(debounceDuration).listen(onValue);
+        valueSubscription =
+            command.debounceTime(debounceDuration).listen(onValue);
         if (onResult != null && debounceDuration != null) {
-          resultsSubscription = command.results.debounceTime(debounceDuration).listen(onResult);
+          resultsSubscription =
+              command.results.debounceTime(debounceDuration).listen(onResult);
         }
 
         if (onIsBusyChange != null) {
-          busyChangeSubscription = command.isExecuting.debounceTime(debounceDuration).listen(onIsBusyChange);
+          busyChangeSubscription = command.isExecuting
+              .debounceTime(debounceDuration)
+              .listen(onIsBusyChange);
         }
 
         if (onIsBusy != null || onNotBusy != null) {
           busySubscription = command.isExecuting
               .debounceTime(debounceDuration)
-              .listen((isBusy) => isBusy ? this.onIsBusy?.call() : this.onNotBusy?.call());
+              .listen((isBusy) =>
+                  isBusy ? this.onIsBusy?.call() : this.onNotBusy?.call());
         }
       }
     }
@@ -81,7 +86,8 @@ class RxCommandListener<TParam, TResult> {
     }
 
     if (onCanExecuteChange != null) {
-      canExecuteStateSubscription = command.canExecute.listen(onCanExecuteChange);
+      canExecuteStateSubscription =
+          command.canExecute.listen(onCanExecuteChange);
     }
   }
 

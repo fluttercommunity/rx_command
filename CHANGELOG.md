@@ -1,3 +1,7 @@
+## [5.0.1] - 29.12.2019
+
+ * Removed Flutter dependency
+
 ## [5.0.0] - 28.12.2019
 
  * Adapted to rxdart ^0.23.1 by abandoning Observables and use the new extension methods
