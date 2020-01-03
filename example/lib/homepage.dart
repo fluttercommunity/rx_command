@@ -6,19 +6,20 @@ import 'main.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar:  AppBar(title:  Text("WeatherDemo")),
-      body:  Column(
+    return Scaffold(
+      appBar: AppBar(title: Text("WeatherDemo")),
+      body: Column(
         children: <Widget>[
-           Padding(
+          Padding(
             padding: const EdgeInsets.all(5.0),
-            child:  TextField(
+            child: TextField(
               autocorrect: false,
-              decoration:  InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Filter cities",
-                hintStyle:  TextStyle(color: Color.fromARGB(150, 0, 0, 0)),
+                hintStyle: TextStyle(color: Color.fromARGB(150, 0, 0, 0)),
               ),
-              style: TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(
+                  fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)),
               onChanged: TheViewModel.of(context).textChangedCommand,
             ),
           ),
@@ -26,8 +27,11 @@ class HomePage extends StatelessWidget {
               child:
                   // Handle events to show / hide spinner
                   StreamBuilder<bool>(
-                      stream: TheViewModel.of(context).updateWeatherCommand.isExecuting,
-                      builder: (BuildContext context, AsyncSnapshot<bool> isRunning) {
+                      stream: TheViewModel.of(context)
+                          .updateWeatherCommand
+                          .isExecuting,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<bool> isRunning) {
                         // if true we show a buys Spinner otherwise the ListView
                         if (isRunning.hasData && isRunning.data == true) {
                           return Center(
@@ -51,7 +55,8 @@ class HomePage extends StatelessWidget {
                         stream: TheViewModel.of(context)
                             .updateWeatherCommand
                             .canExecute, //We access our ViewModel through the inherited Widget
-                        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<bool> snapshot) {
                           VoidCallback handler;
                           if (snapshot.hasData) {
                             // Depending on teh Value we get from the stream we set or clear the Handler
@@ -68,7 +73,8 @@ class HomePage extends StatelessWidget {
                         }),
                   ),
                   StateFullSwitch(
-                      state: true, onChanged: TheViewModel.of(context).switchChangedCommand)
+                      state: true,
+                      onChanged: TheViewModel.of(context).switchChangedCommand)
                 ],
               )),
         ],
