@@ -37,6 +37,12 @@ class CommandResult<T> {
   // ignore: avoid_positional_boolean_parameters
   const CommandResult(this.data, this.error, this.isExecuting);
 
+  factory CommandResult.data(T data)=> CommandResult(data, false, false);
+
+  factory CommandResult.error(dynamic error)=> CommandResult(null, error, false);
+
+  factory CommandResult.isLoading()=> CommandResult(null, false, true);
+
   bool get hasData => data != null;
   bool get hasError => error != null;
 
