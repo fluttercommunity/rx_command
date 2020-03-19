@@ -1,3 +1,7 @@
+## [5.0.2] - 29.01.2020
+
+ * https://github.com/fluttercommunity/rx_command/issues/36
+
 ## [5.0.1] - 29.12.2019
 
  * Removed Flutter dependency
