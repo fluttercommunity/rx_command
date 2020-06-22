@@ -37,11 +37,12 @@ class CommandResult<T> {
   // ignore: avoid_positional_boolean_parameters
   const CommandResult(this.data, this.error, this.isExecuting);
 
-  factory CommandResult.data(T data)=> CommandResult(data, false, false);
+  factory CommandResult.data(T data) => CommandResult(data, false, false);
 
-  factory CommandResult.error(dynamic error)=> CommandResult(null, error, false);
+  factory CommandResult.error(dynamic error) =>
+      CommandResult(null, error, false);
 
-  factory CommandResult.isLoading()=> CommandResult(null, false, true);
+  factory CommandResult.isLoading() => CommandResult(null, false, true);
 
   bool get hasData => data != null;
   bool get hasError => error != null;
@@ -63,7 +64,7 @@ class CommandResult<T> {
 }
 
 /// [RxCommand] capsules a given handler function that can then be executed by its [execute] method.
-/// The result of this method is then published through its Stream 
+/// The result of this method is then published through its Stream
 /// Additionally it offers Streams for it's current execution state, if the command can be executed and for
 /// all possibly thrown exceptions during command execution.
 ///
@@ -375,14 +376,15 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Stream that issues a bool on any execution state change of the command
   Stream<bool> _isExecuting;
-  Stream<bool> get isExecuting => _isExecuting ??=
-      _isExecutingSubject.startWith(false).distinct();
+  Stream<bool> get isExecuting =>
+      _isExecuting ??= _isExecutingSubject.startWith(false).distinct();
 
   /// Stream that issues a bool on any change of the current executable state of the command.
   /// Meaning if the command cann be executed or not. This will issue `false` while the command executes
   /// but also if the command receives a false from the canExecute Stream that you can pass when creating the Command
   Stream<bool> _canExecute;
-  Stream<bool> get canExecute => _canExecute ??= _canExecuteSubject.startWith(true).distinct();
+  Stream<bool> get canExecute =>
+      _canExecute ??= _canExecuteSubject.startWith(true).distinct();
 
   /// When subribing to `thrownExceptions`you will every excetpion that was thrown in your handler function as an event on this Stream.
   /// If no subscription exists the Exception will be rethrown

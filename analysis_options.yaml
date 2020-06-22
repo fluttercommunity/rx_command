@@ -5,7 +5,7 @@ analyzer:
     unused_import: error
     unused_local_variable: error
     dead_code: error
-    override_on_non_overriding_method: error
+    invalid_override_of_non_virtual_member: error
   exclude:
     - example/lib/json/weather_in_cities.g.dart
 
