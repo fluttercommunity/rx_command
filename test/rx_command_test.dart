@@ -91,7 +91,7 @@ void main() {
     // yield execution so the restriction emits before the command.canExecute is checked.
     await Future.delayed(Duration.zero);
 
-    expect(command.canExecute, emits(false));
+    expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
     command.execute();
@@ -327,6 +327,7 @@ void main() {
 
     await Future.delayed(Duration(milliseconds: 100));
 
+    expect(command.isExecuting, emits(false));
     expect(executionCount, 1);
   });
 
@@ -372,6 +373,7 @@ void main() {
 
     await Future.delayed(Duration(milliseconds: 50));
 
+    expect(command.isExecuting, emits(false));
     expect(executionCount, 2);
   });
 
