@@ -6,26 +6,26 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
   <meta name="description" content="API docs for the CommandResult class from the rx_command library, for the Dart programming language.">
   <title>CommandResult class - rx_command library - Dart API</title>
-  <!-- required because all the links are pseudo-absolute -->
-  <base href="..">
 
+  
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="static-assets/github.css">
-  <link rel="stylesheet" href="static-assets/styles.css">
-  <link rel="icon" href="static-assets/favicon.png">
-  <!-- header placeholder -->
+  <link rel="stylesheet" href="../static-assets/github.css">
+  <link rel="stylesheet" href="../static-assets/styles.css">
+  <link rel="icon" href="../static-assets/favicon.png">
+
 </head>
 
-<body>
+<body data-base-href="../"
+      data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
 <header id="title">
   <button id="sidenav-left-toggle" type="button">&nbsp;</button>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
-    <li><a href="index.html">rx_command</a></li>
-    <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
+    <li><a href="../index.html">rx_command</a></li>
+    <li><a href="../rx_command/rx_command-library.html">rx_command</a></li>
     <li class="self-crumb">CommandResult<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span> class</li>
   </ol>
   <div class="self-name">CommandResult</div>
@@ -44,21 +44,21 @@
     </header>
     
     <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
-      <li><a href="index.html">rx_command</a></li>
-      <li><a href="rx_command/rx_command-library.html">rx_command</a></li>
+      <li><a href="../index.html">rx_command</a></li>
+      <li><a href="../rx_command/rx_command-library.html">rx_command</a></li>
       <li class="self-crumb">CommandResult<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span> class</li>
     </ol>
     
     <h5>rx_command library</h5>
     <ol>
-      <li class="section-title"><a href="rx_command/rx_command-library.html#classes">Classes</a></li>
-      <li><a href="rx_command/CommandResult-class.html">CommandResult</a></li>
-      <li><a href="rx_command/MockCommand-class.html">MockCommand</a></li>
-      <li><a href="rx_command/RxCommand-class.html">RxCommand</a></li>
-      <li><a href="rx_command/RxCommandAsync-class.html">RxCommandAsync</a></li>
-      <li><a href="rx_command_listener/RxCommandListener-class.html">RxCommandListener</a></li>
-      <li><a href="rx_command/RxCommandStream-class.html">RxCommandStream</a></li>
-      <li><a href="rx_command/RxCommandSync-class.html">RxCommandSync</a></li>
+      <li class="section-title"><a href="../rx_command/rx_command-library.html#classes">Classes</a></li>
+      <li><a href="../rx_command/CommandResult-class.html">CommandResult</a></li>
+      <li><a href="../rx_command/MockCommand-class.html">MockCommand</a></li>
+      <li><a href="../rx_command/RxCommand-class.html">RxCommand</a></li>
+      <li><a href="../rx_command/RxCommandAsync-class.html">RxCommandAsync</a></li>
+      <li><a href="../rx_command_listener/RxCommandListener-class.html">RxCommandListener</a></li>
+      <li><a href="../rx_command/RxCommandStream-class.html">RxCommandStream</a></li>
+      <li><a href="../rx_command/RxCommandSync-class.html">RxCommandSync</a></li>
     
     
     
@@ -66,31 +66,31 @@
     
     
     
-      <li class="section-title"><a href="rx_command/rx_command-library.html#typedefs">Typedefs</a></li>
-      <li><a href="rx_command/Action.html">Action</a></li>
-      <li><a href="rx_command/Action1.html">Action1</a></li>
-      <li><a href="rx_command/AsyncAction.html">AsyncAction</a></li>
-      <li><a href="rx_command/AsyncAction1.html">AsyncAction1</a></li>
-      <li><a href="rx_command/AsyncFunc.html">AsyncFunc</a></li>
-      <li><a href="rx_command/AsyncFunc1.html">AsyncFunc1</a></li>
-      <li><a href="rx_command/Func.html">Func</a></li>
-      <li><a href="rx_command/Func1.html">Func1</a></li>
-      <li><a href="rx_command/StreamProvider.html">StreamProvider</a></li>
+      <li class="section-title"><a href="../rx_command/rx_command-library.html#typedefs">Typedefs</a></li>
+      <li><a href="../rx_command/Action.html">Action</a></li>
+      <li><a href="../rx_command/Action1.html">Action1</a></li>
+      <li><a href="../rx_command/AsyncAction.html">AsyncAction</a></li>
+      <li><a href="../rx_command/AsyncAction1.html">AsyncAction1</a></li>
+      <li><a href="../rx_command/AsyncFunc.html">AsyncFunc</a></li>
+      <li><a href="../rx_command/AsyncFunc1.html">AsyncFunc1</a></li>
+      <li><a href="../rx_command/Func.html">Func</a></li>
+      <li><a href="../rx_command/Func1.html">Func1</a></li>
+      <li><a href="../rx_command/StreamProvider.html">StreamProvider</a></li>
     
     </ol>
   </div>
 
   <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
-      <div><h1><span class="kind-class">CommandResult&lt;<wbr><span class="type-parameter">T</span>&gt;</span> class </h1></div>
+      <div><h1><span class="kind-class">CommandResult&lt;<wbr><span class="type-parameter">T</span>&gt;</span> class  </h1></div>
 
     <section class="desc markdown">
       <p>Combined execution state of an <code>RxCommand</code>
-Will be issued for any statechange of any of the fields
+Will be issued for any state change of any of the fields
 During normal command execution you will get this items listening at the command's <code>.results</code> observable.</p>
 <ol>
-<li>If the command was just newly created you will get <code>null, false, false</code> (data, error, isExecuting)</li>
-<li>When calling execute: <code>null, false, true</code></li>
-<li>When exceution finishes: <code>the result, false, false</code></li>
+<li>If the command was just newly created you will get <code>null, null, false</code> (data, error, isExecuting)</li>
+<li>When calling execute: <code>null, null, true</code></li>
+<li>When execution finishes: <code>the result, null, false</code></li>
 </ol>
     </section>
     
@@ -100,7 +100,35 @@ During normal command execution you will get this items listening at the command
 
       <dl class="constructor-summary-list">
         <dt id="CommandResult" class="callable">
-          <span class="name"><a href="rx_command/CommandResult/CommandResult.html">CommandResult</a></span><span class="signature">(<span class="parameter" id="-param-data"><span class="type-annotation">T</span> <span class="parameter-name">data</span>, </span><wbr><span class="parameter" id="-param-error"><span class="type-annotation">dynamic</span> <span class="parameter-name">error</span>, </span><wbr><span class="parameter" id="-param-isExecuting"><span class="type-annotation">bool</span> <span class="parameter-name">isExecuting</span></span><wbr>)</span>
+          <span class="name"><a href="../rx_command/CommandResult/CommandResult.html">CommandResult</a></span><span class="signature">(<span class="parameter" id="-param-data"><span class="type-annotation">T</span> <span class="parameter-name">data</span>, </span><wbr><span class="parameter" id="-param-error"><span class="type-annotation">dynamic</span> <span class="parameter-name">error</span>, </span><wbr><span class="parameter" id="-param-isExecuting"><span class="type-annotation">bool</span> <span class="parameter-name">isExecuting</span></span><wbr>)</span>
+        </dt>
+        <dd>
+           
+          <div class="constructor-modifier features">const</div>
+        </dd>
+        <dt id="CommandResult.blank" class="callable">
+          <span class="name"><a href="../rx_command/CommandResult/CommandResult.blank.html">CommandResult.blank</a></span><span class="signature">()</span>
+        </dt>
+        <dd>
+           
+          <div class="constructor-modifier features">const</div>
+        </dd>
+        <dt id="CommandResult.data" class="callable">
+          <span class="name"><a href="../rx_command/CommandResult/CommandResult.data.html">CommandResult.data</a></span><span class="signature">(<span class="parameter" id="data-param-data"><span class="type-annotation">T</span> <span class="parameter-name">data</span></span><wbr>)</span>
+        </dt>
+        <dd>
+           
+          <div class="constructor-modifier features">const</div>
+        </dd>
+        <dt id="CommandResult.error" class="callable">
+          <span class="name"><a href="../rx_command/CommandResult/CommandResult.error.html">CommandResult.error</a></span><span class="signature">(<span class="parameter" id="error-param-error"><span class="type-annotation">dynamic</span> <span class="parameter-name">error</span></span><wbr>)</span>
+        </dt>
+        <dd>
+           
+          <div class="constructor-modifier features">const</div>
+        </dd>
+        <dt id="CommandResult.isLoading" class="callable">
+          <span class="name"><a href="../rx_command/CommandResult/CommandResult.isLoading.html">CommandResult.isLoading</a></span><span class="signature">()</span>
         </dt>
         <dd>
            
@@ -114,7 +142,7 @@ During normal command execution you will get this items listening at the command
 
       <dl class="properties">
         <dt id="data" class="property">
-          <span class="name"><a href="rx_command/CommandResult/data.html">data</a></span>
+          <span class="name"><a href="../rx_command/CommandResult/data.html">data</a></span>
           <span class="signature">&#8594; T</span>         
         </dt>
         <dd>
@@ -122,7 +150,7 @@ During normal command execution you will get this items listening at the command
                   <div class="features">final</div>
 </dd>
         <dt id="error" class="property">
-          <span class="name"><a href="rx_command/CommandResult/error.html">error</a></span>
+          <span class="name"><a href="../rx_command/CommandResult/error.html">error</a></span>
           <span class="signature">&#8594; dynamic</span>         
         </dt>
         <dd>
@@ -130,7 +158,7 @@ During normal command execution you will get this items listening at the command
                   <div class="features">final</div>
 </dd>
         <dt id="hasData" class="property">
-          <span class="name"><a href="rx_command/CommandResult/hasData.html">hasData</a></span>
+          <span class="name"><a href="../rx_command/CommandResult/hasData.html">hasData</a></span>
           <span class="signature">&#8594; bool</span>         
         </dt>
         <dd>
@@ -138,7 +166,7 @@ During normal command execution you will get this items listening at the command
                   <div class="features">read-only</div>
 </dd>
         <dt id="hasError" class="property">
-          <span class="name"><a href="rx_command/CommandResult/hasError.html">hasError</a></span>
+          <span class="name"><a href="../rx_command/CommandResult/hasError.html">hasError</a></span>
           <span class="signature">&#8594; bool</span>         
         </dt>
         <dd>
@@ -146,15 +174,15 @@ During normal command execution you will get this items listening at the command
                   <div class="features">read-only</div>
 </dd>
         <dt id="hashCode" class="property">
-          <span class="name"><a href="rx_command/CommandResult/hashCode.html">hashCode</a></span>
+          <span class="name"><a href="../rx_command/CommandResult/hashCode.html">hashCode</a></span>
           <span class="signature">&#8594; int</span>         
         </dt>
         <dd>
-          The hash code for this object. <a href="rx_command/CommandResult/hashCode.html">[...]</a>
+          The hash code for this object. <a href="../rx_command/CommandResult/hashCode.html">[...]</a>
                   <div class="features">read-only</div>
 </dd>
         <dt id="isExecuting" class="property">
-          <span class="name"><a href="rx_command/CommandResult/isExecuting.html">isExecuting</a></span>
+          <span class="name"><a href="../rx_command/CommandResult/isExecuting.html">isExecuting</a></span>
           <span class="signature">&#8594; bool</span>         
         </dt>
         <dd>
@@ -162,7 +190,7 @@ During normal command execution you will get this items listening at the command
                   <div class="features">final</div>
 </dd>
         <dt id="runtimeType" class="property inherited">
-          <span class="name"><a href="rx_command/CommandResult/runtimeType.html">runtimeType</a></span>
+          <span class="name"><a href="../rx_command/CommandResult/runtimeType.html">runtimeType</a></span>
           <span class="signature">&#8594; Type</span>         
         </dt>
         <dd class="inherited">
@@ -175,23 +203,23 @@ During normal command execution you will get this items listening at the command
     <section class="summary offset-anchor" id="instance-methods">
       <h2>Methods</h2>
       <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+          <span class="name"><a href="../rx_command/CommandResult/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation">Invocation</span> <span class="parameter-name">invocation</span></span><wbr>)
+            <span class="returntype parameter">&#8594; dynamic</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Invoked when a non-existent method or property is accessed. <a href="../rx_command/CommandResult/noSuchMethod.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
         <dt id="toString" class="callable">
-          <span class="name"><a href="rx_command/CommandResult/toString.html">toString</a></span><span class="signature">(<wbr>)
+          <span class="name"><a href="../rx_command/CommandResult/toString.html">toString</a></span><span class="signature">(<wbr>)
             <span class="returntype parameter">&#8594; String</span>
           </span>
                   </dt>
         <dd>
           Returns a string representation of this object. 
                   
-</dd>
-        <dt id="noSuchMethod" class="callable inherited">
-          <span class="name"><a href="rx_command/CommandResult/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation">Invocation</span> <span class="parameter-name">invocation</span></span><wbr>)
-            <span class="returntype parameter">&#8594; dynamic</span>
-          </span>
-                  </dt>
-        <dd class="inherited">
-          Invoked when a non-existent method or property is accessed. <a href="rx_command/CommandResult/noSuchMethod.html">[...]</a>
-                  <div class="features">inherited</div>
 </dd>
       </dl>
     </section>
@@ -200,12 +228,12 @@ During normal command execution you will get this items listening at the command
       <h2>Operators</h2>
       <dl class="callables">
         <dt id="operator ==" class="callable">
-          <span class="name"><a href="rx_command/CommandResult/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">Object</span> <span class="parameter-name">other</span></span><wbr>)
+          <span class="name"><a href="../rx_command/CommandResult/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">Object</span> <span class="parameter-name">other</span></span><wbr>)
             <span class="returntype parameter">&#8594; bool</span>
           </span>
                   </dt>
         <dd>
-          The equality operator. <a href="rx_command/CommandResult/operator_equals.html">[...]</a>
+          The equality operator. <a href="../rx_command/CommandResult/operator_equals.html">[...]</a>
                   
 </dd>
       </dl>
@@ -219,26 +247,30 @@ During normal command execution you will get this items listening at the command
   <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
     <ol>
     
-      <li class="section-title"><a href="rx_command/CommandResult-class.html#constructors">Constructors</a></li>
-      <li><a href="rx_command/CommandResult/CommandResult.html">CommandResult</a></li>
+      <li class="section-title"><a href="../rx_command/CommandResult-class.html#constructors">Constructors</a></li>
+      <li><a href="../rx_command/CommandResult/CommandResult.html">CommandResult</a></li>
+      <li><a href="../rx_command/CommandResult/CommandResult.blank.html">blank</a></li>
+      <li><a href="../rx_command/CommandResult/CommandResult.data.html">data</a></li>
+      <li><a href="../rx_command/CommandResult/CommandResult.error.html">error</a></li>
+      <li><a href="../rx_command/CommandResult/CommandResult.isLoading.html">isLoading</a></li>
     
       <li class="section-title">
-        <a href="rx_command/CommandResult-class.html#instance-properties">Properties</a>
+        <a href="../rx_command/CommandResult-class.html#instance-properties">Properties</a>
       </li>
-      <li><a href="rx_command/CommandResult/data.html">data</a></li>
-      <li><a href="rx_command/CommandResult/error.html">error</a></li>
-      <li><a href="rx_command/CommandResult/hasData.html">hasData</a></li>
-      <li><a href="rx_command/CommandResult/hasError.html">hasError</a></li>
-      <li><a href="rx_command/CommandResult/hashCode.html">hashCode</a></li>
-      <li><a href="rx_command/CommandResult/isExecuting.html">isExecuting</a></li>
-      <li class="inherited"><a href="rx_command/CommandResult/runtimeType.html">runtimeType</a></li>
+      <li><a href="../rx_command/CommandResult/data.html">data</a></li>
+      <li><a href="../rx_command/CommandResult/error.html">error</a></li>
+      <li><a href="../rx_command/CommandResult/hasData.html">hasData</a></li>
+      <li><a href="../rx_command/CommandResult/hasError.html">hasError</a></li>
+      <li><a href="../rx_command/CommandResult/hashCode.html">hashCode</a></li>
+      <li><a href="../rx_command/CommandResult/isExecuting.html">isExecuting</a></li>
+      <li class="inherited"><a href="../rx_command/CommandResult/runtimeType.html">runtimeType</a></li>
     
-      <li class="section-title"><a href="rx_command/CommandResult-class.html#instance-methods">Methods</a></li>
-      <li><a href="rx_command/CommandResult/toString.html">toString</a></li>
-      <li class="inherited"><a href="rx_command/CommandResult/noSuchMethod.html">noSuchMethod</a></li>
+      <li class="section-title"><a href="../rx_command/CommandResult-class.html#instance-methods">Methods</a></li>
+      <li class="inherited"><a href="../rx_command/CommandResult/noSuchMethod.html">noSuchMethod</a></li>
+      <li><a href="../rx_command/CommandResult/toString.html">toString</a></li>
     
-      <li class="section-title"><a href="rx_command/CommandResult-class.html#operators">Operators</a></li>
-      <li><a href="rx_command/CommandResult/operator_equals.html">operator ==</a></li>
+      <li class="section-title"><a href="../rx_command/CommandResult-class.html#operators">Operators</a></li>
+      <li><a href="../rx_command/CommandResult/operator_equals.html">operator ==</a></li>
     
     
     
@@ -251,18 +283,17 @@ During normal command execution you will get this items listening at the command
 <footer>
   <span class="no-break">
     rx_command
-      5.0.0
+      5.1.0
   </span>
 
-  <!-- footer-text placeholder -->
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="static-assets/typeahead.bundle.min.js"></script>
-<script src="static-assets/highlight.pack.js"></script>
-<script src="static-assets/URI.js"></script>
-<script src="static-assets/script.js"></script>
-<!-- footer placeholder -->
+<script src="../static-assets/typeahead.bundle.min.js"></script>
+<script src="../static-assets/highlight.pack.js"></script>
+<script src="../static-assets/URI.js"></script>
+<script src="../static-assets/script.js"></script>
+
 
 </body>
 
