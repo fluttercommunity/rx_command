@@ -1,3 +1,9 @@
+## [5.1.0] - 23.06.2020
+
+ * PR by @AlexBacich and @nosmirck with a lot of little fixes
+
+ * Updated dependency to rxdart
+ 
 ## [5.0.3] - 19.03.2020
 
  * Added helpful factory constructors to CommandResult
