@@ -1,3 +1,11 @@
+## [5.0.3] - 19.03.2020
+
+ * Added helpful factory constructors to CommandResult
+
+## [5.0.2] - 29.01.2020
+
+ * https://github.com/fluttercommunity/rx_command/issues/36
+
 ## [5.0.1] - 29.12.2019
 
  * Removed Flutter dependency

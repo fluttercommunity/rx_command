@@ -24,7 +24,7 @@ typedef StreamProvider<TParam, TResult> = Stream<TResult> Function(
 
 /// Combined execution state of an `RxCommand`
 /// Will be issued for any statechange of any of the fields
-/// During normal command execution you will get this items listening at the command's [.results] observable.
+/// During normal command execution you will get this items listening at the command's [.results] Stream.
 /// 1. If the command was just newly created you will get `null, false, false` (data, error, isExecuting)
 /// 2. When calling execute: `null, false, true`
 /// 3. When exceution finishes: `the result, false, false`
@@ -36,6 +36,12 @@ class CommandResult<T> {
 
   // ignore: avoid_positional_boolean_parameters
   const CommandResult(this.data, this.error, this.isExecuting);
+
+  factory CommandResult.data(T data)=> CommandResult(data, false, false);
+
+  factory CommandResult.error(dynamic error)=> CommandResult(null, error, false);
+
+  factory CommandResult.isLoading()=> CommandResult(null, false, true);
 
   bool get hasData => data != null;
   bool get hasError => error != null;
@@ -57,15 +63,15 @@ class CommandResult<T> {
 }
 
 /// [RxCommand] capsules a given handler function that can then be executed by its [execute] method.
-/// The result of this method is then published through its Observable (Observable wrap Dart Streams)
-/// Additionally it offers Observables for it's current execution state, if the command can be executed and for
+/// The result of this method is then published through its Stream 
+/// Additionally it offers Streams for it's current execution state, if the command can be executed and for
 /// all possibly thrown exceptions during command execution.
 ///
-/// [RxCommand] implements the `Observable` interface so you can listen directly to the [RxCommand] which emits the
+/// [RxCommand] implements the `Stream` interface so you can listen directly to the [RxCommand] which emits the
 /// results of the wrapped function. If this function has a [void] return type
 /// it will still output one `void` item so that you can listen for the end of the execution.
 ///
-/// The [results] Observable emits [CommandResult<TRESULT>] which is often easier in combaination with Flutter `StreamBuilder`
+/// The [results] Stream emits [CommandResult<TRESULT>] which is often easier in combaination with Flutter `StreamBuilder`
 /// because you have all state information at one place.
 ///
 /// An [RxCommand] is a generic class of type [RxCommand<TParam, TRESULT>]
@@ -74,7 +80,7 @@ class CommandResult<T> {
 /// a handler doesn't take a parameter or returns no value use the type `void`
 abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
   bool _isRunning = false;
-  bool _canExecute = true;
+  bool _canExecuteState = true;
   bool _executionLocked = false;
   final bool _resultSubjectIsBehaviourSubject;
 
@@ -107,22 +113,22 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
           }).distinct();
 
     _canExecuteParam.listen((canExecute) {
-      _canExecute = canExecute && (!_isRunning);
+      _canExecuteState = canExecute && (!_isRunning);
       _executionLocked = !canExecute;
-      _canExecuteSubject.add(_canExecute);
+      _canExecuteSubject.add(_canExecuteState);
     });
   }
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter and no return type
   /// [action]: handler function
-  /// [canExecute] : observable that can be used to enable/disable the command based on some other state change
+  /// [canExecute] : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<void, void> createSyncNoParamNoResult(Action action,
       {Stream<bool> canExecute,
@@ -137,14 +143,14 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Creates  a RxCommand for a synchronous handler function with one parameter and no return type
   /// `action`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results]  this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] publishes in [results]  this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<TParam, void> createSyncNoResult<TParam>(
       Action1<TParam> action,
@@ -160,15 +166,15 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Creates  a RxCommand for a synchronous handler function with no parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
   /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
-  /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results]  this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] publishes in [results]  this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
@@ -189,15 +195,15 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Creates  a RxCommand for a synchronous handler function with parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] implement this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
@@ -221,14 +227,14 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with no parameter and no return type
   /// `action`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] implement this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<void, void> createAsyncNoParamNoResult(AsyncAction action,
       {Stream<bool> canExecute,
@@ -243,14 +249,14 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with one parameter and no return type
   /// `action`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// For the `Observable<CommandResult>` that [RxCommand] implement this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] implement this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   static RxCommand<TParam, void> createAsyncNoResult<TParam>(
       AsyncAction1<TParam> action,
@@ -266,15 +272,15 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with no parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// for the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
+  /// for the `Stream<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
@@ -296,15 +302,15 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
 
   /// Creates  a RxCommand for an asynchronous handler function with parameter that returns a value
   /// `func`: handler function
-  /// `canExecute` : observable that can be used to enable/disable the command based on some other state change
+  /// `canExecute` : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
@@ -324,17 +330,17 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
         initialLastResult);
   }
 
-  /// Creates  a RxCommand from an "one time" observable. This is handy if used together with a streame generator function.
-  /// [provider]: provider function that returns a Observable that will be subscribed on the call of [execute]
-  /// [canExecute] : observable that can be used to enable/disable the command based on some other state change
+  /// Creates  a RxCommand from an "one time" Stream. This is handy if used together with a streame generator function.
+  /// [provider]: provider function that returns a Stream that will be subscribed on the call of [execute]
+  /// [canExecute] : Stream that can be used to enable/disable the command based on some other state change
   /// if omitted the command can be executed always except it's already executing
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
-  /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
+  /// For the `Stream<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
   /// [emitInitialCommandResult=true].
   /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
-  /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
+  /// By default the [results] Stream and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [initialLastResult] sets the value of the [lastResult] property before the first item was received. This is helpful if you use
   /// [lastResult] as `initialData` of a `StreamBuilder`
@@ -367,16 +373,18 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
   /// because you have all state information at one place.
   Stream<CommandResult<TResult>> get results => _commandResultsSubject;
 
-  /// Observable stream that issues a bool on any execution state change of the command
-  Stream<bool> get isExecuting =>
+  /// Stream that issues a bool on any execution state change of the command
+  Stream<bool> _isExecuting;
+  Stream<bool> get isExecuting => _isExecuting ??=
       _isExecutingSubject.startWith(false).distinct();
 
-  /// Observable stream that issues a bool on any change of the current executable state of the command.
+  /// Stream that issues a bool on any change of the current executable state of the command.
   /// Meaning if the command cann be executed or not. This will issue `false` while the command executes
-  /// but also if the command receives a false from the canExecute Observable that you can pass when creating the Command
-  Stream<bool> get canExecute => _canExecuteSubject.startWith(true).distinct();
+  /// but also if the command receives a false from the canExecute Stream that you can pass when creating the Command
+  Stream<bool> _canExecute;
+  Stream<bool> get canExecute => _canExecute ??= _canExecuteSubject.startWith(true).distinct();
 
-  /// When subribing to `thrownExceptions`you will every excetpion that was thrown in your handler function as an event on this Observable.
+  /// When subribing to `thrownExceptions`you will every excetpion that was thrown in your handler function as an event on this Stream.
   /// If no subscription exists the Exception will be rethrown
   Stream<dynamic> get thrownExceptions => _thrownExceptionsSubject;
 
@@ -448,7 +456,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
 
   @override
   void execute([TParam param]) {
-    if (!_canExecute) {
+    if (!_canExecuteState) {
       return;
     }
 
@@ -480,7 +488,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
           _emitLastResult ? lastResult : null, error, false));
     } finally {
       _isRunning = false;
-      _canExecute = !_executionLocked;
+      _canExecuteState = !_executionLocked;
       _canExecuteSubject.add(!_executionLocked);
     }
   }
@@ -528,7 +536,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
   execute([TParam param]) {
     //print("************ Execute***** canExecute: $_canExecute ***** isExecuting: $_isRunning");
 
-    if (!_canExecute) {
+    if (!_canExecuteState) {
       return;
     }
 
@@ -549,7 +557,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
         _isRunning = false;
         _isExecutingSubject.add(
             false); // Has to be done because in this case no command result is queued
-        _canExecute = !_executionLocked;
+        _canExecuteState = !_executionLocked;
         _canExecuteSubject.add(!_executionLocked);
         return;
       }
@@ -557,21 +565,21 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
       _commandResultsSubject.add(CommandResult<TResult>(
           _emitLastResult ? lastResult : null, error, false));
       _isRunning = false;
-      _canExecute = !_executionLocked;
+      _canExecuteState = !_executionLocked;
       _canExecuteSubject.add(!_executionLocked);
     }).listen((result) {
       _commandResultsSubject.add(CommandResult<TResult>(result, null, false));
       lastResult = result;
       _resultsSubject.add(result);
       _isRunning = false;
-      _canExecute = !_executionLocked;
+      _canExecuteState = !_executionLocked;
       _canExecuteSubject.add(!_executionLocked);
     });
   }
 }
 
 class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
-  StreamProvider<TParam, TResult> _observableProvider;
+  StreamProvider<TParam, TResult> _streamProvider;
 
   RxCommandStream._(
       StreamProvider<TParam, TResult> provider,
@@ -581,7 +589,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool isBehaviourSubject,
       bool emitInitialCommandResult,
       TResult initialLastResult)
-      : _observableProvider = provider,
+      : _streamProvider = provider,
         super(subject, canExecute, emitLastResult, isBehaviourSubject,
             initialLastResult) {
     if (emitInitialCommandResult) {
@@ -610,7 +618,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
 
   @override
   execute([TParam param]) {
-    if (!_canExecute) {
+    if (!_canExecuteState) {
       return;
     }
 
@@ -624,9 +632,9 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
     _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
 
-    var inputObservable = _observableProvider(param);
+    var inputStream = _streamProvider(param);
 
-    inputObservable.materialize().listen(
+    inputStream.materialize().listen(
       (notification) {
         if (notification.isOnData) {
           _resultsSubject.add(notification.value);
@@ -665,7 +673,7 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
   /// Number of times execute or the command directly was called
   int executionCount = 0;
 
-  /// Factory constructor that can take an optional observable to control if the command can be executet
+  /// Factory constructor that can take an optional Stream to control if the command can be executet
   factory MockCommand(
       {Stream<bool> canExecute,
       bool emitInitialCommandResult = false,
