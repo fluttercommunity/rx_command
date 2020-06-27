@@ -583,6 +583,8 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
 class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
   StreamProvider<TParam, TResult> _observableProvider;
 
+  StreamSubscription<Notification<TResult>> _inputStreamSubscription;
+
   RxCommandStream._(
       StreamProvider<TParam, TResult> provider,
       Subject<TResult> subject,
@@ -634,9 +636,9 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
     _commandResultsSubject.add(CommandResult<TResult>(
         _emitLastResult ? lastResult : null, null, true));
 
-    var inputObservable = _observableProvider(param);
+    var inputStream = _observableProvider(param);
 
-    inputObservable.materialize().listen(
+    _inputStreamSubscription = inputStream.materialize().listen(
       (notification) {
         if (notification.isOnData) {
           _resultsSubject.add(notification.value);
@@ -661,6 +663,12 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
         print(error);
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _inputStreamSubscription?.cancel();
+    super.dispose();
   }
 }
 
