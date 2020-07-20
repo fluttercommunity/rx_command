@@ -634,10 +634,11 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
             false); // Has to be done because in this case no command result is queued
         _canExecute = !_executionLocked;
         _canExecuteSubject.add(!_executionLocked);
-        if (onError != null) {
-          onError(ErrorResult(error: error, param: param));
-        }
         return;
+      }
+
+      if (onError != null) {
+        onError(ErrorResult(error: error, param: param));
       }
 
       _commandResultsSubject.add(CommandResult<TResult>(
