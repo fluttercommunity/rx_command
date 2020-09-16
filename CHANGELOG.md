@@ -1,3 +1,7 @@
+## [5.2.1] - 16.09.2020
+
+ * documentation fixes and small improvements by @AlexBacich thanks a lot!!!
+ 
 ## [5.2.0] - 03.08.2020
 
  * Fhttps://github.com/fluttercommunity/rx_command/issues/44
