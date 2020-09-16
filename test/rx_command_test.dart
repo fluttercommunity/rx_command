@@ -88,8 +88,8 @@ void main() {
 
     restriction.add(false);
 
-    await  Future.delayed(
-         Duration(milliseconds: 10)); // make sure the restriction Stream has time to emit a new value
+    // yield execution so the restriction emits before the command.canExecute is checked.
+    await Future.delayed(Duration.zero);
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -251,7 +251,7 @@ void main() {
         emitsInOrder([crm(null, false, true), crm(null, false, false)]));
 
     command.execute("Done");
-    await Future.delayed(Duration(milliseconds: 50));
+    await Future.delayed(Duration.zero);
 
     expect(command.isExecuting, emits(false));
     expect(executionCount, 1);
@@ -314,6 +314,7 @@ void main() {
 
     expect(command.canExecute, emitsInOrder([true, false, true]),
         reason: "Canexecute before false");
+    expect(command.isExecuting, emitsInOrder([false, true, false]));
     expect(command.isExecuting, emits(false),
         reason: "IsExecuting before true");
 
@@ -324,7 +325,7 @@ void main() {
     command.execute("Done");
     command.execute("Done"); // should not execute
 
-    await Future.delayed(Duration(milliseconds: 1000));
+    await Future.delayed(Duration(milliseconds: 100));
 
     expect(command.isExecuting, emits(false));
     expect(executionCount, 1);
@@ -351,6 +352,8 @@ void main() {
 
     expect(command.canExecute, emitsInOrder([true, false, true, false, true]),
         reason: "Canexecute wrong");
+    expect(
+        command.isExecuting, emitsInOrder([false, true, false, true, false]));
     expect(command.isExecuting, emits(false),
         reason: "IsExecuting before true");
 
@@ -451,6 +454,8 @@ void main() {
     command.execute("Done2");
 
     expect(command, emitsError(isException));
+
+    await Future.delayed(Duration.zero);
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -606,7 +611,7 @@ void main() {
     print('Finished');
   });
 
-  test('RxCommand.createFromStreamWithExceptionOnlyThrown once', () async{
+  test('RxCommand.createFromStreamWithExceptionOnlyThrown once', () async {
     var command = RxCommand.createFromStream((_) {
       return Stream.value('test').map((rideMap) {
         throw Exception('TestException');

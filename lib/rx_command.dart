@@ -50,7 +50,10 @@ class CommandResult<T> {
 
   @override
   bool operator ==(Object other) =>
-      other is CommandResult<T> && other.data == data && other.error == error && other.isExecuting == isExecuting;
+      other is CommandResult<T> &&
+      other.data == data &&
+      other.error == error &&
+      other.isExecuting == isExecuting;
 
   @override
   int get hashCode => hash3(data.hashCode, error.hashCode, isExecuting.hashCode);
@@ -270,7 +273,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
   /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
-  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// if you want to get an initial Result with `data==null, error==null, isExecuting==false` pass
   /// [emitInitialCommandResult=true].
   /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
@@ -294,7 +297,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
   /// [isExecuting] will issue a `bool` value on each state change. Even if you
   /// subscribe to a newly created command it will issue `false`
   /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
-  /// if you want to get an initial Result with `data==null, error==null, isExceuting==false` pass
+  /// if you want to get an initial Result with `data==null, error==null, isExecuting==false` pass
   /// [emitInitialCommandResult=true].
   /// [emitLastResult] will include the value of the last successful execution in all [CommandResult] events unless there is no result.
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
@@ -345,7 +348,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
   final BehaviorSubject<bool> _canExecuteSubject = BehaviorSubject<bool>();
   final PublishSubject<dynamic> _thrownExceptionsSubject = PublishSubject<dynamic>();
 
-  /// By default `RxCommand` will catch all exceptions during exceution of the command. And publish them on `.thrownExceptions`
+  /// By default `RxCommand` will catch all exceptions during execution of the command. And publish them on `.thrownExceptions`
   /// and in the `CommandResult`. If don't want this and have exceptions thrown, set this to true.
   bool throwExceptions = false;
 
@@ -497,8 +500,16 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
 class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
   StreamProvider<TParam, TResult> _observableProvider;
 
-  RxCommandStream._(StreamProvider<TParam, TResult> provider, Subject<TResult> subject, Stream<bool> canExecute,
-      bool emitLastResult, bool isBehaviourSubject, bool emitInitialCommandResult, TResult initialLastResult)
+  StreamSubscription<Notification<TResult>> _inputStreamSubscription;
+
+  RxCommandStream._(
+      StreamProvider<TParam, TResult> provider,
+      Subject<TResult> subject,
+      Stream<bool> canExecute,
+      bool emitLastResult,
+      bool isBehaviourSubject,
+      bool emitInitialCommandResult,
+      TResult initialLastResult)
       : _observableProvider = provider,
         super(subject, canExecute, emitLastResult, isBehaviourSubject, initialLastResult) {
     if (emitInitialCommandResult) {
@@ -540,9 +551,9 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
 
     _commandResultsSubject.add(CommandResult<TResult>(_emitLastResult ? lastResult : null, null, true));
 
-    var inputObservable = _observableProvider(param);
+    var inputStream = _observableProvider(param);
 
-    inputObservable.materialize().listen(
+    _inputStreamSubscription = inputStream.materialize().listen(
       (notification) {
         if (notification.isOnData) {
           _resultsSubject.add(notification.value);
@@ -565,6 +576,12 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
         print(error);
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _inputStreamSubscription?.cancel();
+    super.dispose();
   }
 }
 
@@ -615,13 +632,18 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
     lastPassedValueToExecute = param;
     print("Called Execute");
     if (returnValuesForNextExecute != null) {
-      _commandResultsSubject
-          .addStream(Stream<CommandResult<TResult>>.fromIterable(returnValuesForNextExecute).map((data) {
-        if ((data.isExecuting || data.hasError) && _emitLastResult) {
-          return CommandResult<TResult>(lastResult, data.error, data.isExecuting);
-        }
-        return data;
-      }));
+      _commandResultsSubject.addStream(
+        Stream<CommandResult<TResult>>.fromIterable(returnValuesForNextExecute)
+            .map(
+          (data) {
+            if ((data.isExecuting || data.hasError) && _emitLastResult) {
+              return CommandResult<TResult>(
+                  lastResult, data.error, data.isExecuting);
+            }
+            return data;
+          },
+        ),
+      );
     } else {
       print("No values for execution queued");
     }

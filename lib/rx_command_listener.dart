@@ -20,7 +20,7 @@ class RxCommandListener<TParam, TResult> {
   final void Function(dynamic ex) onError;
   // Is called when canExecute changes
   final void Function(bool state) onCanExecuteChange;
-  // is called with the value of the .results Observable of the command
+  // is called with the value of the .results Stream of the command
   final void Function(CommandResult<TResult> result) onResult;
 
   // to make the handling of busy states even easier these are called on their respective states

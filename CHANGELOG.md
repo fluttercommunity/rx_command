@@ -1,3 +1,21 @@
+## [5.2.0] - 03.08.2020
+
+ * Fhttps://github.com/fluttercommunity/rx_command/issues/44
+ 
+## [5.1.0] - 23.06.2020
+
+ * PR by @AlexBacich and @nosmirck with a lot of little fixes
+
+ * Updated dependency to rxdart
+ 
+## [5.0.3] - 19.03.2020
+
+ * Added helpful factory constructors to CommandResult
+
+## [5.0.2] - 29.01.2020
+
+ * https://github.com/fluttercommunity/rx_command/issues/36
+
 ## [5.0.1] - 29.12.2019
 
  * Removed Flutter dependency
