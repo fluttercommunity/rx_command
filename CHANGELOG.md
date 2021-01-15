@@ -1,3 +1,8 @@
+## [5.3.0] - 15.01.2020
+
+ * updated to rxdart 0.25.0
+ * fixed iOS build settings in example project
+
 ## [5.2.1] - 16.09.2020
 
  * documentation fixes and small improvements by @AlexBacich thanks a lot!!!

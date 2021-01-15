@@ -561,10 +561,10 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
           lastResult = notification.value;
         } else if (notification.isOnError) {
           if (throwExceptions) {
-            _resultsSubject.addError(notification.error);
-            _commandResultsSubject.addError(notification.error);
+            _resultsSubject.addError(notification.errorAndStackTrace.error);
+            _commandResultsSubject.addError(notification.errorAndStackTrace.error);
           } else {
-            _commandResultsSubject.add(CommandResult<TResult>(null, notification.error, false));
+            _commandResultsSubject.add(CommandResult<TResult>(null, notification.errorAndStackTrace.error, false));
           }
         } else if (notification.isOnDone) {
           _commandResultsSubject.add(CommandResult(lastResult, null, false));
