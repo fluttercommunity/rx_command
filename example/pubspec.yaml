@@ -8,7 +8,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: any
-  rxdart: ^0.24.1
+  rxdart: ^0.25.0
   rx_command: 
     path: ../
 
