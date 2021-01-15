@@ -481,3 +481,4 @@ DerivedData/
 .packages
 android/local.properties
 example/ios/Flutter/flutter_export_environment.sh
+example/pubspec.lock
