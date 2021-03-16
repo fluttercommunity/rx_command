@@ -219,19 +219,12 @@ packages:
     source: hosted
     version: "1.4.4"
   quiver:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
-  quiver_hashcode:
-    dependency: "direct main"
-    description:
-      name: quiver_hashcode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   rxdart:
     dependency: "direct main"
     description:
