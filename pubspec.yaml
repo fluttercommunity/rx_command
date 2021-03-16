@@ -12,10 +12,9 @@ environment:
 
 dependencies:
   rxdart: ^0.25.0
-  quiver_hashcode: ^2.0.0
+  quiver: ^2.0.0
 
 
 dev_dependencies:
   test: any
-  quiver: ^2.0.0
 
