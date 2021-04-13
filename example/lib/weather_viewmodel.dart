@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:rxdart/rxdart.dart';
-import 'package:rx_command/rx_command.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:rx_command/rx_command.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'json/weather_in_cities.dart';
 
@@ -14,17 +14,18 @@ class WeatherViewModel {
 
   WeatherViewModel() {
     // Command expects a bool value when executed and issues the value on it's result Stream (stream)
-    switchChangedCommand = RxCommand.createSync<bool, bool>((b) => b);
+    switchChangedCommand =
+        RxCommand.createSync<bool, bool>((b) => b, initialLastResult: true);
 
     // We pass the result of switchChangedCommand as canExecute Stream to the upDateWeatherCommand
     updateWeatherCommand = RxCommand.createAsync<String, List<WeatherEntry>>(
-      update,
-      canExecute: switchChangedCommand,
-      emitsLastValueToNewSubscriptions: true,
-    );
+        update,
+        canExecute: switchChangedCommand,
+        emitsLastValueToNewSubscriptions: true,
+        initialLastResult: []);
 
     // Will be called on every change of the searchfield
-    textChangedCommand = RxCommand.createSync((s) => s);
+    textChangedCommand = RxCommand.createSync((s) => s, initialLastResult: '');
 
     // handler for results
     // make sure we start processing only if the user make a short pause typing

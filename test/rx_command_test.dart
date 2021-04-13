@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:test/test.dart';
-
 import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:test/test.dart';
 
-StreamMatcher crm<T>(Object data, bool hasError, bool isExceuting) {
+StreamMatcher crm<TParam, TResult>(
+    Object? data, bool hasError, bool isExceuting) {
   return StreamMatcher((x) async {
-    final event = await x.next as CommandResult<T>;
+    final event = await x.next as CommandResult<TParam, TResult>;
     if (event.data != data) return "Wong data $data != ${event.data}";
 
     if (!hasError && event.error != null) return "Had error while not expected";
@@ -70,7 +70,7 @@ void main() {
     var executionCount = 0;
 
     final command = RxCommand.createSyncNoParamNoResult(() => executionCount++,
-        canExecute: restriction);
+        restriction: restriction);
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -155,7 +155,7 @@ void main() {
     final command = RxCommand.createSyncNoParam<String>(() {
       print("action: ");
       return "4711";
-    });
+    }, initialLastResult: '');
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -176,7 +176,7 @@ void main() {
     final command = RxCommand.createSyncNoParam<String>(() {
       print("action: ");
       return "4711";
-    }, emitLastResult: true);
+    }, emitLastResult: true, initialLastResult: '');
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -201,9 +201,9 @@ void main() {
 
   test('Execute simple sync function with parameter', () {
     final command = RxCommand.createSync<String, String>((s) {
-      print("action: " + s);
+      print("action: " + s!);
       return s + s;
-    });
+    }, initialLastResult: '');
 
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
@@ -219,7 +219,7 @@ void main() {
     expect(command.isExecuting, emits(false));
   });
 
-  Future<String> slowAsyncFunction(String s) async {
+  Future<String?> slowAsyncFunction(String? s) async {
     print("___Start____Action__________");
 
     await Future.delayed(const Duration(milliseconds: 10));
@@ -261,10 +261,10 @@ void main() {
       () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String?>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
-    });
+    }, initialLastResult: '');
 
     command.canExecute.listen((b) {
       print("Can execute:" + b.toString());
@@ -274,7 +274,7 @@ void main() {
     });
 
     command.listen((s) {
-      print("Results:" + s);
+      print("Results:" + s!);
     });
 
     expect(command.canExecute, emitsInOrder([true, false, true]),
@@ -296,10 +296,10 @@ void main() {
   test('Execute simple async function call while already running', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String?>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
-    });
+    }, initialLastResult: '');
 
     command.canExecute.listen((b) {
       print("Can execute:" + b.toString());
@@ -309,7 +309,7 @@ void main() {
     });
 
     command.listen((s) {
-      print("Results:" + s);
+      print("Results:" + s!);
     });
 
     expect(command.canExecute, emitsInOrder([true, false, true]),
@@ -334,10 +334,10 @@ void main() {
   test('Execute simple async function called twice with delay', () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String?>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
-    });
+    }, initialLastResult: '');
 
     command.canExecute.listen((b) {
       print("Can execute:" + b.toString());
@@ -347,7 +347,7 @@ void main() {
     });
 
     command.listen((s) {
-      print("Results:" + s);
+      print("Results:" + s!);
     });
 
     expect(command.canExecute, emitsInOrder([true, false, true, false, true]),
@@ -382,10 +382,10 @@ void main() {
       () async {
     var executionCount = 0;
 
-    final command = RxCommand.createAsync<String, String>((s) async {
+    final command = RxCommand.createAsync<String, String?>((s) async {
       executionCount++;
       return slowAsyncFunction(s);
-    }, emitLastResult: true);
+    }, emitLastResult: true, initialLastResult: '');
 
     command.canExecute.listen((b) {
       print("Can execute:" + b.toString());
@@ -395,7 +395,7 @@ void main() {
     });
 
     command.listen((s) {
-      print("Results:" + s);
+      print("Results:" + s!);
     });
 
     expect(command.canExecute, emitsInOrder([true, false, true, false, true]),
@@ -422,15 +422,15 @@ void main() {
     expect(executionCount, 2);
   });
 
-  Future<String> slowAsyncFunctionFail(String s) async {
+  Future<String> slowAsyncFunctionFail(String? s) async {
     print("___Start____Action___Will throw_______");
 
     throw Exception("Intentionally");
   }
 
   test('async function with exception and throwExceptions==true', () async {
-    final command =
-        RxCommand.createAsync<String, String>(slowAsyncFunctionFail);
+    final command = RxCommand.createAsync<String, String>(slowAsyncFunctionFail,
+        initialLastResult: '');
     command.throwExceptions = true;
 
     command.listen((s) => print('Listen: $s'),
@@ -464,8 +464,8 @@ void main() {
   });
 
   test('async function with exception with and throwExceptions==false', () {
-    final command =
-        RxCommand.createAsync<String, String>(slowAsyncFunctionFail);
+    final command = RxCommand.createAsync<String, String>(slowAsyncFunctionFail,
+        initialLastResult: '');
 
     command.thrownExceptions.listen((e) => print(e.toString()));
 
@@ -486,7 +486,7 @@ void main() {
     final cmd = RxCommand.createAsync((_) async {
       await Future.delayed(Duration(milliseconds: 1));
       return 42;
-    });
+    }, initialLastResult: '');
 
     cmd.execute();
     final result = await cmd.next;
@@ -498,7 +498,7 @@ void main() {
     final cmd = RxCommand.createAsync((_) async {
       await Future.delayed(Duration(milliseconds: 1));
       throw Exception("oh no");
-    });
+    }, initialLastResult: '');
 
     cmd.execute();
     var didntThrow = true;
@@ -511,14 +511,15 @@ void main() {
     expect(didntThrow, false);
   });
 
-  Stream<int> testProvider(int i) async* {
-    yield i;
+  Stream<int> testProvider(int? i) async* {
+    yield i!;
     yield i + 1;
     yield i + 2;
   }
 
   test('RxCommand.createFromStream', () {
-    final command = RxCommand.createFromStream<int, int>(testProvider);
+    final command = RxCommand.createFromStream<int, int>(testProvider,
+        initialLastResult: 0);
 
     command.canExecute.listen((b) {
       print("Can execute:" + b.toString());
@@ -552,12 +553,13 @@ void main() {
     expect(command.isExecuting, emits(false));
   });
 
-  Stream<int> testProviderError(int i) async* {
+  Stream<int> testProviderError(int? i) async* {
     throw Exception();
   }
 
   test('RxCommand.createFromStreamWithException', () {
-    final command = RxCommand.createFromStream<int, int>(testProviderError);
+    final command = RxCommand.createFromStream<int, int>(testProviderError,
+        initialLastResult: 0);
 
     command.canExecute.listen((b) {
       print("Can execute:" + b.toString());
@@ -592,7 +594,7 @@ void main() {
       return streamController.stream.map((rideMap) {
         throw Exception();
       });
-    });
+    }, initialLastResult: 0);
 
     command.results.listen((r) {
       print(r.toString());
@@ -616,7 +618,7 @@ void main() {
       return Stream.value('test').map((rideMap) {
         throw Exception('TestException');
       });
-    });
+    }, initialLastResult: 0);
 
     var count = 0;
     command.thrownExceptions.listen((e) {
