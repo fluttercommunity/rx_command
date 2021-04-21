@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 import 'homepage.dart';
 import 'weather_viewmodel.dart';
@@ -16,7 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  WeatherViewModel viewModelData;
+  late WeatherViewModel viewModelData;
 
   @override
   void initState() {
@@ -39,13 +38,11 @@ class MyAppState extends State<MyApp> {
 class TheViewModel extends InheritedWidget {
   final WeatherViewModel theModel;
 
-  const TheViewModel({Key key, @required this.theModel, @required Widget child})
-      : assert(theModel != null),
-        assert(child != null),
-        super(key: key, child: child);
+  const TheViewModel({Key? key, required this.theModel, required Widget child})
+      : super(key: key, child: child);
 
   static WeatherViewModel of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<TheViewModel>().theModel;
+      context!.dependOnInheritedWidgetOfExactType<TheViewModel>()!.theModel;
 
   @override
   bool updateShouldNotify(TheViewModel oldWidget) =>

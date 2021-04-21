@@ -8,11 +8,11 @@ StreamMatcher crm<TParam, TResult>(
     Object? data, bool hasError, bool isExceuting) {
   return StreamMatcher((x) async {
     final event = await x.next as CommandResult<TParam, TResult>;
-    if (event.data != data) return "Wong data $data != ${event.data}";
+    if (event.data != data) return "Wrong data $data != ${event.data}";
 
     if (!hasError && event.error != null) return "Had error while not expected";
 
-    if (hasError && !(event.error is Exception)) return "Wong error type";
+    if (hasError && !(event.error is Exception)) return "Wrong error type";
 
     if (event.isExecuting != isExceuting)
       return "Wrong isExecuting ${event.toString()}";
@@ -24,7 +24,16 @@ StreamMatcher crm<TParam, TResult>(
 void main() {
   test('Execute simple sync action', () {
     var command = RxCommand.createSyncNoParamNoResult(() => print("action"));
+    command.canExecute.listen((event) {
+      print(event);
+    });
 
+    command.isExecuting.listen((event) {
+      print(event);
+    });
+    command.listen((event) {
+      print("emitted");
+    });
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
@@ -75,7 +84,7 @@ void main() {
     expect(command.canExecute, emits(true));
     expect(command.isExecuting, emits(false));
 
-    expect(command, emits(null));
+    expect(command, emits(anything));
     expect(command.results,
         emitsInOrder([crm(null, false, true), crm(null, false, false)]));
 
@@ -186,7 +195,7 @@ void main() {
     expect(
         command.results,
         emitsInOrder([
-          crm(null, false, true),
+          crm("", false, true),
           crm("4711", false, false),
           crm("4711", false, true),
           crm("4711", false, false)
@@ -406,7 +415,7 @@ void main() {
     expect(
         command.results,
         emitsInOrder([
-          crm(null, false, true),
+          crm('', false, true),
           crm("Done", false, false),
           crm("Done", false, true),
           crm("Done", false, false)
@@ -474,7 +483,7 @@ void main() {
 
     expect(command.results,
         emitsInOrder([crm(null, false, true), crm(null, true, false)]));
-    expect(command.thrownExceptions, emits(isException));
+    expect(command.thrownExceptions, emits(isA<CommandError>()));
 
     command.execute("Done");
 
@@ -483,10 +492,10 @@ void main() {
   });
 
   test("async function should be next'able", () async {
-    final cmd = RxCommand.createAsync((_) async {
+    final cmd = RxCommand.createAsyncNoParam(() async {
       await Future.delayed(Duration(milliseconds: 1));
       return 42;
-    }, initialLastResult: '');
+    }, initialLastResult: 0);
 
     cmd.execute();
     final result = await cmd.next;
@@ -495,7 +504,7 @@ void main() {
   });
 
   test("async functions that throw should be next'able", () async {
-    final cmd = RxCommand.createAsync((_) async {
+    final cmd = RxCommand.createAsyncNoParam(() async {
       await Future.delayed(Duration(milliseconds: 1));
       throw Exception("oh no");
     }, initialLastResult: '');
@@ -579,7 +588,7 @@ void main() {
     expect(command.results,
         emitsInOrder([crm(null, false, true), crm(null, true, false)]));
 
-    expect(command.thrownExceptions, emits(TypeMatcher<Exception>()));
+    expect(command.thrownExceptions, emits(TypeMatcher<CommandError>()));
 
     command.execute(1);
 
@@ -590,11 +599,15 @@ void main() {
   test('RxCommand.createFromStreamWithException2', () {
     var streamController = StreamController<String>.broadcast();
 
-    var command = RxCommand.createFromStream((_) {
-      return streamController.stream.map((rideMap) {
-        throw Exception();
+    var command = RxCommand.createFromStream<bool, String>((shouldThrow) {
+      final stream = streamController.stream.map<String>((rideMap) {
+        if (shouldThrow!) {
+          throw Exception();
+        }
+        return "";
       });
-    }, initialLastResult: 0);
+      return stream;
+    }, initialLastResult: '');
 
     command.results.listen((r) {
       print(r.toString());
@@ -604,9 +617,9 @@ void main() {
       print(e.toString());
     });
 
-    expect(command.thrownExceptions, emits(TypeMatcher<Exception>()));
+    expect(command.thrownExceptions, emits(TypeMatcher<CommandError>()));
 
-    command.execute();
+    command.execute(true);
 
     streamController.add('test');
 
@@ -614,11 +627,14 @@ void main() {
   });
 
   test('RxCommand.createFromStreamWithExceptionOnlyThrown once', () async {
-    var command = RxCommand.createFromStream((_) {
+    var command = RxCommand.createFromStream<bool, String>((shouldThrow) {
       return Stream.value('test').map((rideMap) {
-        throw Exception('TestException');
+        if (shouldThrow!) {
+          throw Exception('TestException');
+        }
+        return '';
       });
-    }, initialLastResult: 0);
+    }, initialLastResult: '');
 
     var count = 0;
     command.thrownExceptions.listen((e) {

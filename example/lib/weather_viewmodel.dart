@@ -8,9 +8,9 @@ import 'package:rxdart/rxdart.dart';
 import 'json/weather_in_cities.dart';
 
 class WeatherViewModel {
-  RxCommand<String, List<WeatherEntry>> updateWeatherCommand;
-  RxCommand<bool, bool> switchChangedCommand;
-  RxCommand<String, String> textChangedCommand;
+  late final RxCommand<String?, List<WeatherEntry>> updateWeatherCommand;
+  late final RxCommand<bool, bool> switchChangedCommand;
+  late final RxCommand<String, String> textChangedCommand;
 
   WeatherViewModel() {
     // Command expects a bool value when executed and issues the value on it's result Stream (stream)
@@ -18,9 +18,9 @@ class WeatherViewModel {
         RxCommand.createSync<bool, bool>((b) => b, initialLastResult: true);
 
     // We pass the result of switchChangedCommand as canExecute Stream to the upDateWeatherCommand
-    updateWeatherCommand = RxCommand.createAsync<String, List<WeatherEntry>>(
+    updateWeatherCommand = RxCommand.createAsync<String?, List<WeatherEntry>>(
         update,
-        canExecute: switchChangedCommand,
+        restriction: switchChangedCommand,
         emitsLastValueToNewSubscriptions: true,
         initialLastResult: []);
 
@@ -44,11 +44,11 @@ class WeatherViewModel {
   }
 
   // Async function that queries the REST API and converts the result into the form our ListViewBuilder can consume
-  Future<List<WeatherEntry>> update(String filtertext) {
+  Future<List<WeatherEntry>> update(String? filtertext) {
     const url =
-        "http://api.openweathermap.org/data/2.5/box/city?bbox=12,32,15,37,10&appid=27ac337102cc4931c24ba0b50aca6bbd";
+        "https://api.openweathermap.org/data/2.5/box/city?bbox=12,32,15,37,10&appid=27ac337102cc4931c24ba0b50aca6bbd";
 
-    var httpStream = http.get(url).asStream();
+    var httpStream = http.get(Uri.parse(url)).asStream();
 
     return httpStream
         .where(
@@ -74,22 +74,21 @@ class WeatherViewModel {
 }
 
 class WeatherEntry {
-  String cityName;
-  String iconURL;
-  double wind;
-  double rain;
-  double temperature;
-  String description;
+  late String cityName;
+  String? iconURL;
+  late double wind;
+  late double rain;
+  late double temperature;
+  String? description;
 
   WeatherEntry(City city) {
     this.cityName = city.name;
-    this.iconURL = city.weather != null
-        ? "http://openweathermap.org/img/w/${city.weather[0].icon}.png"
+    this.iconURL = city.weather[0].icon != null
+        ? "https://openweathermap.org/img/w/${city.weather[0].icon}.png"
         : null;
-    this.description =
-        city.weather != null ? city.weather[0].description : null;
-    this.wind = city.wind.speed;
-    this.rain = rain;
+    this.description = city.weather[0].description;
+    this.wind = city.wind.speed.toDouble();
+    this.rain = city.rain;
     this.temperature = city.main.temp;
   }
 }

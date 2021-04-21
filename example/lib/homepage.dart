@@ -58,11 +58,13 @@ class HomePage extends StatelessWidget {
                         .canExecute, //We access our ViewModel through the inherited Widget
                     builder:
                         (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                      VoidCallback handler;
+                      VoidCallback? handler;
                       if (snapshot.hasData) {
                         // Depending on teh Value we get from the stream we set or clear the Handler
-                        handler = snapshot.data
-                            ? TheViewModel.of(context).updateWeatherCommand
+                        handler = snapshot.data!
+                            ? TheViewModel.of(context)
+                                .updateWeatherCommand
+                                .execute
                             : null;
                       }
                       return RaisedButton(
@@ -93,7 +95,7 @@ class StateFullSwitch extends StatefulWidget {
   final bool state;
   final ValueChanged<bool> onChanged;
 
-  StateFullSwitch({this.state, this.onChanged});
+  StateFullSwitch({required this.state, required this.onChanged});
 
   @override
   StateFullSwitchState createState() {

@@ -2,13 +2,13 @@ name: flutter_weather_demo
 description: A new Flutter project.
 version: 1.0.0+1
 environment:
-  sdk: '>=2.6.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   http: any
-  rxdart: ^0.25.0
+  rxdart: ^0.26.0
   rx_command: 
     path: ../
 
