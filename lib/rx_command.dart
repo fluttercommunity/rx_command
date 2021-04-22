@@ -182,7 +182,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
   /// subscribe to a newly created command it will issue `false`
   /// For the `Observable<CommandResult>` that [RxCommand] publishes in [results] this normally doesn't make sense
   /// if you want to get an initial Result with `data==null, error==null, isExecuting==false` pass
-  /// [emitInitialCommandResult=true].
+  /// [emitInitialCommandResult]=true.
   /// By default the [results] Observable and the [RxCommand] itself behave like a PublishSubject. If you want that it acts like
   /// a BehaviourSubject, meaning every listener gets the last received value, you can set [emitsLastValueToNewSubscriptions = true].
   /// [debugName] optional identifier that is included when you register a [globalExceptionHandler]
@@ -263,7 +263,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
     bool emitInitialCommandResult = false,
     bool emitLastResult = false,
     bool emitsLastValueToNewSubscriptions = false,
-    required TResult initialLastResult,
+    TResult? initialLastResult,
     String? debugName,
   }) {
     return RxCommandSync<void, TResult>(
@@ -302,7 +302,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
-      required TResult initialLastResult,
+      TResult? initialLastResult,
       String? debugName}) {
     return RxCommandSync<TParam, TResult>(
         (x) => func(x),
@@ -406,7 +406,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
-      required TResult initialLastResult,
+      TResult? initialLastResult,
       String? debugName}) {
     return RxCommandAsync<void, TResult>(
       null,
@@ -444,7 +444,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
-      required TResult initialLastResult,
+      TResult? initialLastResult,
       String? debugName}) {
     return RxCommandAsync<TParam, TResult>(
         func,
@@ -481,7 +481,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
       bool emitInitialCommandResult = false,
       bool emitLastResult = false,
       bool emitsLastValueToNewSubscriptions = false,
-      required TResult initialLastResult,
+      TResult? initialLastResult,
       String? debugName}) {
     return RxCommandStream<TParam, TResult>(
         provider,
@@ -502,7 +502,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
   void call([TParam? param]) => execute(param);
 
   /// The result of the last successful call to execute. This is especially handy to use as `initialData` of Flutter `StreamBuilder`
-  TResult lastResult;
+  TResult? lastResult;
 
   /// emits [CommandResult<TRESULT>] the combined state of the command, which is often easier in combination with Flutter `StreamBuilder`
   /// because you have all state information at one place.
@@ -573,7 +573,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
     bool emitInitialCommandResult,
     bool emitLastResult,
     bool emitsLastValueToNewSubscriptions,
-    TResult initialLastResult,
+    TResult? initialLastResult,
     bool noReturnValue,
     String? debugName,
     bool noParamValue,
@@ -603,7 +603,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
     bool buffer,
     bool isBehaviourSubject,
     bool emitInitialCommandResult,
-    TResult initialLastResult,
+    TResult? initialLastResult,
     bool noReturnValue,
     String? debugName,
     bool noParamValue,
@@ -656,9 +656,7 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
       if (_noReturnValue) {
         result = null;
       }
-      if (result != null) {
-        lastResult = result;
-      }
+      lastResult = result;
       _resultsSubject.add(result);
       commandResult =
           CommandResult<TParam, TResult>(param, result, null, false);
@@ -700,7 +698,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
     bool emitLastResult,
     bool isBehaviourSubject,
     bool emitInitialCommandResult,
-    TResult initialLastResult,
+    TResult? initialLastResult,
     bool noResult,
     String? debugName,
     bool noParamValue,
@@ -721,7 +719,7 @@ class RxCommandAsync<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool emitInitialCommandResult,
       bool emitLastResult,
       bool emitsLastValueToNewSubscriptions,
-      TResult initialLastResult,
+      TResult? initialLastResult,
       bool noResult,
       String? debugName,
       bool noParamValue) {
@@ -819,7 +817,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool emitLastResult,
       bool isBehaviourSubject,
       bool emitInitialCommandResult,
-      TResult initialLastResult,
+      TResult? initialLastResult,
       bool noResult,
       String? debugName,
       bool noParamValue)
@@ -838,7 +836,7 @@ class RxCommandStream<TParam, TResult> extends RxCommand<TParam, TResult> {
       bool emitInitialCommandResult,
       bool emitLastResult,
       bool emitsLastValueToNewSubscriptions,
-      TResult initialLastResult,
+      TResult? initialLastResult,
       bool noResult,
       String? debugName,
       bool noParamValue) {
@@ -937,7 +935,7 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
     bool emitInitialCommandResult = false,
     bool emitLastResult = false,
     bool emitsLastValueToNewSubscriptions = false,
-    required TResult initialLastResult,
+    TResult? initialLastResult,
     String? debugName,
   }) {
     return MockCommand._(
@@ -958,7 +956,7 @@ class MockCommand<TParam, TResult> extends RxCommand<TParam, TResult> {
     bool emitLastResult,
     bool isBehaviourSubject,
     bool emitInitialCommandResult,
-    TResult initialLastResult,
+    TResult? initialLastResult,
     String? debugName,
   ) : super(subject, restriction, emitLastResult, isBehaviourSubject,
             initialLastResult, false, debugName, false) {
