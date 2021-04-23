@@ -115,7 +115,7 @@ class CommandError<TParam> {
 /// where [TParam] is the type of data that is passed when calling [execute] and
 /// [TResult] denotes the return type of the handler function. To signal that
 /// a handler doesn't take a parameter or returns no value use the type `void`
-abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
+abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
   bool _isRunning = false;
   bool _canExecute = true;
   bool _executionLocked = false;
@@ -539,7 +539,7 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult?> {
           .last;
 
   late Subject<CommandResult<TParam, TResult>> _commandResultsSubject;
-  final Subject<TResult?> _resultsSubject;
+  final Subject<TResult> _resultsSubject;
   final BehaviorSubject<bool> _isExecutingSubject = BehaviorSubject<bool>();
   final BehaviorSubject<bool> _canExecuteSubject = BehaviorSubject<bool>();
   final PublishSubject<CommandError<TParam>> _thrownExceptionsSubject =
@@ -657,7 +657,9 @@ class RxCommandSync<TParam, TResult> extends RxCommand<TParam, TResult> {
         result = null;
       }
       lastResult = result;
-      _resultsSubject.add(result);
+      if (result != null || null is TResult) {
+      _resultsSubject.add(result as TResult);
+      }
       commandResult =
           CommandResult<TParam, TResult>(param, result, null, false);
       _commandResultsSubject.add(commandResult);
