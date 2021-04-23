@@ -210,7 +210,7 @@ void main() {
 
   test('Execute simple sync function with parameter', () {
     final command = RxCommand.createSync<String, String>((s) {
-      print("action: " + s!);
+      print("action: " + s);
       return s + s;
     }, initialLastResult: '');
 
@@ -647,6 +647,24 @@ void main() {
     await Future.delayed(Duration(seconds: 1));
 
     expect(count, 1);
+  });
+
+  Future<String?> _f1 (String s) async {
+    return Future.value(s);
+  }
+  Future<String?> _f2 (String s) async {
+    return Future.value(null);
+  }
+
+  test('Nullability test', () async {
+
+    final command1 = RxCommand.createAsync<String, String?>(_f1);
+    expect(command1, emits("Non-nullable string"));
+    command1.execute("Non-nullable string");
+
+    final command2 = RxCommand.createAsync<String, String?>(_f2);
+    expect(command2, emits(null));
+    command2.execute("Non-nullable string");
   });
 
 // No idea why it's not posible to catch the exception with     expect(command.results, emitsError(isException));

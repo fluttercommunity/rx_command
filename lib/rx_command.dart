@@ -8,16 +8,16 @@ import 'package:rxdart/rxdart.dart';
 export 'rx_command_listener.dart';
 
 typedef Action = void Function();
-typedef Action1<TParam> = void Function(TParam? param);
+typedef Action1<TParam> = void Function(TParam param);
 
 typedef Func<TResult> = TResult Function();
 typedef Func1<TParam, TResult> = TResult Function(TParam param);
 
 typedef AsyncAction = Future Function();
-typedef AsyncAction1<TParam> = Future Function(TParam? param);
+typedef AsyncAction1<TParam> = Future Function(TParam param);
 
 typedef AsyncFunc<TResult> = Future<TResult> Function();
-typedef AsyncFunc1<TParam, TResult> = Future<TResult> Function(TParam? param);
+typedef AsyncFunc1<TParam, TResult> = Future<TResult> Function(TParam param);
 
 typedef StreamProvider<TParam, TResult> = Stream<TResult> Function(
     TParam? param);
