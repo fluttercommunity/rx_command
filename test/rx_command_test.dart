@@ -667,6 +667,19 @@ void main() {
     command2.execute("Non-nullable string");
   });
 
+  
+  test("Nullability test for next'able", () async {
+    final cmd = RxCommand.createAsyncNoParam<int>(() async {
+      await Future.delayed(Duration(milliseconds: 1000));
+      return 42;
+    }, initialLastResult: 0);
+
+    cmd.execute();
+    final result = await cmd.next is int;
+
+    expect(result, true);
+  });
+
 // No idea why it's not posible to catch the exception with     expect(command.results, emitsError(isException));
 /*
     test('RxCommand.createFromStreamWithException throw exeption = true', () 
