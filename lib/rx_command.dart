@@ -533,8 +533,8 @@ abstract class RxCommand<TParam, TResult> extends StreamView<TResult> {
       loggingHandler;
 
   /// This property is a utility which allows us to chain RxCommands together.
-  Future<TResult?> get next =>
-      Rx.merge<TResult?>([this, this.thrownExceptions.cast<TResult>()])
+  Future<TResult> get next =>
+      Rx.merge<TResult>([this, this.thrownExceptions.cast<TResult>()])
           .take(1)
           .last;
 
