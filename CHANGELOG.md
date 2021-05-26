@@ -1,3 +1,6 @@
+## [6.0.0] -26.05.2021
+
+* Null safe version! This is a breaking change. It aligns the API of rx_command with flutter_command too.
 ## [5.3.0] - 15.01.2020
 
  * updated to rxdart 0.25.0
