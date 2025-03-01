@@ -675,9 +675,9 @@ void main() {
     }, initialLastResult: 0);
 
     cmd.execute();
-    final result = await cmd.next is int;
+    final result = await cmd.next;
 
-    expect(result, true);
+    expect(result, 42);
   });
 
 // No idea why it's not posible to catch the exception with     expect(command.results, emitsError(isException));

@@ -3,7 +3,7 @@ analyzer:
     implicit-casts: false
   errors:
     unused_import: error
-    unused_local_variable: warning 
+    unused_local_variable: warning
     dead_code: error
     invalid_override_of_non_virtual_member: error
   exclude:
@@ -18,7 +18,6 @@ linter:
     - avoid_null_checks_in_equality_operators
     - avoid_renaming_method_parameters
     - avoid_return_types_on_setters
-    - avoid_returning_null
     - avoid_types_as_parameter_names
     - avoid_unused_constructor_parameters
     - await_only_futures
@@ -34,11 +33,8 @@ linter:
     - empty_statements
     - hash_and_equals
     #- implementation_imports
-    - invariant_booleans
-    - iterable_contains_unrelated_type
     - library_names
     - library_prefixes
-    - list_remove_unrelated_type
     - no_adjacent_strings_in_list
     - no_duplicate_case_values
     - non_constant_identifier_names
@@ -58,7 +54,7 @@ linter:
     #- prefer_interpolation_to_compose_strings
     - prefer_is_empty
     - prefer_is_not_empty
-#    - prefer_single_quotes
+    #    - prefer_single_quotes
     - prefer_typing_uninitialized_variables
     - recursive_getters
     - slash_for_doc_comments
@@ -68,9 +64,9 @@ linter:
     - unawaited_futures
     - unnecessary_brace_in_string_interps
     - unnecessary_getters_setters
-#    - unnecessary_lambdas
+    #    - unnecessary_lambdas
     - unnecessary_null_aware_assignments
     - unnecessary_statements
-#    - unnecessary_this
+    #    - unnecessary_this
     - unrelated_type_equality_checks
     - valid_regexps

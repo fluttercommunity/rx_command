@@ -67,10 +67,8 @@ class HomePage extends StatelessWidget {
                                 .execute
                             : null;
                       }
-                      return RaisedButton(
+                      return ElevatedButton(
                         child: Text("Update"),
-                        color: Color.fromARGB(255, 33, 150, 243),
-                        textColor: Color.fromARGB(255, 255, 255, 255),
                         onPressed: handler,
                       );
                     },
